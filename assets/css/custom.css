@@ -173,3 +173,22 @@
         color: #0057FF;
     }
 }
+
+/* ============================================
+   UI/UX: Tronquage des textes de cartes (2 lignes)
+   ============================================ */
+:root {
+    --card-clamp-lines: 2;
+}
+
+.features-item-two .features-content-two p,
+.services-item-eight .services-content-eight p,
+.blog-post-item-two .blog-post-content-two p,
+.team-item .team-content span,
+.contact-card .card-subtitle {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--card-clamp-lines);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

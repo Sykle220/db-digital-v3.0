@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-7">
                             <div class="footer-widget">
-                                <h4 class="fw-title"><?php echo $current_lang === 'fr' ? 'Informations' : 'Information'; ?></h4>
+                                <h4 class="fw-title"><?php echo __('footer_info_title'); ?></h4>
                                 <div class="footer-info">
                                     <ul class="list-wrap">
                                         <li>
@@ -27,7 +27,7 @@
                                         <li>
                                             <div class="icon"><i class="flaticon-clock"></i></div>
                                             <div class="content">
-                                                <p><?php echo $current_lang === 'fr' ? 'Lun – Sam : 8h – 18h,' : 'Mon – Sat: 8 am – 6 pm,'; ?> <br> <?php echo $current_lang === 'fr' ? 'Dimanche :' : 'Sunday:'; ?> <span><?php echo $current_lang === 'fr' ? 'FERMÉ' : 'CLOSED'; ?></span></p>
+                                                <p><?php echo __('footer_opening_hours'); ?>, <br> <?php echo __('footer_sunday'); ?> : <span><?php echo __('footer_closed'); ?></span></p>
                                             </div>
                                         </li>
                                     </ul>
@@ -36,28 +36,28 @@
                         </div>
                         <div class="col-lg-2 col-md-5 col-sm-6">
                             <div class="footer-widget">
-                                <h4 class="fw-title">Menu</h4>
+                                <h4 class="fw-title"><?php echo __('footer_menu_title'); ?></h4>
                                 <div class="footer-link">
                                     <ul class="list-wrap">
-                                        <li><a href="about.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Entreprise' : 'Company'; ?></a></li>
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Carrières' : 'Careers'; ?></a></li>
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Presse' : 'Press media'; ?></a></li>
-                                        <li><a href="blog.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Notre Blog' : 'Our Blog'; ?></a></li>
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Politique de Confidentialité' : 'Privacy Policy'; ?></a></li>
+                                        <li><a href="<?php echo getPageLink('about.php'); ?>"><?php echo __('footer_menu_company'); ?></a></li>
+                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo __('footer_menu_careers'); ?></a></li>
+                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo __('footer_menu_press'); ?></a></li>
+                                        <li><a href="<?php echo getPageLink('blog.php'); ?>"><?php echo __('nav_blog'); ?></a></li>
+                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo __('footer_menu_privacy'); ?></a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-5 col-sm-6">
                             <div class="footer-widget">
-                                <h4 class="fw-title"><?php echo $current_lang === 'fr' ? 'Liens Rapides' : 'Quick Links'; ?></h4>
+                                <h4 class="fw-title"><?php echo __('footer_quicklinks_title'); ?></h4>
                                 <div class="footer-link">
                                     <ul class="list-wrap">
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Comment ça Marche' : 'How it\'s Work'; ?></a></li>
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Partenaires' : 'Partners'; ?></a></li>
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Témoignages' : 'Testimonials'; ?></a></li>
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Études de Cas' : 'Case Studies'; ?></a></li>
-                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? 'Tarification' : 'Pricing'; ?></a></li>
+                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo __('footer_ql_how'); ?></a></li>
+                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo __('footer_ql_partners'); ?></a></li>
+                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo __('footer_ql_testimonials'); ?></a></li>
+                                        <li><a href="<?php echo getPageLink('projects.php'); ?>"><?php echo __('footer_ql_cases'); ?></a></li>
+                                        <li><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo __('footer_ql_pricing'); ?></a></li>
                                     </ul>
                                 </div>
                             </div>

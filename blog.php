@@ -1,15 +1,15 @@
 <?php
 // blog.php
-$page_title = 'Latest Blog';
-$page_description = 'Discover insights, tips, and news from DB Digital Agency on digital transformation, business consulting, and more.';
 require_once 'includes/functions.php';
+$page_title = __('blog_page_title');
+$page_description = __('blog_page_description');
 include 'includes/head.php';
 include 'includes/header.php';
 ?>
 
 <main class="fix">
     <?php 
-    $breadcrumb_title = 'Latest Blog';
+    $breadcrumb_title = __('breadcrumb_blog');
     include 'components/breadcrumb.php'; 
     ?>
 
@@ -50,7 +50,7 @@ include 'includes/header.php';
                                 if (empty($display_posts)): 
                                 ?>
                                 <div class="col-12">
-                                    <div class="alert alert-info">No posts found matching your criteria.</div>
+                                    <div class="alert alert-info"><?php echo __('blog_no_posts'); ?></div>
                                 </div>
                                 <?php 
                                 else:

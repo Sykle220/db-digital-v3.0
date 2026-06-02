@@ -3,8 +3,8 @@
 require_once 'includes/functions.php';
 $page_title = $current_lang === 'fr' ? 'Accueil' : 'Home';
 $page_description = $current_lang === 'fr' 
-    ? 'DB Digital Agency - Conseil en affaires et solutions digitales au Cameroun.' 
-    : 'DB Digital Agency - Business Consulting & Digital Solutions in Cameroon.';
+    ? __('meta_default_description') 
+    : __('meta_default_description');
 include 'includes/head.php';
 include 'includes/header.php';
 ?>
@@ -41,9 +41,9 @@ include 'includes/header.php';
                 <div class="row justify-content-center">
                     <?php 
                     $features = [
-                        ['icon' => 'flaticon-layers', 'title_key' => 'features_growing', 'desc_en' => 'Digital strategy, customer journeys and campaign planning for measurable growth.', 'desc_fr' => 'Stratégies digitales, parcours client et planification de campagne pour une croissance mesurable.'],
-                        ['icon' => 'flaticon-mission', 'title_key' => 'features_finance', 'desc_en' => 'Acquisition campaigns, paid media and content systems that convert prospects into customers.', 'desc_fr' => 'Campagnes d\'acquisition, médias payants et contenus qui convertissent les prospects en clients.'],
-                        ['icon' => 'flaticon-profit', 'title_key' => 'features_tax', 'desc_en' => 'Brand design, UX and communications that position your business as a trusted leader.', 'desc_fr' => 'Branding, UX et communication qui positionnent votre entreprise comme un leader de confiance.'],
+                        ['icon' => 'flaticon-layers', 'title_key' => 'features_growing', 'desc_en' => 'Strategy and journeys built to convert.', 'desc_fr' => 'Stratégie et parcours pensés conversion.'],
+                        ['icon' => 'flaticon-mission', 'title_key' => 'features_finance', 'desc_en' => 'Acquisition systems optimized for ROI.', 'desc_fr' => 'Acquisition optimisée pour le ROI.'],
+                        ['icon' => 'flaticon-profit', 'title_key' => 'features_tax', 'desc_en' => 'Brand and UX that build trust fast.', 'desc_fr' => 'Marque et UX qui rassurent vite.'],
                     ];
                     foreach ($features as $f):
                     ?>
@@ -74,8 +74,8 @@ include 'includes/header.php';
                         <img src="<?php echo ASSETS_URL; ?>img/images/h_about_img01.png" alt="" data-aos="fade-down-right" data-aos-delay="0">
                         <img src="<?php echo ASSETS_URL; ?>img/images/h_about_img02.png" alt="" data-aos="fade-left" data-aos-delay="400">
                         <div class="experience-wrap" data-aos="fade-up" data-aos-delay="300">
-                            <h2 class="title">2+ <span><?php echo $current_lang === 'fr' ? 'Ans' : 'Years'; ?></span></h2>
-                            <p><?php echo $current_lang === 'fr' ? 'D\'Expérience dans Cette Agence de Conseil Digital.' : 'Of Experience in This Digital Advisory Company.'; ?></p>
+                            <h2 class="title">2+ <span><?php echo __('homepage_exp_years'); ?></span></h2>
+                            <p><?php echo __('homepage_exp_label'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -85,16 +85,16 @@ include 'includes/header.php';
                             <span class="sub-title span1"><?php echo __('about_subtitle'); ?></span>
                             <h2 class="title tg-element-title"><?php echo __('about_title'); ?></h2>
                         </div>
-                        <p class="info-one"><?php echo $current_lang === 'fr' ? 'Nous fournissons des services de transformation digitale complets, de la stratégie à l\'exécution, aidant les entreprises à prospérer dans l\'économie numérique.' : 'We deliver comprehensive digital transformation services, from strategy to execution, helping businesses thrive in the digital economy.'; ?></p>
+                        <p class="info-one"><?php echo __('homepage_about_lead'); ?></p>
                         <div class="about-list-two">
                             <ul class="list-wrap">
-                                <li><i class="fas fa-arrow-right"></i><?php echo $current_lang === 'fr' ? 'Résultats mesurables à chaque étape' : 'Measurable results at every stage'; ?></li>
-                                <li><i class="fas fa-arrow-right"></i><?php echo $current_lang === 'fr' ? 'Stratégies de croissance durable' : 'Sustainable growth strategies'; ?></li>
-                                <li><i class="fas fa-arrow-right"></i><?php echo $current_lang === 'fr' ? 'Un parcours client optimisé' : 'Optimized customer journeys'; ?></li>
-                                <li><i class="fas fa-arrow-right"></i><?php echo $current_lang === 'fr' ? 'Augmentation du taux de conversion' : 'Higher conversion rates'; ?></li>
+                                <li><i class="fas fa-arrow-right"></i><?php echo __('homepage_about_list_1'); ?></li>
+                                <li><i class="fas fa-arrow-right"></i><?php echo __('homepage_about_list_2'); ?></li>
+                                <li><i class="fas fa-arrow-right"></i><?php echo __('homepage_about_list_3'); ?></li>
+                                <li><i class="fas fa-arrow-right"></i><?php echo __('homepage_about_list_4'); ?></li>
                             </ul>
                         </div>
-                        <p><?php echo $current_lang === 'fr' ? 'Notre équipe d\'experts est dédiée à fournir des solutions innovantes qui génèrent de réels résultats commerciaux.' : 'Our team of experts is dedicated to providing innovative solutions that drive real business outcomes.'; ?></p>
+                        <p><?php echo __('homepage_about_conclusion'); ?></p>
                         <div class="about-author-info">
                             <div class="thumb">
                                 <img src="<?php echo ASSETS_URL; ?>img/images/about_author.png" alt="CEO">
@@ -137,10 +137,10 @@ include 'includes/header.php';
                     <div class="row gutter-24">
                         <?php 
                         $homepage_services = [
-                            ['icon' => 'flaticon-mission', 'title_en' => 'Digital Strategy', 'title_fr' => 'Digital Strategy', 'desc_en' => 'Strategic financial planning and market analysis for informed decisions.', 'desc_fr' => 'Planification financière stratégique et analyse de marché pour des décisions éclairées.'],
-                            ['icon' => 'flaticon-code', 'title_en' => 'Web Development', 'title_fr' => 'Web Development', 'desc_en' => 'Transform your concepts into viable, market-ready solutions.', 'desc_fr' => 'Transformez vos concepts en solutions viables et prêtes pour le marché.'],
-                            ['icon' => 'flaticon-design', 'title_en' => 'Branding & Design', 'title_fr' => 'Branding & Design', 'desc_en' => 'Compliant tax optimization for maximum business efficiency.', 'desc_fr' => 'Optimisation fiscale conforme pour une efficacité commerciale maximale.'],
-                            ['icon' => 'flaticon-profit', 'title_en' => 'Digital Marketing', 'title_fr' => 'Digital Marketing', 'desc_en' => 'Build high-performing teams with our expert HR solutions.', 'desc_fr' => 'Construisez des équipes performantes avec nos solutions RH expertes.'],
+                            ['icon' => 'flaticon-mission', 'title_en' => 'Digital Strategy', 'title_fr' => 'Stratégie Digitale', 'desc_en' => 'Positioning, messaging and a clear plan to grow your business online.', 'desc_fr' => 'Positionnement, message et plan clair pour accélérer votre croissance en ligne.'],
+                            ['icon' => 'flaticon-code', 'title_en' => 'Web Development', 'title_fr' => 'Développement Web', 'desc_en' => 'Fast, secure websites and apps built for performance and conversion.', 'desc_fr' => 'Sites et apps rapides, sécurisés, pensés performance et conversion.'],
+                            ['icon' => 'flaticon-design', 'title_en' => 'Branding & UI/UX', 'title_fr' => 'Branding & UI/UX', 'desc_en' => 'Identity and product design that build trust and drive action.', 'desc_fr' => 'Identité et design produit pour renforcer la confiance et déclencher l’action.'],
+                            ['icon' => 'flaticon-profit', 'title_en' => 'Growth Marketing', 'title_fr' => 'Marketing d’Acquisition', 'desc_en' => 'SEO and paid media systems that generate qualified leads consistently.', 'desc_fr' => 'SEO et publicité pour générer des prospects qualifiés de façon régulière.'],
                         ];
                         foreach ($homepage_services as $svc):
                         ?>

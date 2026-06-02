@@ -7,8 +7,8 @@ require_once __DIR__ . '/functions.php';
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title><?php echo $page_title ?? SITE_NAME; ?> - <?php echo $current_lang === 'fr' ? 'Conseil en Affaires' : 'Business Consulting'; ?></title>
-    <meta name="description" content="<?php echo $page_description ?? ($current_lang === 'fr' ? SITE_NAME . ' - Conseil en affaires au Cameroun' : SITE_NAME . ' - Business Consulting in Cameroon'); ?>">
+    <title><?php echo $page_title ?? SITE_NAME; ?> - <?php echo __('meta_suffix'); ?></title>
+    <meta name="description" content="<?php echo $page_description ?? __('meta_default_description'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo ASSETS_URL; ?>img/favicon.png">
 

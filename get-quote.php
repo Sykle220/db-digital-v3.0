@@ -2,7 +2,7 @@
 // get-quote.php
 require_once 'includes/functions.php';
 $page_title = __('quote_title');
-$page_description = 'Request a quote for your digital project with DB Digital Agency.';
+$page_description = __('meta_default_description');
 include 'includes/head.php';
 include 'includes/header.php';
 
@@ -30,7 +30,7 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
                     <h3 class="title mb-30"><?php echo __('quote_innovation_title'); ?></h3>
-                    <p class="mb-30">Vestibulum quis neque nunc. Maecenas pharetra libero id efficitur gravida. Aenean risus enim, condimentum vel aliquams in, consequat nec lacus.</p>
+                    <p class="mb-30"><?php echo __('quote_innovation_desc'); ?></p>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
     <section class="pb-20">
         <div class="container">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong><i class="fas fa-exclamation-triangle"></i> Error!</strong>
+                <strong><i class="fas fa-exclamation-triangle"></i> <?php echo ($current_lang == 'fr') ? 'Erreur !' : 'Error!'; ?></strong>
                 <ul class="mb-0 mt-2">
                     <?php foreach ($quote_errors as $error): ?>
                         <li><?php echo $error; ?></li>
@@ -150,15 +150,15 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                     <!-- Step 1 : Service -->
                                     <div class="step-panel active" data-step="1">
                                         <p class="step-title"><?php echo __('quote_service_label'); ?></p>
-                                        <p class="step-desc">Select one or more services that match your needs.</p>
+                                        <p class="step-desc"><?php echo __('quote_select_service_desc'); ?></p>
 
                                         <div class="service-cards" id="svcCards">
                                             <?php
                                             $services = [
-                                                ['digital-strategy', 'fa-bullseye', '#534AB7', 'rgba(83,74,183,0.1)', 'Digital Strategy', 'Strategy & Consulting'],
-                                                ['web-development', 'fa-code', '#185FA5', 'rgba(56,135,221,0.1)', 'Web Development', 'Websites & Apps'],
-                                                ['branding', 'fa-palette', '#534AB7', 'rgba(83,74,183,0.1)', 'Branding & Design', 'UI/UX & Identity'],
-                                                ['marketing', 'fa-chart-line', '#1D9E75', 'rgba(29,158,117,0.1)', 'Digital Marketing', 'SEO & Growth'],
+                                                ['digital-strategy', 'fa-bullseye', '#534AB7', 'rgba(83,74,183,0.1)', __('quote_svc_strategy_title'), __('quote_svc_strategy_sub')],
+                                                ['web-development', 'fa-code', '#185FA5', 'rgba(56,135,221,0.1)', __('quote_svc_web_title'), __('quote_svc_web_sub')],
+                                                ['branding', 'fa-palette', '#534AB7', 'rgba(83,74,183,0.1)', __('quote_svc_brand_title'), __('quote_svc_brand_sub')],
+                                                ['marketing', 'fa-chart-line', '#1D9E75', 'rgba(29,158,117,0.1)', __('quote_svc_marketing_title'), __('quote_svc_marketing_sub')],
                                             ];
                                             $selected_services = [];
                                             if (!empty($quote_form_data['services'])) {
@@ -188,24 +188,24 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                                 <label><?php echo __('quote_subject_label'); ?><span class="req">*</span></label>
                                                 <div class="field-wrap" id="fw-subject">
                                                     <i class="fas fa-heading"></i>
-                                                    <input type="text" name="subject" id="f-subject" placeholder="e.g. E-commerce Website" value="<?php echo htmlspecialchars($quote_form_data['subject'] ?? ''); ?>" required>
+                                                    <input type="text" name="subject" id="f-subject" placeholder="<?php echo __('quote_placeholder_subject'); ?>" value="<?php echo htmlspecialchars($quote_form_data['subject'] ?? ''); ?>" required>
                                                 </div>
-                                                <span class="field-err"><?php echo __('quote_subject_label'); ?> is required</span>
+                                                <span class="field-err"><?php echo __('quote_validation_required'); ?></span>
                                             </div>
                                         </div>
 
                                         <div class="step-actions">
-                                            <span class="step-progress-txt">Step 1 of 4</span>
+                                            <span class="step-progress-txt"><?php echo __('quote_step_of'); ?> 1 <?php echo __('quote_step_of_total'); ?> 4</span>
                                             <div class="btns">
-                                                <button type="button" class="qw-btn qw-btn-primary next-step">Continue <i class="fas fa-arrow-right"></i></button>
+                                                <button type="button" class="qw-btn qw-btn-primary next-step"><?php echo __('quote_continue'); ?> <i class="fas fa-arrow-right"></i></button>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Step 2 : Project -->
                                     <div class="step-panel" data-step="2">
-                                        <p class="step-title">Project details</p>
-                                        <p class="step-desc">Help us understand the scope and timeline of your project.</p>
+                                        <p class="step-title"><?php echo __('quote_project_details_title'); ?></p>
+                                        <p class="step-desc"><?php echo __('quote_project_details_desc'); ?></p>
 
                                         <div class="field-grid">
                                             <div class="field">
@@ -214,13 +214,13 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                                     <i class="fas fa-shapes"></i>
                                                     <select name="project_type" id="f-type" required>
                                                         <option value="">-- <?php echo __('quote_type_label'); ?> --</option>
-                                                        <option value="new-project" <?php echo ($quote_form_data['project_type'] ?? '') == 'new-project' ? 'selected' : ''; ?>>New Project</option>
-                                                        <option value="redesign" <?php echo ($quote_form_data['project_type'] ?? '') == 'redesign' ? 'selected' : ''; ?>>Redesign</option>
-                                                        <option value="maintenance" <?php echo ($quote_form_data['project_type'] ?? '') == 'maintenance' ? 'selected' : ''; ?>>Maintenance</option>
-                                                        <option value="consulting" <?php echo ($quote_form_data['project_type'] ?? '') == 'consulting' ? 'selected' : ''; ?>>Consulting Only</option>
+                                                        <option value="new-project" <?php echo ($quote_form_data['project_type'] ?? '') == 'new-project' ? 'selected' : ''; ?>><?php echo __('quote_type_new'); ?></option>
+                                                        <option value="redesign" <?php echo ($quote_form_data['project_type'] ?? '') == 'redesign' ? 'selected' : ''; ?>><?php echo __('quote_type_redesign'); ?></option>
+                                                        <option value="maintenance" <?php echo ($quote_form_data['project_type'] ?? '') == 'maintenance' ? 'selected' : ''; ?>><?php echo __('quote_type_maintenance'); ?></option>
+                                                        <option value="consulting" <?php echo ($quote_form_data['project_type'] ?? '') == 'consulting' ? 'selected' : ''; ?>><?php echo __('quote_type_consulting'); ?></option>
                                                     </select>
                                                 </div>
-                                                <span class="field-err">Required</span>
+                                                <span class="field-err"><?php echo __('quote_validation_required'); ?></span>
                                             </div>
                                             <div class="field">
                                                 <label><?php echo __('quote_budget_label'); ?><span class="req">*</span></label>
@@ -234,7 +234,7 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                                         <option value="5000+" <?php echo ($quote_form_data['budget'] ?? '') == '5000+' ? 'selected' : ''; ?>>5 000 000+ FCFA</option>
                                                     </select>
                                                 </div>
-                                                <span class="field-err">Required</span>
+                                                <span class="field-err"><?php echo __('quote_validation_required'); ?></span>
                                             </div>
                                             <div class="field">
                                                 <label><?php echo __('quote_start_label'); ?><span class="req">*</span></label>
@@ -242,34 +242,34 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                                     <i class="fas fa-calendar"></i>
                                                     <select name="start_date" id="f-start" required>
                                                         <option value="">-- <?php echo __('quote_start_label'); ?> --</option>
-                                                        <option value="immediately" <?php echo ($quote_form_data['start_date'] ?? '') == 'immediately' ? 'selected' : ''; ?>>Immediately</option>
-                                                        <option value="1-week" <?php echo ($quote_form_data['start_date'] ?? '') == '1-week' ? 'selected' : ''; ?>>Within 1 week</option>
-                                                        <option value="1-month" <?php echo ($quote_form_data['start_date'] ?? '') == '1-month' ? 'selected' : ''; ?>>Within 1 month</option>
-                                                        <option value="flexible" <?php echo ($quote_form_data['start_date'] ?? '') == 'flexible' ? 'selected' : ''; ?>>Flexible</option>
+                                                        <option value="immediately" <?php echo ($quote_form_data['start_date'] ?? '') == 'immediately' ? 'selected' : ''; ?>><?php echo __('quote_start_immediately'); ?></option>
+                                                        <option value="1-week" <?php echo ($quote_form_data['start_date'] ?? '') == '1-week' ? 'selected' : ''; ?>><?php echo __('quote_start_1_week'); ?></option>
+                                                        <option value="1-month" <?php echo ($quote_form_data['start_date'] ?? '') == '1-month' ? 'selected' : ''; ?>><?php echo __('quote_start_1_month'); ?></option>
+                                                        <option value="flexible" <?php echo ($quote_form_data['start_date'] ?? '') == 'flexible' ? 'selected' : ''; ?>><?php echo __('quote_start_flexible'); ?></option>
                                                     </select>
                                                 </div>
-                                                <span class="field-err">Required</span>
+                                                <span class="field-err"><?php echo __('quote_validation_required'); ?></span>
                                             </div>
                                             <div class="field">
-                                                <label>Website <span class="opt">(optional)</span></label>
+                                                <label>Website <span class="opt">(<?php echo __('quote_optional'); ?>)</span></label>
                                                 <div class="field-wrap">
                                                     <i class="fas fa-globe"></i>
                                                     <input type="url" name="website" id="f-website" placeholder="https://..." value="<?php echo htmlspecialchars($quote_form_data['website'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="field field-full">
-                                                <label><?php echo __('quote_message_label'); ?> <span class="opt">(optional)</span></label>
+                                                <label><?php echo __('quote_message_label'); ?> <span class="opt">(<?php echo __('quote_optional'); ?>)</span></label>
                                                 <div class="field-wrap ta-wrap">
                                                     <i class="fas fa-comment"></i>
-                                                    <textarea name="message" id="f-message" placeholder="Tell us more about your needs..." rows="4"><?php echo htmlspecialchars($quote_form_data['message'] ?? ''); ?></textarea>
+                                                    <textarea name="message" id="f-message" placeholder="<?php echo __('quote_placeholder_message'); ?>" rows="4"><?php echo htmlspecialchars($quote_form_data['message'] ?? ''); ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="field field-full">
-                                                <label><?php echo __('quote_brief_label'); ?> <span class="opt">(optional)</span></label>
+                                                <label><?php echo __('quote_brief_label'); ?> <span class="opt">(<?php echo __('quote_optional'); ?>)</span></label>
                                                 <label class="file-btn-wrap" for="f-brief">
                                                     <input type="file" name="project_brief" id="f-brief" accept=".pdf,.doc,.docx">
                                                     <i class="fas fa-cloud-upload-alt"></i>
-                                                    <span class="file-name" id="brief-name">No file chosen</span>
+                                                    <span class="file-name" id="brief-name"><?php echo __('quote_file_none'); ?></span>
                                                     <span class="file-badge">PDF / DOCX</span>
                                                 </label>
                                                 <span style="font-size:11px;color:var(--qw-sub)"><i class="fas fa-info-circle"></i> <?php echo __('quote_file_hint'); ?></span>
@@ -277,57 +277,57 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                         </div>
 
                                         <div class="step-actions">
-                                            <span class="step-progress-txt">Step 2 of 4</span>
+                                            <span class="step-progress-txt"><?php echo __('quote_step_of'); ?> 2 <?php echo __('quote_step_of_total'); ?> 4</span>
                                             <div class="btns">
-                                                <button type="button" class="qw-btn qw-btn-ghost prev-step"><i class="fas fa-arrow-left"></i> <?php echo __('nav_services'); ?></button>
-                                                <button type="button" class="qw-btn qw-btn-primary next-step">Continue <i class="fas fa-arrow-right"></i></button>
+                                                <button type="button" class="qw-btn qw-btn-ghost prev-step"><i class="fas fa-arrow-left"></i> <?php echo __('quote_back'); ?></button>
+                                                <button type="button" class="qw-btn qw-btn-primary next-step"><?php echo __('quote_continue'); ?> <i class="fas fa-arrow-right"></i></button>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Step 3 : Contact -->
                                     <div class="step-panel" data-step="3">
-                                        <p class="step-title">Your details</p>
-                                        <p class="step-desc">How can we reach you? We'll use this to send your quote.</p>
+                                        <p class="step-title"><?php echo __('quote_contact_details_title'); ?></p>
+                                        <p class="step-desc"><?php echo __('quote_contact_details_desc'); ?></p>
 
                                         <div class="field-grid">
                                             <div class="field">
                                                 <label><?php echo __('quote_fullname_label'); ?><span class="req">*</span></label>
                                                 <div class="field-wrap" id="fw-name">
                                                     <i class="fas fa-user"></i>
-                                                    <input type="text" name="fullname" id="f-name" placeholder="Full name" value="<?php echo htmlspecialchars($quote_form_data['fullname'] ?? ''); ?>" required>
+                                                    <input type="text" name="fullname" id="f-name" placeholder="<?php echo __('quote_placeholder_fullname'); ?>" value="<?php echo htmlspecialchars($quote_form_data['fullname'] ?? ''); ?>" required>
                                                 </div>
-                                                <span class="field-err">Required</span>
+                                                <span class="field-err"><?php echo __('quote_validation_required'); ?></span>
                                             </div>
                                             <div class="field">
-                                                <label><?php echo __('quote_company_label'); ?> <span class="opt">(optional)</span></label>
+                                                <label><?php echo __('quote_company_label'); ?> <span class="opt">(<?php echo __('quote_optional'); ?>)</span></label>
                                                 <div class="field-wrap">
                                                     <i class="fas fa-building"></i>
-                                                    <input type="text" name="company" id="f-company" placeholder="Company name" value="<?php echo htmlspecialchars($quote_form_data['company'] ?? ''); ?>">
+                                                    <input type="text" name="company" id="f-company" placeholder="<?php echo __('quote_placeholder_company'); ?>" value="<?php echo htmlspecialchars($quote_form_data['company'] ?? ''); ?>">
                                                 </div>
                                             </div>
                                             <div class="field">
                                                 <label><?php echo __('quote_email_label'); ?><span class="req">*</span></label>
                                                 <div class="field-wrap" id="fw-email">
                                                     <i class="fas fa-envelope"></i>
-                                                    <input type="email" name="email" id="f-email" placeholder="your@email.com" value="<?php echo htmlspecialchars($quote_form_data['email'] ?? ''); ?>" required>
+                                                    <input type="email" name="email" id="f-email" placeholder="<?php echo __('quote_placeholder_email'); ?>" value="<?php echo htmlspecialchars($quote_form_data['email'] ?? ''); ?>" required>
                                                 </div>
-                                                <span class="field-err">Valid email required</span>
+                                                <span class="field-err"><?php echo __('quote_validation_email'); ?></span>
                                             </div>
                                             <div class="field">
                                                 <label><?php echo __('quote_whatsapp_label'); ?><span class="req">*</span></label>
                                                 <div class="field-wrap" id="fw-phone">
                                                     <i class="fab fa-whatsapp"></i>
-                                                    <input type="tel" name="whatsapp" id="f-phone" placeholder="+237 6XX XXX XXX" value="<?php echo htmlspecialchars($quote_form_data['whatsapp'] ?? ''); ?>" required>
+                                                    <input type="tel" name="whatsapp" id="f-phone" placeholder="<?php echo __('quote_placeholder_whatsapp'); ?>" value="<?php echo htmlspecialchars($quote_form_data['whatsapp'] ?? ''); ?>" required>
                                                 </div>
-                                                <span class="field-err">Required</span>
+                                                <span class="field-err"><?php echo __('quote_validation_required'); ?></span>
                                             </div>
                                         </div>
 
                                         <div class="step-actions">
-                                            <span class="step-progress-txt">Step 3 of 4</span>
+                                            <span class="step-progress-txt"><?php echo __('quote_step_of'); ?> 3 <?php echo __('quote_step_of_total'); ?> 4</span>
                                             <div class="btns">
-                                                <button type="button" class="qw-btn qw-btn-ghost prev-step"><i class="fas fa-arrow-left"></i> <?php echo __('quote_step_project'); ?></button>
+                                                <button type="button" class="qw-btn qw-btn-ghost prev-step"><i class="fas fa-arrow-left"></i> <?php echo __('quote_back'); ?></button>
                                                 <button type="button" class="qw-btn qw-btn-primary next-step"><?php echo __('quote_review_title'); ?> <i class="fas fa-arrow-right"></i></button>
                                             </div>
                                         </div>
@@ -335,8 +335,8 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
 
                                     <!-- Step 4 : Review + Submit (Email + WhatsApp auto) -->
                                     <div class="step-panel" data-step="4">
-                                        <p class="step-title">Review & send</p>
-                                        <p class="step-desc">Review your request before sending.</p>
+                                        <p class="step-title"><?php echo __('quote_review_send_title'); ?></p>
+                                        <p class="step-desc"><?php echo __('quote_review_send_desc'); ?></p>
 
                                         <div class="review-grid">
                                             <div class="review-row">
@@ -399,7 +399,7 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                                 <div class="review-icon"><i class="fas fa-paperclip"></i></div>
                                                 <div class="review-body">
                                                     <p class="review-lbl"><?php echo __('quote_brief_label'); ?></p>
-                                                    <p class="review-val empty" id="rev-file">No file chosen</p>
+                                                    <p class="review-val empty" id="rev-file"><?php echo __('quote_file_none'); ?></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -409,22 +409,18 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                             <div class="d-flex align-items-center gap-3">
                                                 <div class="submit-icon"><i class="fas fa-paper-plane"></i></div>
                                                 <div>
-                                                    <h6 class="mb-1"><?php echo ($current_lang == 'fr') ? 'Envoi simultané Email + WhatsApp' : 'Simultaneous Email + WhatsApp sending'; ?></h6>
-                                                    <p class="mb-0 text-muted">
-                                                        <?php echo ($current_lang == 'fr')
-                                                            ? 'Votre demande sera envoyée par email à notre équipe et vous serez redirigé vers WhatsApp pour finaliser.'
-                                                            : 'Your request will be emailed to our team and you will be redirected to WhatsApp to finalize.'; ?>
-                                                    </p>
+                                                    <h6 class="mb-1"><?php echo __('quote_send_both_title'); ?></h6>
+                                                    <p class="mb-0 text-muted"><?php echo __('quote_send_both_desc'); ?></p>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="step-actions">
-                                            <span class="step-progress-txt">Step 4 of 4</span>
+                                            <span class="step-progress-txt"><?php echo __('quote_step_of'); ?> 4 <?php echo __('quote_step_of_total'); ?> 4</span>
                                             <div class="btns">
-                                                <button type="button" class="qw-btn qw-btn-ghost prev-step"><i class="fas fa-arrow-left"></i> <?php echo __('quote_step_contact'); ?></button>
+                                                <button type="button" class="qw-btn qw-btn-ghost prev-step"><i class="fas fa-arrow-left"></i> <?php echo __('quote_back'); ?></button>
                                                 <button type="submit" class="qw-btn qw-btn-primary">
-                                                    <i class="fas fa-paper-plane"></i> <?php echo ($current_lang == 'fr') ? 'Envoyer la demande' : 'Send Request'; ?>
+                                                    <i class="fas fa-paper-plane"></i> <?php echo __('quote_send_request'); ?>
                                                 </button>
                                             </div>
                                         </div>
@@ -457,6 +453,10 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('quoteForm');
+    const I18N = {
+        fileNone: <?php echo json_encode(__('quote_file_none')); ?>,
+        selectService: <?php echo json_encode(__('quote_validation_select_service')); ?>,
+    };
     const steps = document.querySelectorAll('.step-item');
     const contents = document.querySelectorAll('.step-panel');
     const nextBtns = document.querySelectorAll('.next-step');
@@ -516,7 +516,7 @@ document.addEventListener('DOMContentLoaded', function() {
             revFile.textContent = fileInput.files[0].name;
             revFile.classList.remove('empty');
         } else {
-            revFile.textContent = 'No file chosen';
+            revFile.textContent = I18N.fileNone;
             revFile.classList.add('empty');
         }
     }
@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (step === 1) {
             const checkedServices = form.querySelectorAll('input[name="services[]"]:checked');
             if (checkedServices.length === 0) {
-                alert('Please select at least one service');
+                alert(I18N.selectService);
                 return false;
             }
         }
@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // File input label update
     document.getElementById('f-brief').addEventListener('change', function() {
-        const name = this.files[0] ? this.files[0].name : 'No file chosen';
+        const name = this.files[0] ? this.files[0].name : I18N.fileNone;
         document.getElementById('brief-name').textContent = name;
     });
 });

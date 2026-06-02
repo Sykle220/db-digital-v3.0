@@ -7,7 +7,7 @@ $brands = ['brand_img01.png', 'brand_img02.png', 'brand_img03.png', 'brand_img04
         <div class="row brand-active">
             <?php 
             // Duplique brand_img03 pour atteindre 6 éléments comme dans l'original
-            $all_brands = array_merge($brands, ['brand_img03.png']);
+            $all_brands = array_merge($brands, ['brand_img04.png']);
             foreach ($all_brands as $brand): 
             ?>
             <div class="col-lg-12">

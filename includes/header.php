@@ -99,7 +99,7 @@ $logo_img = $is_home ? 'w_logo02.png' : 'logo.png';
                                     </a>
                                 </div>
                                 <div class="mobile-search">
-                                    <form action="#"><input type="text" placeholder="<?php echo $current_lang === 'fr' ? 'Recherchez ici...' : 'Search here...'; ?>"><button><i class="flaticon-search"></i></button></form>
+                                    <form action="#"><input type="text" placeholder="<?php echo __('search_placeholder'); ?>"><button><i class="flaticon-search"></i></button></form>
                                 </div>
                                 <div class="menu-outer"></div>
                                 <div class="header-action header-action-six d-none d-md-block">
@@ -130,9 +130,9 @@ $logo_img = $is_home ? 'w_logo02.png' : 'logo.png';
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="title">... <?php echo $current_lang === 'fr' ? 'Recherchez Ici' : 'Search Here'; ?> ...</h2>
+                            <h2 class="title">... <?php echo __('search_title'); ?> ...</h2>
                             <div class="search-form">
-                                <form action="#"><input type="text" name="search" placeholder="<?php echo $current_lang === 'fr' ? 'Tapez des mots-clés' : 'Type keywords here'; ?>"><button class="search-btn"><i class="fas fa-search"></i></button></form>
+                                <form action="#"><input type="text" name="search" placeholder="<?php echo __('search_placeholder'); ?>"><button class="search-btn"><i class="fas fa-search"></i></button></form>
                             </div>
                         </div>
                     </div>

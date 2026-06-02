@@ -1,8 +1,8 @@
 <?php
 // about.php
 require_once 'includes/functions.php';
-$page_title = 'About Us';
-$page_description = 'Learn more about DB Digital Agency, your digital solution provider in Cameroon.';
+$page_title = __('nav_about');
+$page_description = __('meta_default_description');
 include 'includes/head.php';
 include 'includes/header.php';
 ?>

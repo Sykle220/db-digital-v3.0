@@ -5,13 +5,13 @@ global $blog_categories, $blog_tags;
 <aside class="blog-sidebar">
     <div class="sidebar-search">
         <form action="blog.php" method="GET">
-            <input type="text" name="search" placeholder="Search Here . . ." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+            <input type="text" name="search" placeholder="<?php echo __('search_placeholder'); ?>" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
             <button type="submit"><i class="flaticon-search"></i></button>
         </form>
     </div>
     
     <div class="blog-widget">
-        <h4 class="bw-title">Categories</h4>
+        <h4 class="bw-title"><?php echo __('blog_sidebar_categories'); ?></h4>
         <div class="bs-cat-list">
             <ul class="list-wrap">
                 <?php foreach ($blog_categories as $cat): ?>
@@ -26,7 +26,7 @@ global $blog_categories, $blog_tags;
     </div>
     
     <div class="blog-widget">
-        <h4 class="bw-title">Recent Posts</h4>
+        <h4 class="bw-title"><?php echo __('blog_sidebar_recent'); ?></h4>
         <div class="rc-post-wrap">
             <?php 
             $recent_posts = array_slice($GLOBALS['blog_posts'], 0, 4);
@@ -46,7 +46,7 @@ global $blog_categories, $blog_tags;
     </div>
     
     <div class="blog-widget">
-        <h4 class="bw-title">Tags</h4>
+        <h4 class="bw-title"><?php echo __('blog_sidebar_tags'); ?></h4>
         <div class="bs-tag-list">
             <ul class="list-wrap">
                 <?php foreach ($blog_tags as $tag): ?>

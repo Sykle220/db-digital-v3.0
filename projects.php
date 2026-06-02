@@ -1,15 +1,15 @@
 <?php
 // projects.php
-$page_title = 'Our Case Studies';
-$page_description = 'Explore our portfolio of successful digital projects and case studies for clients across Cameroon and Africa.';
 require_once 'includes/functions.php';
+$page_title = __('breadcrumb_projects');
+$page_description = __('meta_default_description');
 include 'includes/head.php';
 include 'includes/header.php';
 ?>
 
 <main class="fix">
     <?php 
-    $breadcrumb_title = 'Our Cases Studies';
+    $breadcrumb_title = __('breadcrumb_projects');
     include 'components/breadcrumb.php'; 
     ?>
 
