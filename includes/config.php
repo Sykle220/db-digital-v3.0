@@ -1,9 +1,46 @@
 <?php
 // includes/config.php
 
+// ============================================
+// ENV (.env) - chargement et helpers
+// ============================================
+// Charge .env si présent (prod: variables d'env au niveau serveur)
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
+
+if (class_exists(\Dotenv\Dotenv::class) && file_exists(__DIR__ . '/../.env')) {
+    $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+    $dotenv->safeLoad();
+}
+
+function envv(string $key, $default = null) {
+    $val = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
+    if ($val === false || $val === null || $val === '') return $default;
+    return $val;
+}
+
+function env_bool(string $key, bool $default = false): bool {
+    $v = strtolower((string) envv($key, $default ? 'true' : 'false'));
+    return in_array($v, ['1','true','yes','on'], true);
+}
+
+function env_int(string $key, int $default = 0): int {
+    $v = envv($key, null);
+    return is_numeric($v) ? (int) $v : $default;
+}
+
 define('SITE_NAME', 'DB Digital Agency');
-define('BASE_URL', '');
-define('ASSETS_URL', BASE_URL . 'assets/');
+
+// URL absolue (SEO, sitemap). Ex: https://dbdigitalagency.com
+define('SITE_URL', rtrim((string) envv('APP_URL', ''), '/'));
+
+// Paths relatifs (assets) pour éviter les 404 selon sous-dossier/virtualhost
+define('BASE_URL', ''); // conservé pour compat, laisser vide
+define('ASSETS_URL', 'assets/');
+
+define('APP_ENV', (string) envv('APP_ENV', 'production'));
+define('APP_DEBUG', env_bool('APP_DEBUG', false));
 
 // Navigation principale
 $nav_items = [
@@ -16,14 +53,14 @@ $nav_items = [
 ];
 
 // Coordonnées
-define('CONTACT_ADDRESS', 'Entrée Carriere, Nkoabang, Yaoundé, Cameroon');
-define('CONTACT_PHONE_1', '+237 691 323 249');
-define('CONTACT_PHONE_2', '+237 658 910 343');
-define('CONTACT_PHONE_3', '+237 640 819 846');
-define('CONTACT_EMAIL', 'contact@dbdigitalagency.com');
+define('CONTACT_ADDRESS', (string) envv('CONTACT_ADDRESS', 'Entrée Carriere, Nkoabang, Yaoundé, Cameroon'));
+define('CONTACT_PHONE_1', (string) envv('CONTACT_PHONE_1', '+237 691 323 249'));
+define('CONTACT_PHONE_2', (string) envv('CONTACT_PHONE_2', '+237 658 910 343'));
+define('CONTACT_PHONE_3', (string) envv('CONTACT_PHONE_3', '+237 640 819 846'));
+define('CONTACT_EMAIL', (string) envv('CONTACT_EMAIL', 'contact@dbdigitalagency.com'));
 
 // WhatsApp (numéro sans espaces pour l'URL)
-define('WHATSAPP_NUMBER', '237691323249');
+define('WHATSAPP_NUMBER', (string) envv('WHATSAPP_NUMBER', '237691323249'));
 
 // Réseaux sociaux
 $social_links = [
@@ -55,23 +92,23 @@ if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
 // ============================================
 // CONFIGURATION BASE DE DONNÉES
 // ============================================
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'dbdigitalagency');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_HOST', (string) envv('DB_HOST', 'localhost'));
+define('DB_NAME', (string) envv('DB_NAME', 'dbdigitalagency'));
+define('DB_USER', (string) envv('DB_USER', 'root'));
+define('DB_PASS', (string) envv('DB_PASS', ''));
 define('DB_CHARSET', 'utf8mb4');
 
 // ============================================
 // CONFIGURATION EMAIL / SMTP
 // ============================================
-define('SMTP_HOST', 'smtp.gmail.com');      // ou smtp.mailgun.com, smtp.sendgrid.net
-define('SMTP_PORT', 587);                   // 587 pour TLS, 465 pour SSL
-define('SMTP_USERNAME', 'votre-email@gmail.com');  // MODIFIEZ ICI
-define('SMTP_PASSWORD', 'votre-mot-de-passe-app'); // MODIFIEZ ICI (mot de passe d'application)
-define('SMTP_ENCRYPTION', 'tls');            // tls ou ssl
-define('SMTP_FROM_EMAIL', 'noreply@dbdigitalagency.com');
-define('SMTP_FROM_NAME', 'DB Digital Agency');
-define('ADMIN_EMAIL', 'contact@dbdigitalagency.com');
+define('SMTP_HOST', (string) envv('SMTP_HOST', 'smtp.gmail.com'));
+define('SMTP_PORT', env_int('SMTP_PORT', 587));
+define('SMTP_USERNAME', (string) envv('SMTP_USERNAME', ''));
+define('SMTP_PASSWORD', (string) envv('SMTP_PASSWORD', ''));
+define('SMTP_ENCRYPTION', (string) envv('SMTP_ENCRYPTION', 'tls'));
+define('SMTP_FROM_EMAIL', (string) envv('SMTP_FROM_EMAIL', 'noreply@dbdigitalagency.com'));
+define('SMTP_FROM_NAME', (string) envv('SMTP_FROM_NAME', 'DB Digital Agency'));
+define('ADMIN_EMAIL', (string) envv('ADMIN_EMAIL', 'contact@dbdigitalagency.com'));
 
 // ============================================
 // TRADUCTIONS ET CONTENU

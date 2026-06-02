@@ -10,9 +10,22 @@ require_once __DIR__ . '/db.php';
 // ============================================
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-require 'vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: get-quote.php');
+    exit;
+}
+
+// CSRF + honeypot
+if (empty($_POST['csrf_token']) || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    $_SESSION['quote_errors'] = [($current_lang == 'fr') ? 'Session expirée. Veuillez réessayer.' : 'Session expired. Please try again.'];
+    $_SESSION['quote_form_data'] = $_POST;
+    header('Location: get-quote.php');
+    exit;
+}
+if (!empty($_POST['company_website'])) {
+    // bot
     header('Location: get-quote.php');
     exit;
 }
@@ -51,6 +64,10 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 if (empty($whatsapp))     $errors[] = __('quote_whatsapp_label') . ' ' . ($current_lang == 'fr' ? 'est requis' : 'is required');
 
+if (!empty($website) && !filter_var($website, FILTER_VALIDATE_URL)) {
+    $errors[] = ($current_lang == 'fr') ? 'URL de site invalide' : 'Invalid website URL';
+}
+
 if (!empty($errors)) {
     $_SESSION['quote_errors'] = $errors;
     $_SESSION['quote_form_data'] = $_POST;
@@ -62,7 +79,8 @@ if (!empty($errors)) {
 // 3. GESTION FICHIER UPLOAD
 // ============================================
 $file_name = '';
-$upload_dir = 'uploads/quotes/';
+$upload_dir = realpath(__DIR__ . '/../uploads') ?: (__DIR__ . '/../uploads');
+$upload_dir = rtrim($upload_dir, '/') . '/quotes/';
 if (!is_dir($upload_dir)) mkdir($upload_dir, 0755, true);
 
 if (!empty($_FILES['project_brief']['name'])) {
@@ -70,11 +88,25 @@ if (!empty($_FILES['project_brief']['name'])) {
     $ext = strtolower(pathinfo($_FILES['project_brief']['name'], PATHINFO_EXTENSION));
     if (!in_array($ext, $allowed)) $errors[] = ($current_lang == 'fr' ? 'Seuls PDF/DOCX' : 'Only PDF/DOCX');
     if ($_FILES['project_brief']['size'] > 2 * 1024 * 1024) $errors[] = ($current_lang == 'fr' ? 'Fichier max 2Mo' : 'File max 2MB');
+    if (!empty($_FILES['project_brief']['tmp_name']) && is_uploaded_file($_FILES['project_brief']['tmp_name'])) {
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($_FILES['project_brief']['tmp_name']);
+        $allowedMimes = [
+            'pdf' => ['application/pdf'],
+            'doc' => ['application/msword'],
+            'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'],
+        ];
+        if (!in_array($mime, $allowedMimes[$ext] ?? [], true)) {
+            $errors[] = ($current_lang == 'fr') ? 'Type de fichier non autorisé' : 'File type not allowed';
+        }
+    }
     if (empty($errors)) {
-        $file_name = time() . '_' . preg_replace('/[^a-zA-Z0-9.-]/', '_', basename($_FILES['project_brief']['name']));
-        $upload_path = $upload_dir . $file_name;
+        $safeBase = preg_replace('/[^a-zA-Z0-9.-]/', '_', basename($_FILES['project_brief']['name']));
+        $fileDiskName = time() . '_' . $safeBase;
+        $upload_path = $upload_dir . $fileDiskName;
         if (move_uploaded_file($_FILES['project_brief']['tmp_name'], $upload_path)) {
-            $file_name = $upload_path;
+            // Stocke chemin relatif en DB, garde chemin absolu pour attachement email
+            $file_name = 'uploads/quotes/' . $fileDiskName;
         } else {
             $file_name = '';
             $errors[] = ($current_lang == 'fr' ? 'Échec upload' : 'Upload failed');
@@ -126,7 +158,10 @@ try {
     $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
     $mail->addAddress(ADMIN_EMAIL);
     $mail->addReplyTo($email, $fullname);
-    if ($file_name && file_exists($file_name)) $mail->addAttachment($file_name);
+    if ($file_name) {
+        $abs = realpath(__DIR__ . '/../' . $file_name);
+        if ($abs && file_exists($abs)) $mail->addAttachment($abs);
+    }
     $mail->isHTML(true);
     $mail->Subject = ($current_lang == 'fr' ? 'Nouvelle demande de devis' : 'New Quote Request') . ': ' . $subject;
     $mail->Body    = buildEmailBody(compact('service','subject','project_type','budget','start_date','website','message','fullname','company','email','whatsapp','file_name'), $current_lang);
@@ -199,7 +234,7 @@ function buildEmailBody($data, $lang) {
     foreach ($fields as $key => $value) {
         if (!empty($value)) $rows .= "<tr><td style='padding:10px;border-bottom:1px solid #eee;font-weight:bold;width:30%;'>{$l[$key]}</td><td style='padding:10px;border-bottom:1px solid #eee;'>{$value}</td></tr>";
     }
-    if (!empty($data['file_name']) && file_exists($data['file_name'])) {
+    if (!empty($data['file_name'])) {
         $rows .= "<tr><td style='padding:10px;border-bottom:1px solid #eee;font-weight:bold;'>{$l['file']}</td><td style='padding:10px;border-bottom:1px solid #eee;'>Yes (see admin panel)</td></tr>";
     }
     return "<!DOCTYPE html><html><head><meta charset='UTF-8'><style>body{font-family:Arial,sans-serif;background:#f5f5f5;padding:20px;}.container{max-width:600px;margin:0 auto;background:#fff;padding:30px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}h2{color:#1e3a5f;border-bottom:2px solid #4CAF50;padding-bottom:10px;}table{width:100%;border-collapse:collapse;}</style></head><body><div class='container'><h2>{$l['title']}</h2><table>{$rows}</table><p style='margin-top:20px;color:#666;font-size:12px;'>Sent from DB Digital Agency website</p></div></body></html>";

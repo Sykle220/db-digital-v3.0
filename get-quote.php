@@ -6,6 +6,12 @@ $page_description = __('meta_default_description');
 include 'includes/head.php';
 include 'includes/header.php';
 
+// CSRF token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
+
 // Récupération des erreurs/succès
 $quote_errors       = $_SESSION['quote_errors'] ?? [];
 $quote_success      = $_SESSION['quote_success'] ?? false;
@@ -146,6 +152,8 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
 
                             <div class="wiz-body">
                                 <form action="process-quote.php" method="POST" enctype="multipart/form-data" id="quoteForm">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                    <input type="text" name="company_website" value="" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;height:0;width:0;opacity:0" aria-hidden="true">
 
                                     <!-- Step 1 : Service -->
                                     <div class="step-panel active" data-step="1">
