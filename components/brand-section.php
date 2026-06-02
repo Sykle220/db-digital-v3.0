@@ -2,10 +2,12 @@
 // components/brand-section.php
 $brands = ['brand_img01.png', 'brand_img02.png', 'brand_img05.png', 'brand_img03.png', 'brand_img04.png'];
 $is_home = basename($_SERVER['PHP_SELF'] ?? '') === 'index.php';
+$is_services = basename($_SERVER['PHP_SELF'] ?? '') === 'services.php';
+$is_projects = basename($_SERVER['PHP_SELF'] ?? '') === 'projects.php';
 ?>
-<section class="brand-area-six brand-area-pro <?php echo $is_home ? 'pt-80 pb-80' : 'pt-40 pb-40 brand-compact'; ?>" aria-label="<?php echo __('brand_title'); ?>">
+<section class="brand-area-six brand-area-pro <?php echo $is_home || $is_services || $is_projects ? 'pt-80 pb-80' : 'pt-40 pb-40 brand-compact'; ?>" aria-label="<?php echo __('brand_title'); ?>">
     <div class="container">
-        <?php if ($is_home): ?>
+        <?php if ($is_home || $is_services || $is_projects): ?>
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="section-title-two text-center mb-35 tg-heading-subheading animation-style2">
