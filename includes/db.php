@@ -2,7 +2,7 @@
 // includes/db.php
 // Connexion PDO MySQL pour DB Digital Agency
 
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/functions.php';
 
 
 try {
@@ -28,30 +28,94 @@ try {
 function saveQuote($data) {
     global $pdo;
 
-    $sql = "INSERT INTO quotes 
-        (service, subject, project_type, budget, start_date, website, message, brief_file, fullname, company, email, whatsapp, ip_address, user_agent) 
-        VALUES 
-        (:service, :subject, :project_type, :budget, :start_date, :website, :message, :brief_file, :fullname, :company, :email, :whatsapp, :ip_address, :user_agent)";
+    $pdo->beginTransaction();
+    try {
+        $sql = "INSERT INTO quotes 
+            (service, subject, project_type, budget, start_date, website, message, brief_file, fullname, company, email, whatsapp, ip_address, user_agent) 
+            VALUES 
+            (:service, :subject, :project_type, :budget, :start_date, :website, :message, :brief_file, :fullname, :company, :email, :whatsapp, :ip_address, :user_agent)";
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':service'      => $data['service'],
-        ':subject'      => $data['subject'],
-        ':project_type' => $data['project_type'],
-        ':budget'       => $data['budget'],
-        ':start_date'   => $data['start_date'],
-        ':website'      => $data['website'] ?: null,
-        ':message'      => $data['message'] ?: null,
-        ':brief_file'   => $data['brief_file'] ?: null,
-        ':fullname'     => $data['fullname'],
-        ':company'      => $data['company'] ?: null,
-        ':email'        => $data['email'],
-        ':whatsapp'     => $data['whatsapp'],
-        ':ip_address'   => $_SERVER['REMOTE_ADDR'] ?? null,
-        ':user_agent'   => $_SERVER['HTTP_USER_AGENT'] ?? null,
-    ]);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':service'      => $data['service'],
+            ':subject'      => $data['subject'],
+            ':project_type' => $data['project_type'],
+            ':budget'       => $data['budget'],
+            ':start_date'   => $data['start_date'],
+            ':website'      => $data['website'] ?: null,
+            ':message'      => $data['message'] ?: null,
+            ':brief_file'   => $data['brief_file'] ?: null,
+            ':fullname'     => $data['fullname'],
+            ':company'      => $data['company'] ?: null,
+            ':email'        => $data['email'],
+            ':whatsapp'     => $data['whatsapp'],
+            ':ip_address'   => $_SERVER['REMOTE_ADDR'] ?? null,
+            ':user_agent'   => $_SERVER['HTTP_USER_AGENT'] ?? null,
+        ]);
 
-    return $pdo->lastInsertId();
+        $quoteId = (int) $pdo->lastInsertId();
+
+        // Normalisation (optionnelle) : quote_services
+        $services = $data['services'] ?? [];
+        if (!is_array($services)) $services = [];
+        if ($quoteId && !empty($services) && quoteServicesTableExists()) {
+            insertQuoteServices($quoteId, $services);
+        }
+
+        $pdo->commit();
+        return $quoteId;
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        throw $e;
+    }
+}
+
+/**
+ * Vérifie si la table quote_services existe (cache en mémoire)
+ */
+function quoteServicesTableExists(): bool {
+    global $pdo;
+    static $exists = null;
+    if ($exists !== null) return $exists;
+    try {
+        $stmt = $pdo->prepare("
+            SELECT 1
+            FROM information_schema.TABLES
+            WHERE TABLE_SCHEMA = :db
+              AND TABLE_NAME = 'quote_services'
+            LIMIT 1
+        ");
+        $stmt->execute([':db' => DB_NAME]);
+        $exists = (bool) $stmt->fetchColumn();
+    } catch (Throwable $e) {
+        $exists = false;
+    }
+    return $exists;
+}
+
+/**
+ * Insère les services normalisés (dédupliqués)
+ */
+function insertQuoteServices(int $quoteId, array $services): void {
+    global $pdo;
+    $clean = [];
+    foreach ($services as $s) {
+        $s = (string) $s;
+        $s = strtolower(trim($s));
+        // whitelist légère pour éviter injection/valeurs bizarres
+        $s = preg_replace('/[^a-z0-9-]/', '', $s);
+        if ($s === '') continue;
+        $clean[$s] = true;
+    }
+    if (empty($clean)) return;
+
+    $stmt = $pdo->prepare("INSERT IGNORE INTO quote_services (quote_id, service_key) VALUES (:quote_id, :service_key)");
+    foreach (array_keys($clean) as $serviceKey) {
+        $stmt->execute([
+            ':quote_id' => $quoteId,
+            ':service_key' => $serviceKey,
+        ]);
+    }
 }
 
 /**

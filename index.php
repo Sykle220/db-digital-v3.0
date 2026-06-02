@@ -74,7 +74,7 @@ include 'includes/header.php';
                         <img src="<?php echo ASSETS_URL; ?>img/images/h_about_img01.png" alt="" data-aos="fade-down-right" data-aos-delay="0">
                         <img src="<?php echo ASSETS_URL; ?>img/images/h_about_img02.png" alt="" data-aos="fade-left" data-aos-delay="400">
                         <div class="experience-wrap" data-aos="fade-up" data-aos-delay="300">
-                            <h2 class="title">2+ <span><?php echo __('homepage_exp_years'); ?></span></h2>
+                            <h2 class="title">15+ <span><?php echo __('homepage_exp_years'); ?></span></h2>
                             <p><?php echo __('homepage_exp_label'); ?></p>
                         </div>
                     </div>
@@ -182,7 +182,7 @@ include 'includes/header.php';
                     ['icon' => 'flaticon-folder-1', 'label_key' => 'counter_projects', 'count' => 9525],
                     ['icon' => 'flaticon-rating', 'label_key' => 'counter_clients', 'count' => 11985],
                     ['icon' => 'flaticon-trophy', 'label_key' => 'counter_awards', 'count' => 4722],
-                    ['icon' => 'flaticon-puzzle-piece', 'label_key' => 'counter_countries', 'count' => 9522],
+                    ['icon' => 'flaticon-puzzle-piece', 'label_key' => 'counter_countries', 'count' => 115],
                 ];
                 foreach ($counters as $c):
                 ?>
@@ -281,8 +281,8 @@ include 'includes/header.php';
                                     </div>
                                     <p>"<?php echo $current_lang === 'fr' ? 'Service exceptionnel et équipe très professionnelle. Ils ont transformé notre présence digitale et augmenté nos revenus de 40%.' : 'Exceptional service and very professional team. They transformed our digital presence and increased our revenue by 40%.'; ?>"</p>
                                     <div class="testimonial-info">
-                                        <h2 class="title">Mr. Erick Patrick Mouaffo</h2>
-                                        <span>CEO, DB Digital Agency</span>
+                                        <h2 class="title">Mr. Aristide Kamga</h2>
+                                        <span>CEO, New Vision Vocational</span>
                                     </div>
                                 </div>
                             </div>
@@ -316,26 +316,11 @@ include 'includes/header.php';
     <!-- testimonial-area-end -->
 
     <!-- brand-area -->
-    <div class="brand-area-six pt-80 pb-80">
-        <div class="container">
-            <div class="row brand-active">
-                <?php 
-                $brands = ['brand_img01.png', 'brand_img02.png', 'brand_img03.png', 'brand_img04.png', 'brand_img05.png', 'brand_img03.png'];
-                foreach ($brands as $brand): 
-                ?>
-                <div class="col-lg-12">
-                    <div class="brand-item">
-                        <img src="<?php echo ASSETS_URL; ?>img/brand/<?php echo $brand; ?>" alt="Partner">
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
+    <?php include 'components/brand-section.php'; ?>
     <!-- brand-area-end -->
 
     <!-- blog-area -->
-    <section class="blog-area-two blog-bg-two" data-background="<?php echo ASSETS_URL; ?>img/bg/h2_blog_bg.jpg">
+    <!-- <section class="blog-area-two blog-bg-two" data-background="<?php echo ASSETS_URL; ?>img/bg/h2_blog_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
@@ -378,7 +363,7 @@ include 'includes/header.php';
                 <?php endforeach; ?>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- blog-area-end -->
 
 </main>

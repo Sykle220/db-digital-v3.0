@@ -56,7 +56,7 @@ include 'includes/header.php';
 
     <!-- brand-area -->
     <?php include 'components/brand-section.php'; ?>
-
+    <!-- brand-area-end -->
 </main>
 
 <?php include 'includes/footer.php'; ?>

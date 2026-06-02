@@ -1,6 +1,66 @@
 <?php
 // includes/functions.php
+
+// ============================================
+// Bootstrap (env + session + langue + config)
+// ============================================
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
+
+if (class_exists(\Dotenv\Dotenv::class) && file_exists(__DIR__ . '/../.env')) {
+    $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+    $dotenv->safeLoad();
+}
+
+function envv(string $key, $default = null) {
+    $val = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
+    if ($val === false || $val === null || $val === '') return $default;
+    return $val;
+}
+
+function env_bool(string $key, bool $default = false): bool {
+    $v = strtolower((string) envv($key, $default ? 'true' : 'false'));
+    return in_array($v, ['1','true','yes','on'], true);
+}
+
+function env_int(string $key, int $default = 0): int {
+    $v = envv($key, null);
+    return is_numeric($v) ? (int) $v : $default;
+}
+
+// Session + i18n
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+$available_langs = ['en', 'fr'];
+$default_lang = 'fr';
+
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs, true)) {
+    $_SESSION['lang'] = $_GET['lang'];
+    $current_lang = $_GET['lang'];
+} elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], $available_langs, true)) {
+    $current_lang = $_SESSION['lang'];
+} else {
+    $current_lang = $default_lang;
+}
+
 require_once __DIR__ . '/config.php';
+
+function __($key) {
+    global $translations, $current_lang;
+    return $translations[$current_lang][$key] ?? ($translations['en'][$key] ?? $key);
+}
+
+// WhatsApp message selon la langue
+$whatsapp_messages = [
+    'en' => 'Hello DB Digital Agency, I would like a tailored quote for my digital project.',
+    'fr' => 'Bonjour DB Digital Agency, je souhaite un devis personnalisé pour mon projet digital.',
+];
+if (!defined('WHATSAPP_MESSAGE')) {
+    define('WHATSAPP_MESSAGE', $whatsapp_messages[$current_lang] ?? $whatsapp_messages['fr']);
+}
 
 /**
  * Retourne la classe 'active' si la page courante correspond

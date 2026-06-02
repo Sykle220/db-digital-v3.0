@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS quotes (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
     -- Étape 1: Service
-    service VARCHAR(100) NOT NULL,
+    -- Multi-sélection: stocké en texte (ex: "digital-strategy, web-development")
+    service TEXT NOT NULL,
     subject VARCHAR(255) NOT NULL,
     project_type VARCHAR(100) NOT NULL,
     budget VARCHAR(50) NOT NULL,
@@ -43,6 +44,18 @@ CREATE TABLE IF NOT EXISTS quotes (
     INDEX idx_whatsapp (whatsapp),
     INDEX idx_status (status),
     INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Option de normalisation (recommandé si vous voulez faire des stats par service)
+-- 1 quote -> N services (many-to-many léger)
+CREATE TABLE IF NOT EXISTS quote_services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    quote_id INT NOT NULL,
+    service_key VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_quote_service (quote_id, service_key),
+    INDEX idx_service_key (service_key),
+    FOREIGN KEY (quote_id) REFERENCES quotes(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table des logs d'envoi (mail, WhatsApp)

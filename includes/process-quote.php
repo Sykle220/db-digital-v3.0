@@ -126,7 +126,10 @@ if (!empty($errors)) {
 // ============================================
 try {
     $quote_id = saveQuote([
-        'service' => $service, 'subject' => $subject, 'project_type' => $project_type,
+        'service' => $service,
+        'services' => $services,
+        'subject' => $subject,
+        'project_type' => $project_type,
         'budget' => $budget, 'start_date' => $start_date, 'website' => $website,
         'message' => $message, 'brief_file' => $file_name, 'fullname' => $fullname,
         'company' => $company, 'email' => $email, 'whatsapp' => $whatsapp,
