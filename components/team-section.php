@@ -17,16 +17,23 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <?php
-            $team_members = [
-                ['img' => 'team_img01.jpg', 'name' => 'Brooklyn Simmons', 'role_key' => 'team_role_strategy'],
-                ['img' => 'team_img02.jpg', 'name' => 'Guy Hawkins', 'role_key' => 'team_role_design'],
-                ['img' => 'team_img03.jpg', 'name' => 'Savannah Nguyen', 'role_key' => 'team_role_dev'],
-                ['img' => 'team_img04.jpg', 'name' => 'Kristin Watson', 'role_key' => 'team_role_marketing'],
-            ];
-            foreach ($team_members as $member):
-            ?>
+        <?php
+        $team_members = [
+            ['img' => 'team_img01.jpg', 'name' => 'Eugénie Rose Yuoyang', 'role_key' => 'about_ceo'],
+            ['img' => 'team_img02.jpg', 'name' => 'Pierre Pascal Essomba', 'role_key' => 'team_role_graphic_designer'],
+            ['img' => 'team_img03.jpg', 'name' => 'Stephane Kamga', 'role_key' => 'team_role_dev'],
+            ['img' => 'team_img03.jpg', 'name' => 'Delphine Mengue', 'role_key' => 'team_role_video_designer'],
+            ['img' => 'team_img03.jpg', 'name' => 'Ulrich Fotso', 'role_key' => 'team_role_dev'],
+            ['img' => 'team_img04.jpg', 'name' => 'Lionel Dounia', 'role_key' => 'team_role_marketing_director'],
+            ['img' => 'team_img04.jpg', 'name' => 'Van Besong', 'role_key' => 'team_role_community_manager'],
+        ];
+        $team_use_carousel = count($team_members) > 4;
+        $team_row_class = $team_use_carousel
+            ? 'row team-active justify-content-center'
+            : 'row justify-content-center';
+        ?>
+        <div class="<?php echo $team_row_class; ?>">
+            <?php foreach ($team_members as $member): ?>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-9">
                 <div class="team-item">
                     <div class="team-thumb">

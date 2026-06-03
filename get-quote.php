@@ -449,9 +449,7 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
     <!-- contact-card-area-end -->
 
     <!-- contact-map -->
-    <div class="contact-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15923.191443617048!2d11.580211200000008!3d3.8535168000000075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2scm!4v1779983537936!5m2!1sfr!2scm" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
+    <?php include 'components/locations-map.php'; ?>
     <!-- contact-map-end -->
 
 </main>
@@ -619,5 +617,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = this.files[0] ? this.files[0].name : I18N.fileNone;
         document.getElementById('brief-name').textContent = name;
     });
+
+    // Locations -> Map switcher
+    const mapFrame = document.getElementById('locationsMap');
+    const locCards = document.querySelectorAll('.location-card');
+    if (mapFrame && locCards.length) {
+        locCards.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const src = btn.getAttribute('data-map-src');
+                if (!src) return;
+                locCards.forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
+                mapFrame.setAttribute('src', src);
+            });
+        });
+    }
 });
 </script>

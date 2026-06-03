@@ -1,48 +1,34 @@
 $(function() {
-
-	// Get the form.
 	var form = $('#contact-form');
+	if (!form.length) return;
 
-	// Get the messages div.
-	var formMessages = $('.ajax-response');
+	var formMessages = form.find('.ajax-response');
+	var submitBtn = form.find('.cf-submit, button[type="submit"]');
+	var lang = (document.documentElement.lang || 'fr').slice(0, 2);
+	var fallbackError = lang === 'fr'
+		? 'Une erreur est survenue. Veuillez réessayer.'
+		: 'An error occurred. Please try again.';
 
-	// Set up an event listener for the contact form.
-	$(form).submit(function(e) {
-		// Stop the browser from submitting the form.
+	form.on('submit', function(e) {
 		e.preventDefault();
+		formMessages.removeClass('success error').text('');
+		submitBtn.addClass('is-loading');
 
-		// Serialize the form data.
-		var formData = $(form).serialize();
-
-		// Submit the form using AJAX.
 		$.ajax({
 			type: 'POST',
-			url: $(form).attr('action'),
-			data: formData
+			url: form.attr('action'),
+			data: form.serialize()
 		})
 		.done(function(response) {
-			// Make sure that the formMessages div has the 'success' class.
-			$(formMessages).removeClass('error');
-			$(formMessages).addClass('success');
-
-			// Set the message text.
-			$(formMessages).text(response);
-
-			// Clear the form.
-			$('#contact-form input,#contact-form textarea').val('');
+			formMessages.removeClass('error').addClass('success').text(response);
+			form.find('input:not([type="hidden"]), textarea').val('');
 		})
 		.fail(function(data) {
-			// Make sure that the formMessages div has the 'error' class.
-			$(formMessages).removeClass('success');
-			$(formMessages).addClass('error');
-
-			// Set the message text.
-			if (data.responseText !== '') {
-				$(formMessages).text(data.responseText);
-			} else {
-				$(formMessages).text('Oops! An error occured and your message could not be sent.');
-			}
+			formMessages.removeClass('success').addClass('error');
+			formMessages.text(data.responseText || fallbackError);
+		})
+		.always(function() {
+			submitBtn.removeClass('is-loading');
 		});
 	});
-
 });

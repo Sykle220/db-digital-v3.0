@@ -20,7 +20,7 @@ $nav_items = [
     ['url' => 'services.php', 'label_key' => 'nav_services', 'class' => ''],
     ['url' => 'projects.php', 'label_key' => 'nav_projects', 'class' => ''],
     ['url' => 'blog.php', 'label_key' => 'nav_blog', 'class' => ''],
-    // ['url' => 'contact.php', 'label_key' => 'nav_contact', 'class' => ''],
+    ['url' => 'contact.php', 'label_key' => 'nav_contact', 'class' => ''],
 ];
 
 // Coordonnées

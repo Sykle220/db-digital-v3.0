@@ -17,7 +17,7 @@ include 'includes/header.php';
             <div class="row">
                 <div class="col-lg-6">
                     <div class="banner-content-nine">
-                        <h2 class="title wow" data-aos="fade-up" data-aos-delay="200"><?php echo __('hero_title'); ?></h2>
+                        <h2 class="title wow design-title" data-aos="fade-up" data-aos-delay="200"><?php echo __('hero_title'); ?></h2>
                         <p data-aos="fade-up" data-aos-delay="400"><?php echo __('hero_desc'); ?></p>
                         <div class="banner-btn-nine" data-aos="fade-up" data-aos-delay="600">
                             <a href="<?php echo getPageLink('about.php'); ?>" class="btn btn-three btn-four"><?php echo __('btn_read_more'); ?></a>
@@ -100,7 +100,7 @@ include 'includes/header.php';
                                 <img src="<?php echo ASSETS_URL; ?>img/images/about_author.png" alt="CEO">
                             </div>
                             <div class="content">
-                                <h2 class="title">Erick Patrick Mouaffo</h2>
+                                <h2 class="title">Eugénie Rose Yuoyang</h2>
                                 <span><?php echo __('about_ceo'); ?></span>
                             </div>
                             <div class="signature">
