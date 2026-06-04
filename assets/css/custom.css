@@ -175,6 +175,103 @@
 }
 
 /* ============================================
+   Boutons — icônes cohérentes (.btn-i)
+   ============================================ */
+.btn.btn-has-i,
+.btn.btn-whatsapp-lg.btn-has-i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
+}
+
+.btn.btn-has-i .btn-i {
+    font-size: 0.95em;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.btn.btn-two.btn-has-i {
+    padding: 14px 22px;
+}
+
+.btn.btn-two.btn-has-i::after {
+    display: none;
+}
+
+.btn.border-btn.btn-has-i::after {
+    margin-left: 0.45em;
+}
+
+.link-btn.link-btn-has-i {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+}
+
+.link-btn.link-btn-has-i .btn-i {
+    font-size: 0.88em;
+    opacity: 0.9;
+}
+
+.footer-newsletter form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45em;
+}
+
+.footer-newsletter form button .btn-i {
+    font-size: 0.9em;
+}
+
+.footer-newsletter .newsletter-response {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.45;
+    display: none;
+}
+
+.footer-newsletter .newsletter-response:not(:empty) {
+    display: block;
+}
+
+.footer-newsletter .newsletter-response.success {
+    background: rgba(65, 173, 61, 0.12);
+    border: 1px solid rgba(65, 173, 61, 0.25);
+    color: #d4edda;
+}
+
+.footer-newsletter .newsletter-response.error {
+    background: rgba(233, 69, 96, 0.12);
+    border: 1px solid rgba(233, 69, 96, 0.25);
+    color: #f8d7da;
+}
+
+.footer-newsletter form button.is-loading {
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+.btn-whatsapp-lg.btn-has-i .btn-i {
+    font-size: 1.15em;
+}
+
+.service-cards-wrap.invalid + .field-err { display: block; }
+
+/* .service-cards-wrap.invalid .service-cards {
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px rgba(255, 42, 0, 0.508);
+} */
+
+.field-services .field-err {
+    margin-top: 8px;
+}
+
+/* ============================================
    UI/UX: Tronquage des textes de cartes (2 lignes)
    ============================================ */
 :root {
@@ -334,6 +431,8 @@
 
 .locations-map-stage {
     position: relative;
+    z-index: 1;
+    isolation: isolate;
     border-radius: 24px;
     overflow: hidden;
     border: 1px solid rgba(0, 20, 60, 0.08);
@@ -361,18 +460,18 @@
     z-index: 1;
 }
 
-/* Overlay : pastilles villes */
+/* Overlay : pastilles villes (contenu dans .locations-map-stage) */
 .locations-map-overlay {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 500;
-    padding: 0 20px 20px;
+    z-index: 20;
+    padding: 0 20px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     pointer-events: none;
 }
 
@@ -450,6 +549,13 @@
 .locations-map-hint i {
     color: var(--tg-primary-color);
     font-size: 13px;
+}
+
+/* Masquer l’overlay carte quand le menu mobile est ouvert */
+.mobile-menu-visible .locations-map-overlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 /* Marqueurs carte */
@@ -762,16 +868,41 @@
     }
 
     .locations-map-chips {
-        border-radius: 20px;
+        border-radius: 16px;
         width: 100%;
         max-width: 100%;
+        margin: 0;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .locations-map-chips::-webkit-scrollbar {
+        display: none;
     }
 
     .locations-map-chip {
-        flex: 1 1 auto;
+        flex: 0 0 auto;
         justify-content: center;
-        padding: 9px 12px;
+        padding: 9px 14px;
         font-size: 13px;
+    }
+
+    .locations-map-overlay {
+        padding: 0 12px 10px;
+        gap: 8px;
+    }
+
+    .locations-map-hint {
+        max-width: 100%;
+        text-align: center;
+        justify-content: center;
+        line-height: 1.35;
     }
 
     .map-leaflet-popup .leaflet-popup-content {
@@ -796,6 +927,33 @@
     .map-popup-contact span {
         max-width: 100px;
     }
+
+    .locations-map-embed .locations-map-overlay {
+        padding: 0 10px 8px;
+    }
+
+    .locations-map-embed .locations-map-chips {
+        margin: 0 auto;
+    }
+
+    .locations-map-embed .locations-map-hint {
+        margin-top: 6px;
+        padding: 5px 12px;
+    }
+
+    /* Popup plus basse : évite le rognage en haut sur mobile */
+    .map-leaflet-popup.leaflet-popup {
+        margin-top: 22px;
+    }
+
+    .locations-map-embed .map-leaflet-popup.leaflet-popup {
+        margin-top: 32px;
+    }
+
+    .map-popup-inner {
+        gap: 10px;
+        padding: 10px 32px 10px 10px;
+    }
 }
 
 @media (max-width: 575px) {
@@ -806,6 +964,39 @@
     .locations-map-hint {
         font-size: 11px;
         text-align: center;
+    }
+
+    .map-leaflet-popup .leaflet-popup-content {
+        width: min(88vw, 260px) !important;
+        max-width: 260px;
+    }
+
+    .map-popup-media {
+        flex: 0 0 60px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .map-popup-title {
+        font-size: 14px;
+    }
+
+    .map-popup-addr {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .map-popup-contact {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+
+    .map-popup-contact span {
+        max-width: 88px;
+    }
+
+    .locations-map-embed .map-leaflet-popup.leaflet-popup {
+        margin-top: 38px;
     }
 }
 
@@ -1034,7 +1225,7 @@
 }
 
 .locations-map-embed .locations-map-overlay {
-    padding: 12px 14px 14px;
+    padding: 0 12px 10px;
 }
 
 .locations-map-embed .locations-map-chips {

@@ -75,7 +75,7 @@ $logo_img = $is_home ? 'w_logo02.png' : 'logo.png';
                                 <div class="header-action<?php echo $is_home ? ' header-action-six' : ''; ?> d-none d-md-flex">
                                     <ul class="list-wrap">
                                         <li class="header-search"><a href="#"><i class="flaticon-search"></i></a></li>
-                                        <li class="header-btn"><a href="get-quote.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="btn btn-two"><?php echo __('btn_quote'); ?></a></li>
+                                        <li class="header-btn"><a href="get-quote.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="btn btn-two btn-has-i"><?php echo btnIcon('quote'); ?><?php echo __('btn_quote'); ?></a></li>
                                         <!-- SWITCH LANGUE -->
                                         <li>
                                             <div class="lang-switcher">
@@ -104,7 +104,7 @@ $logo_img = $is_home ? 'w_logo02.png' : 'logo.png';
                                 <div class="menu-outer"></div>
                                 <div class="header-action header-action-six d-none d-md-block">
                                     <ul class="list-wrap">
-                                        <li class="header-btn"><a href="get-quote.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="btn btn-two"><?php echo __('btn_quote'); ?></a></li>
+                                        <li class="header-btn"><a href="get-quote.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="btn btn-two btn-has-i"><?php echo btnIcon('quote'); ?><?php echo __('btn_quote'); ?></a></li>
                                     </ul>
                                 </div>
                                 <!-- SWITCH LANGUE MOBILE -->

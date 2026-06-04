@@ -89,3 +89,33 @@ INSERT INTO settings (setting_key, setting_value) VALUES
 ('admin_email', 'contact@dbdigitalagency.com'),
 ('whatsapp_number', '237691323249')
 ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value);
+
+-- Messages du formulaire de contact
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    ip_address VARCHAR(45) DEFAULT NULL,
+    user_agent TEXT DEFAULT NULL,
+    status ENUM('new', 'read', 'replied', 'archived') DEFAULT 'new',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_email (email),
+    INDEX idx_status (status),
+    INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Abonnés newsletter (footer)
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    lang CHAR(2) DEFAULT 'fr',
+    ip_address VARCHAR(45) DEFAULT NULL,
+    user_agent TEXT DEFAULT NULL,
+    status ENUM('active', 'unsubscribed') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_newsletter_email (email),
+    INDEX idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -2,6 +2,7 @@
 // includes/process-contact.php — Traitement AJAX du formulaire de contact
 
 require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/db.php';
 
 header('Content-Type: text/plain; charset=UTF-8');
 
@@ -48,10 +49,20 @@ if (!empty($errors)) {
     exit;
 }
 
+try {
+    $contactId = saveContactMessage(compact('name', 'phone', 'email', 'message'));
+} catch (PDOException $e) {
+    error_log('Contact DB Error: ' . $e->getMessage());
+    http_response_code(500);
+    echo __('contact_error_db');
+    exit;
+}
+
 $subject = ($current_lang === 'fr' ? 'Nouveau message contact' : 'New contact message') . ' — ' . $name;
 
 $body = '<html><body style="font-family:sans-serif;color:#1c4380;">'
     . '<h2>' . htmlspecialchars($subject) . '</h2>'
+    . '<p><strong>ID:</strong> #' . (int) $contactId . '</p>'
     . '<p><strong>' . ($current_lang === 'fr' ? 'Nom' : 'Name') . ':</strong> ' . htmlspecialchars($name) . '</p>'
     . '<p><strong>' . ($current_lang === 'fr' ? 'Téléphone' : 'Phone') . ':</strong> ' . htmlspecialchars($phone) . '</p>'
     . '<p><strong>Email:</strong> ' . htmlspecialchars($email) . '</p>'
@@ -92,13 +103,8 @@ if (!$email_sent) {
 }
 
 if (!$email_sent) {
-    http_response_code(500);
-    echo ($current_lang === 'fr')
-        ? 'Impossible d\'envoyer le message pour le moment. Réessayez ou contactez-nous par téléphone.'
-        : 'Unable to send your message right now. Please try again or call us.';
+    echo __('contact_success_db_only');
     exit;
 }
 
-echo ($current_lang === 'fr')
-    ? 'Merci ! Votre message a été envoyé. Nous vous répondrons très bientôt.'
-    : 'Thank you! Your message has been sent. We will get back to you shortly.';
+echo __('contact_success');

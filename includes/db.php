@@ -159,3 +159,85 @@ function updateSetting($key, $value) {
     $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value) VALUES (:key, :value) ON DUPLICATE KEY UPDATE setting_value = :value");
     $stmt->execute([':key' => $key, ':value' => $value]);
 }
+
+/**
+ * Enregistre un message du formulaire de contact
+ */
+function saveContactMessage(array $data): int {
+    global $pdo;
+
+    $sql = "INSERT INTO contact_messages (name, phone, email, message, ip_address, user_agent)
+            VALUES (:name, :phone, :email, :message, :ip_address, :user_agent)";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':name'       => $data['name'],
+        ':phone'      => $data['phone'],
+        ':email'      => $data['email'],
+        ':message'    => $data['message'],
+        ':ip_address' => $_SERVER['REMOTE_ADDR'] ?? null,
+        ':user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
+    ]);
+
+    return (int) $pdo->lastInsertId();
+}
+
+/**
+ * Inscrit ou réactive un abonné newsletter
+ * @return array{id: int, created: bool, reactivated: bool}
+ */
+function saveNewsletterSubscriber(string $email, string $lang = 'fr'): array {
+    global $pdo;
+
+    $stmt = $pdo->prepare("SELECT id, status FROM newsletter_subscribers WHERE email = :email LIMIT 1");
+    $stmt->execute([':email' => $email]);
+    $existing = $stmt->fetch();
+
+    if ($existing) {
+        if ($existing['status'] === 'active') {
+            return [
+                'id' => (int) $existing['id'],
+                'created' => false,
+                'reactivated' => false,
+                'already_active' => true,
+            ];
+        }
+
+        $upd = $pdo->prepare("
+            UPDATE newsletter_subscribers
+            SET status = 'active', lang = :lang, ip_address = :ip, user_agent = :ua, updated_at = CURRENT_TIMESTAMP
+            WHERE id = :id
+        ");
+        $upd->execute([
+            ':lang' => $lang,
+            ':ip'   => $_SERVER['REMOTE_ADDR'] ?? null,
+            ':ua'   => $_SERVER['HTTP_USER_AGENT'] ?? null,
+            ':id'   => $existing['id'],
+        ]);
+
+        return [
+            'id' => (int) $existing['id'],
+            'created' => false,
+            'reactivated' => true,
+            'already_active' => false,
+        ];
+    }
+
+    $ins = $pdo->prepare("
+        INSERT INTO newsletter_subscribers (email, lang, ip_address, user_agent)
+        VALUES (:email, :lang, :ip, :ua)
+    ");
+    $ins->execute([
+        ':email' => $email,
+        ':lang'  => $lang,
+        ':ip'    => $_SERVER['REMOTE_ADDR'] ?? null,
+        ':ua'    => $_SERVER['HTTP_USER_AGENT'] ?? null,
+    ]);
+
+    return [
+        'id' => (int) $pdo->lastInsertId(),
+        'created' => true,
+        'reactivated' => false,
+        'already_active' => false,
+    ];
+}

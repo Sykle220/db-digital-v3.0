@@ -3,9 +3,6 @@
  * components/contact-form.php
  * Formulaire de contact — carte premium, champs avec icônes, envoi AJAX.
  */
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
 $csrf_token = $_SESSION['csrf_token'];
 ?>
 
@@ -54,7 +51,7 @@ $csrf_token = $_SESSION['csrf_token'];
 
             <button type="submit" class="cf-submit">
                 <span><?php echo __('contact_form_submit'); ?></span>
-                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                <?php echo btnIcon('send'); ?>
             </button>
 
             <ul class="cf-trust" aria-label="<?php echo $current_lang === 'fr' ? 'Engagements' : 'Commitments'; ?>">

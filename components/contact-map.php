@@ -310,6 +310,57 @@ $map_stage_outer_class = $map_embedded
         });
     }
 
+    function isMapMobile() {
+        return window.matchMedia('(max-width: 991px)').matches;
+    }
+
+    function getOverlayBottomPadding() {
+        const overlay = document.querySelector('.locations-map-overlay');
+        if (!overlay) return isMapMobile() ? 110 : 80;
+        return overlay.offsetHeight + (isMapMobile() ? 16 : 24);
+    }
+
+    function getLeafletPopupOffset() {
+        if (!isMapMobile()) return [0, -6];
+        return document.querySelector('.locations-map-embed') ? [0, 58] : [0, 42];
+    }
+
+    function getLeafletPopupOptions() {
+        const pad = getOverlayBottomPadding();
+        const edge = isMapMobile() ? 14 : 28;
+        return {
+            className: 'map-leaflet-popup',
+            maxWidth: isMapMobile() ? 272 : 292,
+            minWidth: isMapMobile() ? 240 : 260,
+            offset: getLeafletPopupOffset(),
+            autoPan: true,
+            keepInView: true,
+            autoPanPaddingTopLeft: L.point(edge, edge),
+            autoPanPaddingBottomRight: L.point(edge, pad),
+        };
+    }
+
+    /** Recadre la carte si la popup dépasse en haut (mobile / overlay bas). */
+    function ensureLeafletPopupInView(map, mapEl, marker) {
+        if (!map || !mapEl || !marker) return;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                const popup = marker.getPopup();
+                const popupEl = popup && popup.getElement();
+                if (!popupEl) return;
+
+                const mapRect = mapEl.getBoundingClientRect();
+                const popRect = popupEl.getBoundingClientRect();
+                const topGap = popRect.top - mapRect.top;
+                const minTop = isMapMobile() ? 10 : 16;
+
+                if (topGap < minTop) {
+                    map.panBy([0, topGap - minTop], { animate: true, duration: 0.35 });
+                }
+            });
+        });
+    }
+
     function bindPopupClose(infoWindow, visibility) {
         if (!infoWindow || !google || !google.maps) return;
         google.maps.event.addListenerOnce(infoWindow, 'domready', function () {
@@ -452,16 +503,12 @@ $map_stage_outer_class = $map_embedded
             });
 
             const marker = L.marker(latLng, { icon: icon }).addTo(map);
-            marker.bindPopup(buildPopupHtml(loc, i18n), {
-                className: 'map-leaflet-popup',
-                maxWidth: 292,
-                minWidth: 260,
-                offset: [0, -6],
-            });
+            marker.bindPopup(buildPopupHtml(loc, i18n), getLeafletPopupOptions());
 
             marker.on('popupopen', function () {
                 setActiveChip(loc.key);
                 visibility.conceal(loc.key);
+                ensureLeafletPopupInView(map, mapEl, marker);
                 const closeBtn = document.querySelector('.map-popup-close');
                 if (closeBtn) {
                     closeBtn.addEventListener('click', function onClose() {

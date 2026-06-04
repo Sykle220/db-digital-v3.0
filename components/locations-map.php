@@ -112,7 +112,7 @@ $map_i18n = [
                             type="button"
                             class="locations-map-chip<?php echo $i === 1 ? ' is-active' : ''; ?>"
                             role="tab"
-                            aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>"
+                            aria-selected="<?php echo $i === 1 ? 'true' : 'false'; ?>"
                             data-loc-key="<?php echo htmlspecialchars($loc['key']); ?>"
                             data-lat="<?php echo htmlspecialchars((string) $loc['lat']); ?>"
                             data-lng="<?php echo htmlspecialchars((string) $loc['lng']); ?>"

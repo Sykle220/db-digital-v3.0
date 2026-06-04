@@ -20,7 +20,7 @@ include 'includes/header.php';
                         <h2 class="title wow design-title" data-aos="fade-up" data-aos-delay="200"><?php echo __('hero_title'); ?></h2>
                         <p data-aos="fade-up" data-aos-delay="400"><?php echo __('hero_desc'); ?></p>
                         <div class="banner-btn-nine" data-aos="fade-up" data-aos-delay="600">
-                            <a href="<?php echo getPageLink('about.php'); ?>" class="btn btn-three btn-four"><?php echo __('btn_read_more'); ?></a>
+                            <a href="<?php echo getPageLink('about.php'); ?>" class="btn btn-three btn-four btn-has-i"><?php echo btnIcon('read_more'); ?><?php echo __('btn_read_more'); ?></a>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ include 'includes/header.php';
                         <p><?php echo __('homepage_about_conclusion'); ?></p>
                         <div class="about-author-info">
                             <div class="thumb">
-                                <img src="<?php echo ASSETS_URL; ?>img/images/about_author.png" alt="CEO">
+                                <img src="<?php echo ASSETS_URL; ?>img/images/about_ceo.png" alt="CEO">
                             </div>
                             <div class="content">
                                 <h2 class="title">Eugénie Rose Yuoyang</h2>
@@ -130,7 +130,7 @@ include 'includes/header.php';
                             <h2 class="title tg-element-title"><?php echo __('services_title'); ?></h2>
                         </div>
                         <p><?php echo $current_lang === 'fr' ? 'Nous fournissons des solutions digitales de bout en bout adaptées au contexte du marché africain et à vos besoins commerciaux spécifiques.' : 'We provide end-to-end digital solutions tailored to the African market context and your specific business needs.'; ?></p>
-                        <a href="<?php echo getPageLink('services.php'); ?>" class="btn btn-three border-btn"><?php echo __('services_btn'); ?></a>
+                        <a href="<?php echo getPageLink('services.php'); ?>" class="btn btn-three border-btn btn-has-i"><?php echo btnIcon('services'); ?><?php echo __('services_btn'); ?></a>
                     </div>
                 </div>
                 <div class="col-lg-8">
@@ -152,7 +152,7 @@ include 'includes/header.php';
                                 <div class="services-content-eight">
                                     <h2 class="title"><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? $svc['title_fr'] : $svc['title_en']; ?></a></h2>
                                     <p><?php echo $current_lang === 'fr' ? $svc['desc_fr'] : $svc['desc_en']; ?></p>
-                                    <a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="link-btn"><?php echo $current_lang === 'fr' ? 'Voir Détails' : 'See Details'; ?>
+                                    <a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="link-btn link-btn-has-i"><?php echo $current_lang === 'fr' ? 'Voir Détails' : 'See Details'; ?>
                                         <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16.5446 6.50759H1.41432C1.03607 6.50759 0.730469 6.22774 0.730469 5.88135C0.730469 5.53496 1.03607 5.25511 1.41432 5.25511H14.8927L10.7425 1.45463C10.4754 1.21001 10.4754 0.812736 10.7425 0.568112C11.0097 0.323487 11.4435 0.323487 11.7106 0.568112L17.0297 5.43907C17.2263 5.61911 17.284 5.88722 17.1772 6.12206C17.0703 6.35494 16.8203 6.50759 16.5446 6.50759Z" fill="currentcolor"/>
                                             <path d="M11.2191 11.3844C11.0439 11.3844 10.8686 11.3238 10.7361 11.2005C10.469 10.9558 10.469 10.5586 10.7361 10.3139L16.0616 5.43711C16.3288 5.19249 16.7626 5.19249 17.0297 5.43711C17.2969 5.68174 17.2969 6.07901 17.0297 6.32363L11.7042 11.2005C11.5696 11.3238 11.3943 11.3844 11.2191 11.3844Z" fill="currentcolor"/>
@@ -217,7 +217,7 @@ include 'includes/header.php';
                 </div>
                 <div class="col-lg-6 col-md-4">
                     <div class="view-all-btn text-end mb-30">
-                        <a href="<?php echo getPageLink('projects.php'); ?>" class="btn btn-three"><?php echo __('projects_btn'); ?></a>
+                        <a href="<?php echo getPageLink('projects.php'); ?>" class="btn btn-three btn-has-i"><?php echo btnIcon('projects'); ?><?php echo __('projects_btn'); ?></a>
                     </div>
                 </div>
             </div>

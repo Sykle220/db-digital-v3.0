@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="cta-btn text-end">
-                        <a href="get-quote.php" class="btn btn-three"><?php echo __('btn_quote'); ?></a>
+                        <a href="get-quote.php" class="btn btn-three btn-has-i"><?php echo btnIcon('quote'); ?><?php echo __('btn_quote'); ?></a>
                     </div>
                 </div>
             </div>

@@ -67,10 +67,13 @@
                                 <h4 class="fw-title"><?php echo __('footer_newsletter'); ?></h4>
                                 <div class="footer-newsletter">
                                     <p><?php echo __('footer_newsletter_desc'); ?></p>
-                                    <form action="#">
-                                        <input type="email" placeholder="<?php echo __('footer_email_placeholder'); ?>">
-                                        <button type="submit"><?php echo __('footer_subscribe'); ?></button>
+                                    <form id="newsletter-form" action="includes/process-newsletter.php" method="post" novalidate>
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                                        <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+                                        <input type="email" name="email" placeholder="<?php echo __('footer_email_placeholder'); ?>" required autocomplete="email">
+                                        <button type="submit"><?php echo btnIcon('subscribe'); ?><?php echo __('footer_subscribe'); ?></button>
                                     </form>
+                                    <div class="newsletter-response ajax-response" role="status" aria-live="polite"></div>
                                     <span><?php echo __('footer_no_spam'); ?></span>
                                 </div>
                             </div>

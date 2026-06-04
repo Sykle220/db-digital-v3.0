@@ -38,7 +38,7 @@ include 'includes/header.php';
                                 <li><i class="fas fa-arrow-right"></i><?php echo __('about_company_type_3'); ?></li>
                             </ul>
                         </div>
-                        <a href="<?php echo getPageLink('get-quote.php'); ?>" class="btn btn-three"><?php echo __('about_service_btn'); ?></a>
+                        <a href="<?php echo getPageLink('get-quote.php'); ?>" class="btn btn-three btn-has-i"><?php echo btnIcon('quote'); ?><?php echo __('about_service_btn'); ?></a>
                     </div>
                 </div>
             </div>

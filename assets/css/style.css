@@ -2285,6 +2285,9 @@ label {
 	flex: 0 0 auto;
 	margin-right: 15px;
 }
+.about-author-info .thumb > img {
+	border-radius: 50% !important;
+}
 .about-author-info .content .title {
 	font-size: 20px;
 	margin-bottom: 5px;

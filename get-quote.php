@@ -88,8 +88,8 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                         ? 'Votre message est pré-rempli avec les détails de votre projet. Cliquez pour envoyer.'
                         : 'Your message is pre-filled with your project details. Click to send.'; ?>
                 </p>
-                <a href="<?php echo $quote_whatsapp_url; ?>" class="btn btn-whatsapp-lg" target="_blank" id="waBtn">
-                    <i class="fab fa-whatsapp"></i>
+                <a href="<?php echo $quote_whatsapp_url; ?>" class="btn btn-whatsapp-lg btn-has-i" target="_blank" id="waBtn">
+                    <?php echo btnIcon('whatsapp'); ?>
                     <?php echo ($current_lang == 'fr') ? 'Ouvrir WhatsApp' : 'Open WhatsApp'; ?>
                 </a>
                 <p class="auto-redirect-text mt-3">
@@ -160,7 +160,9 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                         <p class="step-title"><?php echo __('quote_service_label'); ?></p>
                                         <p class="step-desc"><?php echo __('quote_select_service_desc'); ?></p>
 
-                                        <div class="service-cards" id="svcCards">
+                                        <div class="field field-services">
+                                            <div class="service-cards-wrap" id="fw-services">
+                                                <div class="service-cards" id="svcCards">
                                             <?php
                                             $services = [
                                                 ['digital-strategy', 'fa-bullseye', '#534AB7', 'rgba(83,74,183,0.1)', __('quote_svc_strategy_title'), __('quote_svc_strategy_sub')],
@@ -189,6 +191,9 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                                 <i class="fas fa-check svc-check"></i>
                                             </label>
                                             <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                            <span class="field-err"><?php echo __('quote_validation_select_service'); ?></span>
                                         </div>
 
                                         <div style="margin-top:16px">
@@ -461,7 +466,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('quoteForm');
     const I18N = {
         fileNone: <?php echo json_encode(__('quote_file_none')); ?>,
-        selectService: <?php echo json_encode(__('quote_validation_select_service')); ?>,
     };
     const steps = document.querySelectorAll('.step-item');
     const contents = document.querySelectorAll('.step-panel');
@@ -532,12 +536,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const panel = document.querySelector('.step-panel[data-step="' + step + '"]');
         if (!panel) return false;
 
-        // Special validation for Step 1 : Services must be selected
         if (step === 1) {
             const checkedServices = form.querySelectorAll('input[name="services[]"]:checked');
+            const servicesWrap = document.getElementById('fw-services');
             if (checkedServices.length === 0) {
-                alert(I18N.selectService);
-                return false;
+                valid = false;
+                if (servicesWrap) servicesWrap.classList.add('invalid');
+            } else if (servicesWrap) {
+                servicesWrap.classList.remove('invalid');
             }
         }
 
@@ -589,6 +595,10 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             card.classList.remove('sel');
             if (icon) icon.style.display = 'none';
+        }
+        const servicesWrap = document.getElementById('fw-services');
+        if (servicesWrap && form.querySelectorAll('input[name="services[]"]:checked').length > 0) {
+            servicesWrap.classList.remove('invalid');
         }
     }
 

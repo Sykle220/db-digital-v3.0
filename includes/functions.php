@@ -34,6 +34,10 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $available_langs = ['en', 'fr'];
 $default_lang = 'fr';
 
@@ -107,6 +111,25 @@ function getCategoryField($cat, $field = 'name') {
     global $current_lang;
     $suffix = $current_lang === 'fr' ? '_fr' : '_en';
     return $cat[$field . $suffix] ?? $cat[$field . '_en'] ?? '';
+}
+
+/**
+ * Icône Font Awesome cohérente pour les boutons du site.
+ */
+function btnIcon(string $type): string {
+    $icons = [
+        'quote'     => 'fas fa-file-invoice',
+        'read_more' => 'fas fa-book-open',
+        'services'  => 'fas fa-briefcase',
+        'projects'  => 'fas fa-folder-open',
+        'contact'   => 'fas fa-envelope',
+        'subscribe' => 'fas fa-paper-plane',
+        'whatsapp'  => 'fab fa-whatsapp',
+        'details'   => 'fas fa-arrow-right',
+        'send'      => 'fas fa-paper-plane',
+    ];
+    $class = $icons[$type] ?? 'fas fa-arrow-right';
+    return '<i class="' . $class . ' btn-i" aria-hidden="true"></i>';
 }
 
 /**
