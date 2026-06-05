@@ -19,7 +19,7 @@ $nav_items = [
     ['url' => 'about.php', 'label_key' => 'nav_about', 'class' => ''],
     ['url' => 'services.php', 'label_key' => 'nav_services', 'class' => ''],
     ['url' => 'projects.php', 'label_key' => 'nav_projects', 'class' => ''],
-    ['url' => 'blog.php', 'label_key' => 'nav_blog', 'class' => ''],
+    // ['url' => 'blog.php', 'label_key' => 'nav_blog', 'class' => ''],
     ['url' => 'contact.php', 'label_key' => 'nav_contact', 'class' => ''],
 ];
 
@@ -60,7 +60,7 @@ define('SMTP_PORT', env_int('SMTP_PORT', 587));
 define('SMTP_USERNAME', (string) envv('SMTP_USERNAME', ''));
 define('SMTP_PASSWORD', (string) envv('SMTP_PASSWORD', ''));
 define('SMTP_ENCRYPTION', (string) envv('SMTP_ENCRYPTION', 'tls'));
-define('SMTP_FROM_EMAIL', (string) envv('SMTP_FROM_EMAIL', 'noreply@dbdigitalagency.com'));
+define('SMTP_FROM_EMAIL', (string) envv('SMTP_FROM_EMAIL', 'sales@dbdigitalagency.com'));
 define('SMTP_FROM_NAME', (string) envv('SMTP_FROM_NAME', 'DB Digital Agency'));
 define('ADMIN_EMAIL', (string) envv('ADMIN_EMAIL', 'contact@dbdigitalagency.com'));
 

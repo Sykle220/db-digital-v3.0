@@ -260,7 +260,7 @@ include 'includes/header.php';
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-5 col-md-8">
                     <div class="testimonial-img-four">
-                        <img src="<?php echo ASSETS_URL; ?>img/images/h4_testimonial_img.png" alt="">
+                        <img src="<?php echo ASSETS_URL; ?>img/images/temoignage.png" alt="">
                         <div class="icon">
                             <img src="<?php echo ASSETS_URL; ?>img/icons/quote02.svg" alt="">
                         </div>

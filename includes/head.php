@@ -88,7 +88,7 @@ require_once __DIR__ . '/functions.php';
     <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>css/responsive.css">
     
     <!-- Custom CSS (WhatsApp + Lang Switcher) -->
-    <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>css/custom.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>css/custom.css?v=<?php echo @filemtime(__DIR__ . '/../assets/css/custom.css') ?: time(); ?>">
     
     <!-- FontAwesome Brands (pour WhatsApp icon) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

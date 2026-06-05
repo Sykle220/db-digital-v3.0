@@ -25,15 +25,15 @@ $logo_img = $is_home ? 'w_logo02.png' : 'logo.png';
         <div class="heder-top-wrap">
             <div class="container custom-container-seven">
                 <div class="row align-items-center">
-                    <div class="col-lg-7">
+                    <div class="col-12 col-md-7">
                         <div class="header-top-left">
                             <ul class="list-wrap">
-                                <li><i class="flaticon-location"></i><?php echo CONTACT_ADDRESS; ?></li>
-                                <li><i class="flaticon-mail"></i><a href="mailto:<?php echo CONTACT_EMAIL; ?>"><?php echo CONTACT_EMAIL; ?></a></li>
+                                <li class="d-none d-md-flex"><i class="flaticon-location"></i><?php echo CONTACT_ADDRESS; ?></li>
+                                <li class="d-none d-lg-flex"><i class="flaticon-mail"></i><a href="mailto:<?php echo CONTACT_EMAIL; ?>"><?php echo CONTACT_EMAIL; ?></a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-12 col-md-5">
                         <div class="header-top-right">
                             <div class="header-contact">
                                 <a href="tel:<?php echo preg_replace('/\s+/', '', CONTACT_PHONE_1); ?>">
@@ -72,20 +72,21 @@ $logo_img = $is_home ? 'w_logo02.png' : 'logo.png';
                                         <?php endforeach; ?>
                                     </ul>
                                 </div>
-                                <div class="header-action<?php echo $is_home ? ' header-action-six' : ''; ?> d-none d-md-flex">
-                                    <ul class="list-wrap">
-                                        <li class="header-search"><a href="#"><i class="flaticon-search"></i></a></li>
-                                        <li class="header-btn"><a href="get-quote.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="btn btn-two btn-has-i"><?php echo btnIcon('quote'); ?><?php echo __('btn_quote'); ?></a></li>
-                                        <!-- SWITCH LANGUE -->
-                                        <li>
-                                            <div class="lang-switcher">
-                                                <a href="<?php echo getLangUrl('', 'fr'); ?>" class="lang-fr <?php echo $current_lang === 'fr' ? 'active' : ''; ?>" title="Français">FR</a>
-                                                <a href="<?php echo getLangUrl('', 'en'); ?>" class="lang-en <?php echo $current_lang === 'en' ? 'active' : ''; ?>" title="English">EN</a>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="header-nav-right">
+                                    <div class="header-action<?php echo $is_home ? ' header-action-six' : ''; ?>">
+                                        <ul class="list-wrap">
+                                            <li class="header-search d-none d-lg-block"><a href="#"><i class="flaticon-search"></i></a></li>
+                                            <li class="header-btn<?php echo $is_home ? '' : ' d-none d-lg-block'; ?>"><a href="get-quote.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="btn btn-two btn-has-i"><?php echo btnIcon('quote'); ?><?php echo __('btn_quote'); ?></a></li>
+                                            <li class="header-lang d-none d-lg-block">
+                                                <div class="lang-switcher">
+                                                    <a href="<?php echo getLangUrl('', 'fr'); ?>" class="lang-fr <?php echo $current_lang === 'fr' ? 'active' : ''; ?>" title="Français">FR</a>
+                                                    <a href="<?php echo getLangUrl('', 'en'); ?>" class="lang-en <?php echo $current_lang === 'en' ? 'active' : ''; ?>" title="English">EN</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="mobile-nav-toggler"><i class="fas fa-bars"></i></div>
                                 </div>
-                                <div class="mobile-nav-toggler"><i class="fas fa-bars"></i></div>
                             </nav>
                         </div>
 
@@ -102,7 +103,7 @@ $logo_img = $is_home ? 'w_logo02.png' : 'logo.png';
                                     <form action="#"><input type="text" placeholder="<?php echo __('search_placeholder'); ?>"><button><i class="flaticon-search"></i></button></form>
                                 </div>
                                 <div class="menu-outer"></div>
-                                <div class="header-action header-action-six d-none d-md-block">
+                                <div class="header-action header-action-six">
                                     <ul class="list-wrap">
                                         <li class="header-btn"><a href="get-quote.php<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>" class="btn btn-two btn-has-i"><?php echo btnIcon('quote'); ?><?php echo __('btn_quote'); ?></a></li>
                                     </ul>

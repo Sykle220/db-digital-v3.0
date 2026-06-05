@@ -22,7 +22,7 @@
             ['img' => 'team_img_rose.png', 'name' => 'Eugénie Rose Yuoyang', 'role_key' => 'about_ceo'],
             ['img' => 'team_img_pascal.png', 'name' => 'Pierre Pascal Essomba', 'role_key' => 'team_role_graphic_designer'],
             ['img' => 'team_img_stephane.png', 'name' => 'Stephane Kamga', 'role_key' => 'team_role_dev'],
-            ['img' => 'team_img03.jpg', 'name' => 'Fabien Meboue', 'role_key' => 'about_dg_douala'],
+            ['img' => 'team_img_fabien.png', 'name' => 'Fabien Meboue', 'role_key' => 'about_dg_douala'],
             ['img' => 'team_img_delphine.png', 'name' => 'Delphine Mengue', 'role_key' => 'team_role_video_designer'],
             ['img' => 'team_img_roland.png', 'name' => 'Roland Nyemeck', 'role_key' => 'about_dg_baf'],
             ['img' => 'team_img_lionel.png', 'name' => 'Lionel Dounia', 'role_key' => 'team_role_marketing_director'],

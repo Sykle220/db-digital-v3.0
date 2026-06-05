@@ -13,12 +13,13 @@ if (!isset($locations) || !is_array($locations) || empty($locations)) {
             'city' => 'Douala',
             'label_en' => 'Cameroon · Douala',
             'label_fr' => 'Cameroun · Douala',
-            'address' => 'Cité des palmiers',
+            'address' => 'Akwa - Place de Fêtes',
             'phone' => CONTACT_PHONE_2,
             'email' => 'douala@dbdigitalagency.com',
             'lat' => 4.048839,
             'lng' => 9.704497,
             'zoom' => 15,
+            'image' => ASSETS_URL . 'img/images/contact_img_dla.png',
         ],
         [
             'key' => 'yaounde',
@@ -31,34 +32,41 @@ if (!isset($locations) || !is_array($locations) || empty($locations)) {
             'lat' => 3.8514329,
             'lng' => 11.5765658,
             'zoom' => 15,
+            'image' => ASSETS_URL . 'img/images/contact_img_yde.png',
         ],
         [
             'key' => 'bafoussam',
             'city' => 'Bafoussam',
             'label_en' => 'Cameroon · Bafoussam',
             'label_fr' => 'Cameroun · Bafoussam',
-            'address' => 'Kamkop (face station Tradex)',
+            'address' => 'Kamkop - face station Tradex',
             'phone' => CONTACT_PHONE_3,
             'email' => 'bafoussam@dbdigitalagency.com',
             'lat' => 5.500007,
             'lng' => 10.388760,
             'zoom' => 13,
+            'image' => ASSETS_URL . 'img/images/contact_img_baf.png',
         ],
     ];
 }
 
 $locations_show_header = $locations_show_header ?? true;
-$office_image = 'assets/img/images/contact_img.jpg';
+$office_images = [
+    'douala' => ASSETS_URL . 'img/images/contact_img_dla.png',
+    'yaounde' => ASSETS_URL . 'img/images/contact_img_yde.png',
+    'bafoussam' => ASSETS_URL . 'img/images/contact_img_baf.png',
+];
 $googleMapsKey = (string) envv('GOOGLE_MAPS_API_KEY', '');
 $useGoogleJsApi = $googleMapsKey !== '';
 
 $map_locations = [];
 foreach ($locations as $loc) {
+    $key = (string) ($loc['key'] ?? '');
     $label = $current_lang === 'fr'
         ? (string) ($loc['label_fr'] ?? '')
         : (string) ($loc['label_en'] ?? '');
     $map_locations[] = [
-        'key' => (string) ($loc['key'] ?? ''),
+        'key' => $key,
         'city' => (string) ($loc['city'] ?? ''),
         'label' => $label,
         'address' => (string) ($loc['address'] ?? ''),
@@ -67,7 +75,7 @@ foreach ($locations as $loc) {
         'lat' => (float) ($loc['lat'] ?? 0),
         'lng' => (float) ($loc['lng'] ?? 0),
         'zoom' => (int) ($loc['zoom'] ?? 14),
-        'image' => (string) ($loc['image'] ?? $office_image),
+        'image' => (string) ($loc['image'] ?? $office_images[$key] ?? ''),
         'badge' => (string) ($loc['badge'] ?? __('locations_badge')),
     ];
 }
