@@ -40,12 +40,7 @@ include 'includes/header.php';
             <div class="features-item-wrap">
                 <div class="row justify-content-center">
                     <?php 
-                    $features = [
-                        ['icon' => 'flaticon-layers', 'title_key' => 'features_growing', 'desc_en' => 'Strategy and journeys built to convert.', 'desc_fr' => 'Stratégie et parcours pensés conversion.'],
-                        ['icon' => 'flaticon-mission', 'title_key' => 'features_finance', 'desc_en' => 'Acquisition systems optimized for ROI.', 'desc_fr' => 'Acquisition optimisée pour le ROI.'],
-                        ['icon' => 'flaticon-profit', 'title_key' => 'features_tax', 'desc_en' => 'Brand and UX that build trust fast.', 'desc_fr' => 'Marque et UX qui rassurent vite.'],
-                    ];
-                    foreach ($features as $f):
+                    foreach ($homepage_features as $f):
                     ?>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="features-item-two">
@@ -74,7 +69,7 @@ include 'includes/header.php';
                         <img src="<?php echo ASSETS_URL; ?>img/images/h_about_img01.png" alt="" data-aos="fade-down-right" data-aos-delay="0">
                         <img src="<?php echo ASSETS_URL; ?>img/images/h_about_img02.png" alt="" data-aos="fade-left" data-aos-delay="400">
                         <div class="experience-wrap" data-aos="fade-up" data-aos-delay="300">
-                            <h2 class="title">15+ <span><?php echo __('homepage_exp_years'); ?></span></h2>
+                            <h2 class="title"><?php echo htmlspecialchars($company_leadership['experience_years']); ?> <span><?php echo __('homepage_exp_years'); ?></span></h2>
                             <p><?php echo __('homepage_exp_label'); ?></p>
                         </div>
                     </div>
@@ -97,14 +92,14 @@ include 'includes/header.php';
                         <p><?php echo __('homepage_about_conclusion'); ?></p>
                         <div class="about-author-info">
                             <div class="thumb">
-                                <img src="<?php echo ASSETS_URL; ?>img/images/about_ceo.png" alt="CEO">
+                                <img src="<?php echo ASSETS_URL; ?>img/images/<?php echo htmlspecialchars($company_leadership['ceo_image']); ?>" alt="CEO">
                             </div>
                             <div class="content">
-                                <h2 class="title">Eugénie Rose Yuoyang</h2>
+                                <h2 class="title"><?php echo htmlspecialchars($company_leadership['ceo_name']); ?></h2>
                                 <span><?php echo __('about_ceo'); ?></span>
                             </div>
                             <div class="signature">
-                                <img src="<?php echo ASSETS_URL; ?>img/images/signature.png" alt="Signature">
+                                <img src="<?php echo ASSETS_URL; ?>img/images/<?php echo htmlspecialchars($company_leadership['signature_image']); ?>" alt="Signature">
                             </div>
                         </div>
                     </div>
@@ -129,7 +124,7 @@ include 'includes/header.php';
                             <span class="sub-title tg-element-title span1"><?php echo __('services_subtitle'); ?></span>
                             <h2 class="title tg-element-title"><?php echo __('services_title'); ?></h2>
                         </div>
-                        <p><?php echo $current_lang === 'fr' ? 'Nous fournissons des solutions digitales de bout en bout adaptées au contexte du marché africain et à vos besoins commerciaux spécifiques.' : 'We provide end-to-end digital solutions tailored to the African market context and your specific business needs.'; ?></p>
+                        <p><?php echo __('homepage_services_lead'); ?></p>
                         <a href="<?php echo getPageLink('services.php'); ?>" class="btn btn-three border-btn btn-has-i"><?php echo btnIcon('services'); ?><?php echo __('services_btn'); ?></a>
                     </div>
                 </div>
@@ -172,13 +167,7 @@ include 'includes/header.php';
         <div class="container">
             <div class="row">
                 <?php 
-                $counters = [
-                    ['icon' => 'flaticon-folder-1', 'label_key' => 'counter_projects', 'count' => 9525],
-                    ['icon' => 'flaticon-rating', 'label_key' => 'counter_clients', 'count' => 11985],
-                    ['icon' => 'flaticon-trophy', 'label_key' => 'counter_awards', 'count' => 4722],
-                    ['icon' => 'flaticon-puzzle-piece', 'label_key' => 'counter_countries', 'count' => 115],
-                ];
-                foreach ($counters as $c):
+                foreach ($homepage_counters as $c):
                 ?>
                 <div class="col-lg-3 col-sm-6">
                     <div class="counter-item-five">
@@ -217,24 +206,17 @@ include 'includes/header.php';
             </div>
             <div class="row justify-content-center">
                 <?php 
-                $projects_home = [
-                    ['img' => 'h5_project_img01.jpg', 'title_en' => 'Illustration Design', 'title_fr' => 'Design d\'Illustration', 'category_en' => 'Creative Work', 'category_fr' => 'Travail Créatif'],
-                    ['img' => 'h5_project_img02.jpg', 'title_en' => 'Design & Development', 'title_fr' => 'Design & Développement', 'category_en' => 'Planing', 'category_fr' => 'Planification'],
-                    ['img' => 'h5_project_img03.jpg', 'title_en' => 'Marketing Consultancy', 'title_fr' => 'Conseil en Marketing', 'category_en' => 'Development', 'category_fr' => 'Développement'],
-                    ['img' => 'h5_project_img04.jpg', 'title_en' => 'Digital Marketing', 'title_fr' => 'Marketing Digital', 'category_en' => 'Skill Development', 'category_fr' => 'Développement de Compétences'],
-                    ['img' => 'h5_project_img05.jpg', 'title_en' => 'Strategic Planning', 'title_fr' => 'Planification Stratégique', 'category_en' => 'Marketing', 'category_fr' => 'Marketing'],
-                ];
-                foreach ($projects_home as $proj):
+                foreach ($homepage_projects as $proj):
                 ?>
-                <div class="col-lg-<?php echo ($proj['title_en'] === 'Illustration Design' || $proj['title_en'] === 'Design & Development') ? '6' : '4'; ?> col-md-6">
+                <div class="col-lg-<?php echo (int) $proj['col_lg']; ?> col-md-6">
                     <div class="project-item-four">
                         <div class="project-thumb-four">
-                            <img src="<?php echo ASSETS_URL; ?>img/project/<?php echo $proj['img']; ?>" alt="<?php echo $current_lang === 'fr' ? $proj['title_fr'] : $proj['title_en']; ?>">
+                            <img src="<?php echo ASSETS_URL; ?>img/project/<?php echo htmlspecialchars($proj['img']); ?>" alt="<?php echo htmlspecialchars(getProjectField($proj, 'title')); ?>">
                             <div class="project-link"><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><img src="<?php echo ASSETS_URL; ?>img/icons/plus_icon.svg" alt=""></a></div>
                         </div>
                         <div class="project-content-four">
-                            <h4 class="title"><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? $proj['title_fr'] : $proj['title_en']; ?></a></h4>
-                            <span><?php echo $current_lang === 'fr' ? $proj['category_fr'] : $proj['category_en']; ?></span>
+                            <h4 class="title"><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo htmlspecialchars(getProjectField($proj, 'title')); ?></a></h4>
+                            <span><?php echo htmlspecialchars(getProjectField($proj, 'category')); ?></span>
                         </div>
                     </div>
                 </div>

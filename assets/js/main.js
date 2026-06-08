@@ -5,7 +5,9 @@
 	=    		 Preloader			      =
 =============================================*/
 function preloader() {
-	$('#preloader').delay(0).fadeOut();
+	$('#preloader').delay(0).fadeOut(function () {
+		$('.whatsapp-float').addClass('is-visible').attr('aria-hidden', 'false');
+	});
 };
 
 $(window).on('load', function () {

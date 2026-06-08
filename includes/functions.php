@@ -57,12 +57,8 @@ function __($key) {
     return $translations[$current_lang][$key] ?? ($translations['en'][$key] ?? $key);
 }
 
-// WhatsApp message selon la langue
-$whatsapp_messages = [
-    'en' => 'Hello DB Digital Agency, I would like a tailored quote for my digital project.',
-    'fr' => 'Bonjour DB Digital Agency, je souhaite un devis personnalisé pour mon projet digital.',
-];
 if (!defined('WHATSAPP_MESSAGE')) {
+    global $whatsapp_messages;
     define('WHATSAPP_MESSAGE', $whatsapp_messages[$current_lang] ?? $whatsapp_messages['fr']);
 }
 
@@ -228,5 +224,67 @@ function getServiceLink(string $slug): string {
         $url .= '&lang=' . $current_lang;
     }
     return $url;
+}
+
+/**
+ * Retourne le texte traduit d'un élément de contenu (_en / _fr).
+ */
+function getContentField(array $item, string $field) {
+    global $current_lang;
+    $suffix = $current_lang === 'fr' ? '_fr' : '_en';
+    return $item[$field . $suffix] ?? $item[$field . '_en'] ?? '';
+}
+
+/**
+ * Retourne le texte traduit d'un projet affiché sur l'accueil.
+ */
+function getProjectField(array $project, string $field) {
+    return getContentField($project, $field);
+}
+
+/**
+ * Retourne le texte traduit d'un témoignage.
+ */
+function getTestimonialField(array $item, string $field) {
+    return getContentField($item, $field);
+}
+
+/**
+ * Prépare les données carte à partir des bureaux (config).
+ */
+function buildMapLocations(array $locations): array {
+    global $current_lang;
+    $result = [];
+    foreach ($locations as $loc) {
+        $key = (string) ($loc['key'] ?? '');
+        $image = (string) ($loc['image'] ?? '');
+        if ($image !== '' && !preg_match('#^https?://#i', $image)) {
+            $image = ASSETS_URL . 'img/images/' . ltrim($image, '/');
+        }
+        $result[] = [
+            'key' => $key,
+            'city' => (string) ($loc['city'] ?? ''),
+            'label' => $current_lang === 'fr'
+                ? (string) ($loc['label_fr'] ?? $loc['label_en'] ?? '')
+                : (string) ($loc['label_en'] ?? ''),
+            'address' => (string) ($loc['address'] ?? ''),
+            'phone' => (string) ($loc['phone'] ?? ''),
+            'email' => (string) ($loc['email'] ?? ''),
+            'lat' => (float) ($loc['lat'] ?? 0),
+            'lng' => (float) ($loc['lng'] ?? 0),
+            'zoom' => (int) ($loc['zoom'] ?? 14),
+            'image' => $image,
+            'badge' => (string) ($loc['badge'] ?? __('locations_badge')),
+        ];
+    }
+    return $result;
+}
+
+/**
+ * Logos marques pour la grille (avec doublons optionnels).
+ */
+function getBrandLogosDisplay(): array {
+    global $brand_logos, $brand_logos_extra;
+    return array_merge($brand_logos ?? [], $brand_logos_extra ?? []);
 }
 ?>

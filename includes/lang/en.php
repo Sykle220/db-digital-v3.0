@@ -28,6 +28,7 @@ return [
     'services_subtitle' => 'What We Do For You',
     'services_title' => 'A Wide Range Of Services For Your Business!',
     'services_btn' => 'See All Services',
+    'homepage_services_lead' => 'We provide end-to-end digital solutions tailored to the African market context and your specific business needs.',
     'services_page_title' => 'Our Services',
     'services_page_lead' => 'From strategy to execution: design, development and growth marketing to build a strong digital presence and measurable results.',
     'services_block_subtitle' => 'What we do',

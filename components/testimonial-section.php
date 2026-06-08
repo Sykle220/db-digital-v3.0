@@ -3,25 +3,6 @@
 // Section témoignages (carrousel image + texte synchronisés)
 // Utilisable sur index.php et autres pages
 
-$testimonials = $testimonials ?? [
-    [
-        'img' => 'temoignage_kamga.png',
-        'name' => 'Mr. Aristide KAMGA',
-        'role_fr' => 'Direction Générale, N2VTI',
-        'role_en' => 'General Direction, N2VTI',
-        'quote_fr' => 'Avant DB Digital Agency, nous avions peu d’inscriptions. En quelques semaines, leur stratégie a boosté notre visibilité et attiré des candidats qualifiés. Nous recommandons vivement.',
-        'quote_en' => 'Before working with DB Digital Agency, we had few enrollments. Within weeks, their strategy boosted our visibility and attracted qualified applicants. We highly recommend them.',
-    ],
-    [
-        'img' => 'temoignage_kamagate.png',
-        'name' => 'ALLY Kamagaté',
-        'role_fr' => 'Administration, DM Academy Côte d’Ivoire',
-        'role_en' => 'Administration, DM Academy Ivory Coast',
-        'quote_fr' => 'Nous cherchions une solution d’inscriptions prévisible. DB Digital Agency nous a apporté une stratégie efficace, générant plus de prospects qualifiés et de conversions. Un partenaire clé de notre croissance.',
-        'quote_en' => 'We were looking for a predictable enrollment solution. DB Digital Agency delivered an effective strategy that increased qualified leads and conversions. A key partner in our growth.',
-    ],
-];
-
 foreach ($testimonials as &$testimonial_item) {
     $testimonial_item['img_url'] = testimonialImageUrl($testimonial_item['img']);
 }
@@ -58,10 +39,10 @@ unset($testimonial_item);
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <p>"<?php echo $current_lang === 'fr' ? $testimonial_item['quote_fr'] : $testimonial_item['quote_en']; ?>"</p>
+                                <p>"<?php echo htmlspecialchars(getTestimonialField($testimonial_item, 'quote')); ?>"</p>
                                 <div class="testimonial-info">
                                     <h2 class="title"><?php echo htmlspecialchars($testimonial_item['name']); ?></h2>
-                                    <span><?php echo $current_lang === 'fr' ? $testimonial_item['role_fr'] : $testimonial_item['role_en']; ?></span>
+                                    <span><?php echo htmlspecialchars(getTestimonialField($testimonial_item, 'role')); ?></span>
                                 </div>
                             </div>
                         </div>

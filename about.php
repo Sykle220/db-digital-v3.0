@@ -64,24 +64,14 @@ include 'includes/header.php';
                         </div>
                         <p><?php echo __('about_expertise_desc'); ?></p>
                         <div class="progress-wrap">
+                            <?php foreach ($about_skills as $skill): ?>
                             <div class="progress-item">
-                                <h6 class="title"><?php echo __('about_skill_strategy'); ?></h6>
-                                <div class="progress" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar wow slideInLeft" data-wow-delay=".1s" style="width: 90%"><span>90%</span></div>
+                                <h6 class="title"><?php echo __($skill['label_key']); ?></h6>
+                                <div class="progress" role="progressbar" aria-valuenow="<?php echo (int) $skill['percent']; ?>" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar wow slideInLeft" data-wow-delay="<?php echo htmlspecialchars($skill['delay']); ?>" style="width: <?php echo (int) $skill['percent']; ?>%"><span><?php echo (int) $skill['percent']; ?>%</span></div>
                                 </div>
                             </div>
-                            <div class="progress-item">
-                                <h6 class="title"><?php echo __('about_skill_brand'); ?></h6>
-                                <div class="progress" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar wow slideInLeft" data-wow-delay=".2s" style="width: 76%"><span>76%</span></div>
-                                </div>
-                            </div>
-                            <div class="progress-item">
-                                <h6 class="title"><?php echo __('about_skill_growth'); ?></h6>
-                                <div class="progress" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar wow slideInLeft" data-wow-delay=".3s" style="width: 85%"><span>85%</span></div>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>

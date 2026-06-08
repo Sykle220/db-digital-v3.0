@@ -164,29 +164,23 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                             <div class="service-cards-wrap" id="fw-services">
                                                 <div class="service-cards" id="svcCards">
                                             <?php
-                                            $services = [
-                                                ['digital-strategy', 'fa-bullseye', '#534AB7', 'rgba(83,74,183,0.1)', __('quote_svc_strategy_title'), __('quote_svc_strategy_sub')],
-                                                ['web-development', 'fa-code', '#185FA5', 'rgba(56,135,221,0.1)', __('quote_svc_web_title'), __('quote_svc_web_sub')],
-                                                ['branding', 'fa-palette', '#534AB7', 'rgba(83,74,183,0.1)', __('quote_svc_brand_title'), __('quote_svc_brand_sub')],
-                                                ['marketing', 'fa-chart-line', '#1D9E75', 'rgba(29,158,117,0.1)', __('quote_svc_marketing_title'), __('quote_svc_marketing_sub')],
-                                            ];
                                             $selected_services = [];
                                             if (!empty($quote_form_data['services'])) {
                                                 $selected_services = is_array($quote_form_data['services']) ? $quote_form_data['services'] : [$quote_form_data['services']];
                                             }
-                                            foreach ($services as $svc):
-                                                $val = $svc[0];
-                                                $isChecked = in_array($val, $selected_services) ? 'checked' : '';
-                                                $sel_class = in_array($val, $selected_services) ? 'sel' : '';
+                                            foreach ($agency_services as $svc):
+                                                $val = $svc['slug'];
+                                                $isChecked = in_array($val, $selected_services, true) ? 'checked' : '';
+                                                $sel_class = in_array($val, $selected_services, true) ? 'sel' : '';
                                             ?>
                                             <label class="svc-card <?php echo $sel_class; ?>">
-                                                <input type="checkbox" name="services[]" value="<?php echo $val; ?>" <?php echo $isChecked; ?> class="svc-checkbox">
-                                                <div class="svc-icon" style="background:<?php echo $svc[3]; ?>;color:<?php echo $svc[2]; ?>">
-                                                    <i class="fas <?php echo $svc[1]; ?>"></i>
+                                                <input type="checkbox" name="services[]" value="<?php echo htmlspecialchars($val); ?>" <?php echo $isChecked; ?> class="svc-checkbox">
+                                                <div class="svc-icon" style="background:<?php echo htmlspecialchars($svc['quote_bg']); ?>;color:<?php echo htmlspecialchars($svc['quote_color']); ?>">
+                                                    <i class="fas <?php echo htmlspecialchars($svc['quote_icon']); ?>"></i>
                                                 </div>
                                                 <div class="svc-body">
-                                                    <p><?php echo $svc[4]; ?></p>
-                                                    <span><?php echo $svc[5]; ?></span>
+                                                    <p><?php echo __($svc['quote_title_key']); ?></p>
+                                                    <span><?php echo __($svc['quote_sub_key']); ?></span>
                                                 </div>
                                                 <i class="fas fa-check svc-check"></i>
                                             </label>

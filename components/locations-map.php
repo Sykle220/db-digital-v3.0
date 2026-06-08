@@ -7,78 +7,13 @@
  */
 
 if (!isset($locations) || !is_array($locations) || empty($locations)) {
-    $locations = [
-        [
-            'key' => 'douala',
-            'city' => 'Douala',
-            'label_en' => 'Cameroon · Douala',
-            'label_fr' => 'Cameroun · Douala',
-            'address' => 'Akwa - Place de Fêtes',
-            'phone' => CONTACT_PHONE_2,
-            'email' => 'douala@dbdigitalagency.com',
-            'lat' => 4.048839,
-            'lng' => 9.704497,
-            'zoom' => 15,
-            'image' => ASSETS_URL . 'img/images/contact_img_dla.png',
-        ],
-        [
-            'key' => 'yaounde',
-            'city' => 'Yaoundé',
-            'label_en' => 'Cameroon · Yaoundé',
-            'label_fr' => 'Cameroun · Yaoundé',
-            'address' => 'Nkoabang - Entrée Carrière',
-            'phone' => CONTACT_PHONE_1,
-            'email' => 'yaounde@dbdigitalagency.com',
-            'lat' => 3.8514329,
-            'lng' => 11.5765658,
-            'zoom' => 15,
-            'image' => ASSETS_URL . 'img/images/contact_img_yde.png',
-        ],
-        [
-            'key' => 'bafoussam',
-            'city' => 'Bafoussam',
-            'label_en' => 'Cameroon · Bafoussam',
-            'label_fr' => 'Cameroun · Bafoussam',
-            'address' => 'Kamkop - face station Tradex',
-            'phone' => CONTACT_PHONE_3,
-            'email' => 'bafoussam@dbdigitalagency.com',
-            'lat' => 5.500007,
-            'lng' => 10.388760,
-            'zoom' => 13,
-            'image' => ASSETS_URL . 'img/images/contact_img_baf.png',
-        ],
-    ];
+    $locations = $office_locations;
 }
 
 $locations_show_header = $locations_show_header ?? true;
-$office_images = [
-    'douala' => ASSETS_URL . 'img/images/contact_img_dla.png',
-    'yaounde' => ASSETS_URL . 'img/images/contact_img_yde.png',
-    'bafoussam' => ASSETS_URL . 'img/images/contact_img_baf.png',
-];
 $googleMapsKey = (string) envv('GOOGLE_MAPS_API_KEY', '');
 $useGoogleJsApi = $googleMapsKey !== '';
-
-$map_locations = [];
-foreach ($locations as $loc) {
-    $key = (string) ($loc['key'] ?? '');
-    $label = $current_lang === 'fr'
-        ? (string) ($loc['label_fr'] ?? '')
-        : (string) ($loc['label_en'] ?? '');
-    $map_locations[] = [
-        'key' => $key,
-        'city' => (string) ($loc['city'] ?? ''),
-        'label' => $label,
-        'address' => (string) ($loc['address'] ?? ''),
-        'phone' => (string) ($loc['phone'] ?? ''),
-        'email' => (string) ($loc['email'] ?? ''),
-        'lat' => (float) ($loc['lat'] ?? 0),
-        'lng' => (float) ($loc['lng'] ?? 0),
-        'zoom' => (int) ($loc['zoom'] ?? 14),
-        'image' => (string) ($loc['image'] ?? $office_images[$key] ?? ''),
-        'badge' => (string) ($loc['badge'] ?? __('locations_badge')),
-    ];
-}
+$map_locations = buildMapLocations($locations);
 
 $map_i18n = [
     'badge' => __('locations_badge'),

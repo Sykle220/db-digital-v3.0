@@ -28,6 +28,7 @@ return [
     'services_subtitle' => 'Ce Que Nous Faisons Pour Vous',
     'services_title' => 'Une Large Gamme de Services Pour Votre Entreprise !',
     'services_btn' => 'Voir Tous les Services',
+    'homepage_services_lead' => 'Nous fournissons des solutions digitales de bout en bout adaptées au contexte du marché africain et à vos besoins commerciaux spécifiques.',
     'services_page_title' => 'Nos Services',
     'services_page_lead' => 'De la stratégie à l’exécution : design, développement et marketing d’acquisition pour une présence digitale forte et des résultats mesurables.',
     'services_block_subtitle' => 'Ce que nous faisons',

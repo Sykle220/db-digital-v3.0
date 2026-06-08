@@ -28,24 +28,17 @@ include 'includes/header.php';
             </div>
             <div class="row justify-content-center">
                 <?php 
-                $projects_home = [
-                    ['img' => 'h5_project_img01.jpg', 'title_en' => 'Illustration Design', 'title_fr' => 'Design d\'Illustration', 'category_en' => 'Creative Work', 'category_fr' => 'Travail Créatif'],
-                    ['img' => 'h5_project_img02.jpg', 'title_en' => 'Design & Development', 'title_fr' => 'Design & Développement', 'category_en' => 'Planing', 'category_fr' => 'Planification'],
-                    ['img' => 'h5_project_img03.jpg', 'title_en' => 'Marketing Consultancy', 'title_fr' => 'Conseil en Marketing', 'category_en' => 'Development', 'category_fr' => 'Développement'],
-                    ['img' => 'h5_project_img04.jpg', 'title_en' => 'Digital Marketing', 'title_fr' => 'Marketing Digital', 'category_en' => 'Skill Development', 'category_fr' => 'Développement de Compétences'],
-                    ['img' => 'h5_project_img05.jpg', 'title_en' => 'Strategic Planning', 'title_fr' => 'Planification Stratégique', 'category_en' => 'Marketing', 'category_fr' => 'Marketing'],
-                ];
-                foreach ($projects_home as $proj):
+                foreach ($homepage_projects as $proj):
                 ?>
-                <div class="col-lg-<?php echo ($proj['title_en'] === 'Illustration Design' || $proj['title_en'] === 'Design & Development') ? '6' : '4'; ?> col-md-6">
+                <div class="col-lg-<?php echo (int) $proj['col_lg']; ?> col-md-6">
                     <div class="project-item-four">
                         <div class="project-thumb-four">
-                            <img src="<?php echo ASSETS_URL; ?>img/project/<?php echo $proj['img']; ?>" alt="<?php echo $current_lang === 'fr' ? $proj['title_fr'] : $proj['title_en']; ?>">
+                            <img src="<?php echo ASSETS_URL; ?>img/project/<?php echo htmlspecialchars($proj['img']); ?>" alt="<?php echo htmlspecialchars(getProjectField($proj, 'title')); ?>">
                             <div class="project-link"><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><img src="<?php echo ASSETS_URL; ?>img/icons/plus_icon.svg" alt=""></a></div>
                         </div>
                         <div class="project-content-four">
-                            <h4 class="title"><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo $current_lang === 'fr' ? $proj['title_fr'] : $proj['title_en']; ?></a></h4>
-                            <span><?php echo $current_lang === 'fr' ? $proj['category_fr'] : $proj['category_en']; ?></span>
+                            <h4 class="title"><a href="#<?php echo $current_lang !== 'en' ? '?lang=' . $current_lang : ''; ?>"><?php echo htmlspecialchars(getProjectField($proj, 'title')); ?></a></h4>
+                            <span><?php echo htmlspecialchars(getProjectField($proj, 'category')); ?></span>
                         </div>
                     </div>
                 </div>

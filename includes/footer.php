@@ -108,7 +108,8 @@
        class="whatsapp-float" 
        target="_blank" 
        rel="noopener noreferrer"
-       title="<?php echo __('whatsapp_text'); ?>">
+       title="<?php echo __('whatsapp_text'); ?>"
+       aria-hidden="true">
         <i class="fab fa-whatsapp"></i>
         <!-- <span class="whatsapp-text"><?php echo __('whatsapp_text'); ?></span> -->
     </a>

@@ -109,6 +109,11 @@ $agency_services = [
         'challenge_text_fr' => 'Présence digitale fragmentée, positionnement flou et campagnes qui ne convertissent pas : nous traitons ces blocages de front.',
         'benefits_en' => ['Full digital audit & competitive scan', 'Prioritized 90-day action roadmap', 'Growth KPIs & reporting framework'],
         'benefits_fr' => ['Audit digital complet & veille concurrentielle', 'Feuille de route priorisée sur 90 jours', 'KPIs de croissance & cadre de reporting'],
+        'quote_icon' => 'fa-bullseye',
+        'quote_color' => '#534AB7',
+        'quote_bg' => 'rgba(83,74,183,0.1)',
+        'quote_title_key' => 'quote_svc_strategy_title',
+        'quote_sub_key' => 'quote_svc_strategy_sub',
         'faq' => [
             [
                 'q_en' => 'How long does a digital strategy engagement take?',
@@ -158,6 +163,11 @@ $agency_services = [
         'challenge_text_fr' => 'Temps de chargement lents, mauvaise expérience mobile et sites difficiles à mettre à jour : nous les éliminons avec un code moderne et maintenable.',
         'benefits_en' => ['Optimized performance & Core Web Vitals', 'Security hardening & ongoing maintenance', 'Technical SEO & analytics integration'],
         'benefits_fr' => ['Performance optimisée & Core Web Vitals', 'Sécurisation & maintenance continue', 'SEO technique & intégration analytique'],
+        'quote_icon' => 'fa-code',
+        'quote_color' => '#185FA5',
+        'quote_bg' => 'rgba(56,135,221,0.1)',
+        'quote_title_key' => 'quote_svc_web_title',
+        'quote_sub_key' => 'quote_svc_web_sub',
         'faq' => [
             [
                 'q_en' => 'What technologies do you use?',
@@ -207,6 +217,11 @@ $agency_services = [
         'challenge_text_fr' => 'Des visuels incohérents, une identité dépassée et des interfaces qui perdent l’utilisateur vous coûtent crédibilité et ventes chaque jour.',
         'benefits_en' => ['Cohesive visual identity & brand guidelines', 'UX research & tested interface design', 'Design assets ready for web & print'],
         'benefits_fr' => ['Identité visuelle cohérente & charte graphique', 'Recherche UX & interfaces testées', 'Assets prêts pour le web et l’impression'],
+        'quote_icon' => 'fa-palette',
+        'quote_color' => '#534AB7',
+        'quote_bg' => 'rgba(83,74,183,0.1)',
+        'quote_title_key' => 'quote_svc_brand_title',
+        'quote_sub_key' => 'quote_svc_brand_sub',
         'faq' => [
             [
                 'q_en' => 'What is included in a branding package?',
@@ -256,6 +271,11 @@ $agency_services = [
         'challenge_text_fr' => 'Budget pub sans suivi, faible visibilité SEO locale et contenus qui ne se positionnent pas : nous corrigeons ces freins avec des campagnes structurées et orientées tests.',
         'benefits_en' => ['Tracked campaigns with clear ROI reporting', 'Local SEO for Cameroon & West Africa', 'Content that ranks and converts'],
         'benefits_fr' => ['Campagnes trackées avec reporting ROI clair', 'SEO local Cameroun & Afrique de l’Ouest', 'Contenus qui se positionnent et convertissent'],
+        'quote_icon' => 'fa-chart-line',
+        'quote_color' => '#1D9E75',
+        'quote_bg' => 'rgba(29,158,117,0.1)',
+        'quote_title_key' => 'quote_svc_marketing_title',
+        'quote_sub_key' => 'quote_svc_marketing_sub',
         'faq' => [
             [
                 'q_en' => 'Which advertising platforms do you manage?',
@@ -387,96 +407,208 @@ $blog_tags = [
 ];
 
 // ============================================
-// DONNÉES PROJETS
+// DONNÉES PROJETS (accueil + page projets)
 // ============================================
-$projects = [
+$homepage_projects = [
     [
         'id' => 1,
-        'title_en' => 'Digital Banking Platform',
-        'title_fr' => 'Plateforme Bancaire Digitale',
-        'category_en' => 'Fintech',
-        'category_fr' => 'Fintech',
-        'image' => 'h4_services_img01.jpg',
-        'icon' => 'flaticon-healthcare',
-        'description_en' => 'Complete website and onboarding experience for a local bank.',
-        'description_fr' => 'Refonte du site et de l\'expérience d\'intégration pour une banque locale.',
+        'img' => 'h5_project_img01.jpg',
+        'title_en' => 'Illustration Design',
+        'title_fr' => 'Design d\'Illustration',
+        'category_en' => 'Creative Work',
+        'category_fr' => 'Travail Créatif',
+        'col_lg' => 6,
     ],
     [
         'id' => 2,
-        'title_en' => 'E-Commerce Marketplace',
-        'title_fr' => 'Marketplace E-Commerce',
-        'category_en' => 'Marketplace',
-        'category_fr' => 'Marketplace',
-        'image' => 'h4_services_img02.jpg',
-        'icon' => 'flaticon-protection',
-        'description_en' => 'A shopping platform connecting local artisans with online buyers.',
-        'description_fr' => 'Une plateforme commerciale reliant les artisans locaux aux acheteurs en ligne.',
+        'img' => 'h5_project_img02.jpg',
+        'title_en' => 'Design & Development',
+        'title_fr' => 'Design & Développement',
+        'category_en' => 'Planing',
+        'category_fr' => 'Planification',
+        'col_lg' => 6,
     ],
     [
         'id' => 3,
-        'title_en' => 'Logistics Management Tool',
-        'title_fr' => 'Outil de Gestion Logistique',
-        'category_en' => 'Logistics',
-        'category_fr' => 'Logistique',
-        'image' => 'h4_services_img03.jpg',
-        'icon' => 'flaticon-ship',
-        'description_en' => 'Digital workflow for tracking orders and deliveries in agribusiness.',
-        'description_fr' => 'Workflow digital pour le suivi des commandes et livraisons en agrobusiness.',
+        'img' => 'h5_project_img03.jpg',
+        'title_en' => 'Marketing Consultancy',
+        'title_fr' => 'Conseil en Marketing',
+        'category_en' => 'Development',
+        'category_fr' => 'Développement',
+        'col_lg' => 4,
     ],
     [
         'id' => 4,
-        'title_en' => 'Real Estate Portal',
-        'title_fr' => 'Portail Immobilier',
-        'category_en' => 'PropTech',
-        'category_fr' => 'PropTech',
-        'image' => 'h4_services_img04.jpg',
-        'icon' => 'flaticon-house',
-        'description_en' => 'A listing platform for property agencies and property seekers.',
-        'description_fr' => 'Plateforme d\'annonces pour agences immobilières et acheteurs potentiels.',
+        'img' => 'h5_project_img04.jpg',
+        'title_en' => 'Digital Marketing',
+        'title_fr' => 'Marketing Digital',
+        'category_en' => 'Skill Development',
+        'category_fr' => 'Développement de Compétences',
+        'col_lg' => 4,
     ],
     [
         'id' => 5,
-        'title_en' => 'Tourism Booking Engine',
-        'title_fr' => 'Moteur de Réservation Touristique',
-        'category_en' => 'Travel',
-        'category_fr' => 'Voyage',
-        'image' => 'h4_services_img05.jpg',
-        'icon' => 'flaticon-travel-insurance',
-        'description_en' => 'Online reservation system tailored to Cameroon tourism operators.',
-        'description_fr' => 'Système de réservation en ligne conçu pour les acteurs du tourisme camerounais.',
-    ],
-    [
-        'id' => 6,
-        'title_en' => 'Corporate Dashboard',
-        'title_fr' => 'Tableau de Bord Corporate',
-        'category_en' => 'Analytics',
-        'category_fr' => 'Analytique',
-        'image' => 'h4_services_img06.jpg',
-        'icon' => 'flaticon-briefcase-1',
-        'description_en' => 'A business intelligence dashboard for leaders to track growth metrics.',
-        'description_fr' => 'Tableau de bord d\'intelligence pour suivre les indicateurs de croissance.',
-    ],
-    [
-        'id' => 7,
-        'title_en' => 'Brand Identity Refresh',
-        'title_fr' => 'Refonte d\'Identité de Marque',
-        'category_en' => 'Branding',
-        'category_fr' => 'Branding',
-        'image' => 'h4_services_img07.jpg',
-        'icon' => 'flaticon-family-insurance',
-        'description_en' => 'A full branding and digital presence update for a service business.',
-        'description_fr' => 'Refonte complète de l\'identité et de la présence digitale d\'une entreprise de services.',
-    ],
-    [
-        'id' => 8,
-        'title_en' => 'Sales Funnel Optimization',
-        'title_fr' => 'Optimisation de Tunnel de Vente',
+        'img' => 'h5_project_img05.jpg',
+        'title_en' => 'Strategic Planning',
+        'title_fr' => 'Planification Stratégique',
         'category_en' => 'Marketing',
         'category_fr' => 'Marketing',
-        'image' => 'h4_services_img08.jpg',
-        'icon' => 'flaticon-protection',
-        'description_en' => 'Improving lead conversion with clearer customer journeys and campaigns.',
-        'description_fr' => 'Amélioration de la conversion grâce à des parcours clients et campagnes clarifiés.',
+        'col_lg' => 4,
     ],
+];
+
+// ============================================
+// ACCUEIL — features, compteurs, direction
+// ============================================
+$homepage_features = [
+    ['icon' => 'flaticon-layers', 'title_key' => 'features_growing', 'desc_en' => 'Strategy and journeys built to convert.', 'desc_fr' => 'Stratégie et parcours pensés conversion.'],
+    ['icon' => 'flaticon-mission', 'title_key' => 'features_finance', 'desc_en' => 'Acquisition systems optimized for ROI.', 'desc_fr' => 'Acquisition optimisée pour le ROI.'],
+    ['icon' => 'flaticon-profit', 'title_key' => 'features_tax', 'desc_en' => 'Brand and UX that build trust fast.', 'desc_fr' => 'Marque et UX qui rassurent vite.'],
+];
+
+$homepage_counters = [
+    ['icon' => 'flaticon-folder-1', 'label_key' => 'counter_projects', 'count' => 9525],
+    ['icon' => 'flaticon-rating', 'label_key' => 'counter_clients', 'count' => 11985],
+    ['icon' => 'flaticon-trophy', 'label_key' => 'counter_awards', 'count' => 4722],
+    ['icon' => 'flaticon-puzzle-piece', 'label_key' => 'counter_countries', 'count' => 115],
+];
+
+$company_leadership = [
+    'ceo_name' => 'Eugénie Rose Yuoyang',
+    'ceo_image' => 'about_ceo.png',
+    'signature_image' => 'signature.png',
+    'experience_years' => '15+',
+];
+
+$about_skills = [
+    ['label_key' => 'about_skill_strategy', 'percent' => 90, 'delay' => '.1s'],
+    ['label_key' => 'about_skill_brand', 'percent' => 76, 'delay' => '.2s'],
+    ['label_key' => 'about_skill_growth', 'percent' => 85, 'delay' => '.3s'],
+];
+
+// ============================================
+// ÉQUIPE
+// ============================================
+$team_members = [
+    ['img' => 'team_img_rose.png', 'name' => 'Eugénie Rose Yuoyang', 'role_key' => 'about_ceo'],
+    ['img' => 'team_img_pascal.png', 'name' => 'Pierre Pascal Essomba', 'role_key' => 'team_role_graphic_designer'],
+    ['img' => 'team_img_stephane.png', 'name' => 'Stephane Kamga', 'role_key' => 'team_role_dev'],
+    ['img' => 'team_img_fabien.png', 'name' => 'Fabien Meboue', 'role_key' => 'about_dg_douala'],
+    ['img' => 'team_img_delphine.png', 'name' => 'Delphine Mengue', 'role_key' => 'team_role_video_designer'],
+    ['img' => 'team_img_lionel.png', 'name' => 'Lionel Dounia', 'role_key' => 'team_role_marketing_director'],
+    ['img' => 'team_img_van.png', 'name' => 'Van Besong', 'role_key' => 'team_role_community_manager'],
+    ['img' => 'team_img_ulrich.png', 'name' => 'Ulrich Fotso', 'role_key' => 'team_role_dev'],
+];
+
+// ============================================
+// TÉMOIGNAGES
+// ============================================
+$testimonials = [
+    [
+        'img' => 'temoignage_kamga.png',
+        'name' => 'Mr. Aristide KAMGA',
+        'role_fr' => 'Direction Générale, N2VTI',
+        'role_en' => 'General Direction, N2VTI',
+        'quote_fr' => 'Avant DB Digital Agency, nous avions peu d’inscriptions. En quelques semaines, leur stratégie a boosté notre visibilité et attiré des candidats qualifiés. Nous recommandons vivement.',
+        'quote_en' => 'Before working with DB Digital Agency, we had few enrollments. Within weeks, their strategy boosted our visibility and attracted qualified applicants. We highly recommend them.',
+    ],
+    [
+        'img' => 'temoignage_kamagate.png',
+        'name' => 'ALLY Kamagaté',
+        'role_fr' => 'Administration, DM Academy Côte d’Ivoire',
+        'role_en' => 'Administration, DM Academy Ivory Coast',
+        'quote_fr' => 'Nous cherchions une solution d’inscriptions prévisible. DB Digital Agency nous a apporté une stratégie efficace, générant plus de prospects qualifiés et de conversions. Un partenaire clé de notre croissance.',
+        'quote_en' => 'We were looking for a predictable enrollment solution. DB Digital Agency delivered an effective strategy that increased qualified leads and conversions. A key partner in our growth.',
+    ],
+];
+
+// ============================================
+// MARQUES PARTENAIRES
+// ============================================
+$brand_logos = [
+    'brand_img01.png',
+    'brand_img02.png',
+    'brand_img05.png',
+    'brand_img03.png',
+    'brand_img04.png',
+];
+$brand_logos_extra = ['brand_img03.png'];
+
+// ============================================
+// BUREAUX / CARTE
+// ============================================
+$office_locations = [
+    [
+        'key' => 'douala',
+        'city' => 'Douala',
+        'label_en' => 'Cameroon · Douala',
+        'label_fr' => 'Cameroun · Douala',
+        'address' => 'Cité des palmiers',
+        'phone' => CONTACT_PHONE_2,
+        'email' => 'douala@dbdigitalagency.com',
+        'lat' => 4.048839,
+        'lng' => 9.704497,
+        'zoom' => 15,
+        'image' => 'contact_img_dla.png',
+    ],
+    [
+        'key' => 'yaounde',
+        'city' => 'Yaoundé',
+        'label_en' => 'Cameroon · Yaoundé',
+        'label_fr' => 'Cameroun · Yaoundé',
+        'address' => 'Nkoabang - Entrée Carrière',
+        'phone' => CONTACT_PHONE_1,
+        'email' => 'yaounde@dbdigitalagency.com',
+        'lat' => 3.8514329,
+        'lng' => 11.5765658,
+        'zoom' => 15,
+        'image' => 'contact_img_yde.png',
+    ],
+    [
+        'key' => 'bafoussam',
+        'city' => 'Bafoussam',
+        'label_en' => 'Cameroon · Bafoussam',
+        'label_fr' => 'Cameroun · Bafoussam',
+        'address' => 'Kamkop (face station Tradex)',
+        'phone' => CONTACT_PHONE_3,
+        'email' => 'bafoussam@dbdigitalagency.com',
+        'lat' => 5.500007,
+        'lng' => 10.388760,
+        'zoom' => 13,
+        'image' => 'contact_img_baf.png',
+    ],
+];
+
+// ============================================
+// CONTACT — départements
+// ============================================
+$contact_departments = [
+    ['icon' => 'fa-shopping-bag', 'title_key' => 'contact_sales_title', 'email' => 'sales@dbdigitalagency.com', 'desc_key' => 'contact_sales_desc'],
+    ['icon' => 'fa-envelope-open-text', 'title_key' => 'contact_general_title', 'email' => 'contact@dbdigitalagency.com', 'desc_key' => 'contact_general_desc'],
+    ['icon' => 'fa-headset', 'title_key' => 'contact_support_title', 'email' => 'support@dbdigitalagency.com', 'desc_key' => 'contact_support_desc'],
+];
+
+// ============================================
+// WHATSAPP — messages préremplis
+// ============================================
+$whatsapp_messages = [
+    'en' => 'Hello DB Digital Agency, I would like a tailored quote for my digital project.',
+    'fr' => 'Bonjour DB Digital Agency, je souhaite un devis personnalisé pour mon projet digital.',
+];
+
+// ============================================
+// SITEMAP
+// ============================================
+$sitemap_pages = [
+    ['loc' => '/index.php', 'changefreq' => 'weekly', 'priority' => '1.0'],
+    ['loc' => '/services.php', 'changefreq' => 'monthly', 'priority' => '0.9'],
+    ['loc' => '/services-details.php?service=digital-strategy', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/services-details.php?service=web-development', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/services-details.php?service=branding', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/services-details.php?service=marketing', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/projects.php', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/about.php', 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/blog.php', 'changefreq' => 'weekly', 'priority' => '0.7'],
+    ['loc' => '/get-quote.php', 'changefreq' => 'monthly', 'priority' => '0.6'],
 ];
 ?>

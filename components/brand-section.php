@@ -1,9 +1,6 @@
 <?php
 // components/brand-section.php
-$brands = ['brand_img01.png', 'brand_img02.png', 'brand_img05.png', 'brand_img03.png', 'brand_img04.png'];
-$is_home = basename($_SERVER['PHP_SELF'] ?? '') === 'index.php';
-$is_services = basename($_SERVER['PHP_SELF'] ?? '') === 'services.php';
-$is_projects = basename($_SERVER['PHP_SELF'] ?? '') === 'projects.php';
+$all_brands = getBrandLogosDisplay();
 ?>
 <section class="brand-area-six brand-area-pro pt-80 pb-80" aria-label="<?php echo __('brand_title'); ?>">
     <div class="container">
@@ -20,11 +17,7 @@ $is_projects = basename($_SERVER['PHP_SELF'] ?? '') === 'projects.php';
 
         <div class="">
             <div class="row brand-active brand-grid justify-content-center">
-                <?php 
-                // Duplique brand_img03 pour atteindre 6 éléments comme dans l'original
-                $all_brands = array_merge($brands, ['brand_img03.png']);
-                foreach ($all_brands as $brand): 
-                ?>
+                <?php foreach ($all_brands as $brand): ?>
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                     <div class="brand-item brand-item-pro">
                         <img
