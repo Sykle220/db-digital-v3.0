@@ -1042,4 +1042,119 @@ function aosAnimation() {
 }
 
 
+/*=============================================
+	=     Services detail — aside fixe       =
+	=  Contenu dans les limites article/grid =
+=============================================*/
+(function initSvcDetailAsideFixed() {
+	var area = document.querySelector('.svc-detail-area');
+	var grid = document.getElementById('svcDetailGrid');
+	var column = document.querySelector('.svc-detail-aside');
+	var panel = document.getElementById('svcDetailAside');
+	if (!area || !grid || !column || !panel) return;
+
+	var mq = window.matchMedia('(min-width: 992px)');
+	var ticking = false;
+
+	function readCssVar(name, fallback) {
+		var val = getComputedStyle(area).getPropertyValue(name).trim();
+		var parsed = parseFloat(val);
+		return Number.isFinite(parsed) ? parsed : fallback;
+	}
+
+	function resetPanel() {
+		panel.style.position = '';
+		panel.style.top = '';
+		panel.style.left = '';
+		panel.style.width = '';
+		panel.style.maxHeight = '';
+		panel.style.visibility = '';
+		panel.classList.remove('is-scrollable');
+	}
+
+	function layout() {
+		if (!mq.matches) {
+			resetPanel();
+			return;
+		}
+
+		var bounds = grid.getBoundingClientRect();
+		var colRect = column.getBoundingClientRect();
+		var topOffset = readCssVar('--svc-fixed-top', 100);
+		var edgeGap = readCssVar('--svc-fixed-bottom-gap', 16);
+
+		var boundTop = bounds.top + edgeGap;
+		var boundBottom = bounds.bottom - edgeGap;
+		var boundsHeight = boundBottom - boundTop;
+
+		panel.style.maxHeight = '';
+		panel.classList.remove('is-scrollable');
+		var naturalH = panel.offsetHeight;
+
+		if (boundsHeight <= 0) {
+			panel.style.position = 'fixed';
+			panel.style.visibility = 'hidden';
+			panel.style.width = colRect.width + 'px';
+			panel.style.left = colRect.left + 'px';
+			return;
+		}
+
+		panel.style.visibility = '';
+
+		var top = Math.max(topOffset, boundTop);
+		var maxTop = boundBottom - naturalH;
+
+		if (maxTop < boundTop) {
+			top = boundTop;
+		} else if (top > maxTop) {
+			top = maxTop;
+		}
+
+		var available = boundBottom - top;
+		if (naturalH > available) {
+			panel.style.maxHeight = Math.max(80, available) + 'px';
+			panel.classList.add('is-scrollable');
+		}
+
+		panel.style.position = 'fixed';
+		panel.style.width = colRect.width + 'px';
+		panel.style.left = colRect.left + 'px';
+		panel.style.top = top + 'px';
+	}
+
+	function scheduleLayout() {
+		if (ticking) return;
+		ticking = true;
+		requestAnimationFrame(function () {
+			layout();
+			ticking = false;
+		});
+	}
+
+	if (typeof mq.addEventListener === 'function') {
+		mq.addEventListener('change', scheduleLayout);
+	} else if (typeof mq.addListener === 'function') {
+		mq.addListener(scheduleLayout);
+	}
+
+	window.addEventListener('resize', scheduleLayout);
+	window.addEventListener('scroll', scheduleLayout, { passive: true });
+	window.addEventListener('load', scheduleLayout);
+
+	if (typeof ResizeObserver !== 'undefined') {
+		var ro = new ResizeObserver(scheduleLayout);
+		ro.observe(grid);
+		ro.observe(panel);
+	}
+
+	var accordion = grid.querySelector('.svc-detail-accordion');
+	if (accordion) {
+		accordion.addEventListener('shown.bs.collapse', scheduleLayout);
+		accordion.addEventListener('hidden.bs.collapse', scheduleLayout);
+	}
+
+	scheduleLayout();
+})();
+
+
 })(jQuery);

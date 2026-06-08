@@ -14,6 +14,10 @@ if ($base === '') {
 $pages = [
     ['loc' => '/index.php', 'changefreq' => 'weekly', 'priority' => '1.0'],
     ['loc' => '/services.php', 'changefreq' => 'monthly', 'priority' => '0.9'],
+    ['loc' => '/services-details.php?service=digital-strategy', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/services-details.php?service=web-development', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/services-details.php?service=branding', 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/services-details.php?service=marketing', 'changefreq' => 'monthly', 'priority' => '0.8'],
     ['loc' => '/projects.php', 'changefreq' => 'monthly', 'priority' => '0.8'],
     ['loc' => '/about.php', 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/blog.php', 'changefreq' => 'weekly', 'priority' => '0.7'],

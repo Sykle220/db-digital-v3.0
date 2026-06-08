@@ -195,4 +195,38 @@ function testimonialImageUrl(string $filename): string {
     }
     return ASSETS_URL . 'img/images/temoignage.png';
 }
+
+/**
+ * Retourne le texte traduit d'un service (champs suffixés _en / _fr).
+ */
+function getServiceField(array $service, string $field) {
+    global $current_lang;
+    $suffix = $current_lang === 'fr' ? '_fr' : '_en';
+    return $service[$field . $suffix] ?? $service[$field . '_en'] ?? '';
+}
+
+/**
+ * Retourne un service par son slug ou null.
+ */
+function getServiceBySlug(string $slug): ?array {
+    global $agency_services;
+    foreach ($agency_services as $service) {
+        if (($service['slug'] ?? '') === $slug) {
+            return $service;
+        }
+    }
+    return null;
+}
+
+/**
+ * Lien vers la page détail d'un service.
+ */
+function getServiceLink(string $slug): string {
+    global $current_lang;
+    $url = 'services-details.php?service=' . rawurlencode($slug);
+    if ($current_lang !== 'en') {
+        $url .= '&lang=' . $current_lang;
+    }
+    return $url;
+}
 ?>
