@@ -131,6 +131,8 @@ return [
     'quote_message_label' => 'Project Details',
     'quote_brief_label' => 'Upload Brief',
     'quote_file_hint' => 'Attach any relevant project documents here.',
+    'quote_file_max_label' => 'Max. %s MB',
+    'quote_validation_file_size' => 'File too large (max. %s MB).',
     'quote_fullname_label' => 'Full Name',
     'quote_company_label' => 'Company',
     'quote_email_label' => 'Email Address',

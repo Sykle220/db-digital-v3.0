@@ -131,6 +131,8 @@ return [
     'quote_message_label' => 'Détails du Projet',
     'quote_brief_label' => 'Télécharger le Brief',
     'quote_file_hint' => 'Joignez ici tous les documents de projet pertinents.',
+    'quote_file_max_label' => 'Max. %s Mo',
+    'quote_validation_file_size' => 'Fichier trop volumineux (max. %s Mo).',
     'quote_fullname_label' => 'Nom Complet',
     'quote_company_label' => 'Entreprise',
     'quote_email_label' => 'Adresse Email',

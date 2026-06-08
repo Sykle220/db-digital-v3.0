@@ -255,64 +255,7 @@ include 'includes/header.php';
     <!-- team-area-end -->
 
     <!-- testimonial-area -->
-    <section class="testimonial-area-four testimonial-bg-four" data-background="<?php echo ASSETS_URL; ?>img/bg/h4_testimonial_bg.jpg">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-lg-5 col-md-8">
-                    <div class="testimonial-img-four">
-                        <img src="<?php echo ASSETS_URL; ?>img/images/temoignage.png" alt="">
-                        <div class="icon">
-                            <img src="<?php echo ASSETS_URL; ?>img/icons/quote02.svg" alt="">
-                        </div>
-                        <img src="<?php echo ASSETS_URL; ?>img/images/h4_testimonial_img_shape.png" alt="" class="shape">
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="testimonial-item-wrap-four">
-                        <div class="testimonial-active-four">
-                            <div class="testimonial-item-four">
-                                <div class="testimonial-content-four">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <p>"<?php echo $current_lang === 'fr' ? 'Service exceptionnel et équipe très professionnelle. Ils ont transformé notre présence digitale et augmenté nos revenus de 40%.' : 'Exceptional service and very professional team. They transformed our digital presence and increased our revenue by 40%.'; ?>"</p>
-                                    <div class="testimonial-info">
-                                        <h2 class="title">Mr. Aristide Kamga</h2>
-                                        <span>CEO, New Vision Vocational</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="testimonial-item-four">
-                                <div class="testimonial-content-four">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <p>"<?php echo $current_lang === 'fr' ? 'DB Digital Agency a dépassé toutes nos attentes. Leur expertise en stratégie fiscale nous a fait économiser des milliers de dollars.' : 'DB Digital Agency exceeded all our expectations. Their tax strategy expertise saved us thousands of dollars.'; ?>"</p>
-                                    <div class="testimonial-info">
-                                        <h2 class="title">Sorelle Manga</h2>
-                                        <span><?php echo $current_lang === 'fr' ? 'Directrice, TechStart Cameroun' : 'Director, TechStart Cameroon'; ?></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-nav-four"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-shape-wrap-four">
-            <img src="<?php echo ASSETS_URL; ?>img/images/h4_testimonial_shape01.png" alt="" data-aos="fade-up-right" data-aos-delay="200">
-            <img src="<?php echo ASSETS_URL; ?>img/images/h4_testimonial_shape02.png" alt="" data-aos="fade-down-left" data-aos-delay="200">
-        </div>
-    </section>
+    <?php include 'components/testimonial-section.php'; ?>
     <!-- testimonial-area-end -->
 
     <!-- brand-area -->

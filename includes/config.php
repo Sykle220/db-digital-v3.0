@@ -33,12 +33,12 @@ define('CONTACT_EMAIL', (string) envv('CONTACT_EMAIL', 'contact@dbdigitalagency.
 // WhatsApp (numéro sans espaces pour l'URL)
 define('WHATSAPP_NUMBER', (string) envv('WHATSAPP_NUMBER', '237691323249'));
 
-// Réseaux sociaux
+// Réseaux sociaux (clé = réseau affiché, utilisée par renderSocialIcons())
 $social_links = [
-    'facebook'  => '#',
-    'twitter'   => '#',
-    'instagram' => '#',
-    'linkedin'  => '#',
+    'facebook' => 'https://www.facebook.com/share/18a3vkULiE',
+    'tiktok'   => 'https://www.tiktok.com/@db.digital.agency5',
+    'youtube'  => 'https://www.youtube.com/@DBdigitalagency',
+    'linkedin' => 'https://www.linkedin.com/company/db-digitalagency-com',
 ];
 
 // La gestion de langue (session + $current_lang) est centralisée dans includes/functions.php
@@ -63,6 +63,10 @@ define('SMTP_ENCRYPTION', (string) envv('SMTP_ENCRYPTION', 'tls'));
 define('SMTP_FROM_EMAIL', (string) envv('SMTP_FROM_EMAIL', 'sales@dbdigitalagency.com'));
 define('SMTP_FROM_NAME', (string) envv('SMTP_FROM_NAME', 'DB Digital Agency'));
 define('ADMIN_EMAIL', (string) envv('ADMIN_EMAIL', 'contact@dbdigitalagency.com'));
+
+// Upload brief (formulaire devis)
+define('QUOTE_BRIEF_MAX_MB', env_int('QUOTE_BRIEF_MAX_MB', 2));
+define('QUOTE_BRIEF_MAX_BYTES', QUOTE_BRIEF_MAX_MB * 1024 * 1024);
 
 // ============================================
 // TRADUCTIONS ET CONTENU

@@ -279,13 +279,16 @@ unset($_SESSION['quote_errors'], $_SESSION['quote_success'], $_SESSION['quote_em
                                             </div>
                                             <div class="field field-full">
                                                 <label><?php echo __('quote_brief_label'); ?> <span class="opt">(<?php echo __('quote_optional'); ?>)</span></label>
-                                                <label class="file-btn-wrap" for="f-brief">
-                                                    <input type="file" name="project_brief" id="f-brief" accept=".pdf,.doc,.docx">
-                                                    <i class="fas fa-cloud-upload-alt"></i>
-                                                    <span class="file-name" id="brief-name"><?php echo __('quote_file_none'); ?></span>
-                                                    <span class="file-badge">PDF / DOCX</span>
-                                                </label>
-                                                <span style="font-size:11px;color:var(--qw-sub)"><i class="fas fa-info-circle"></i> <?php echo __('quote_file_hint'); ?></span>
+                                                <div class="file-field-wrap" id="fw-brief">
+                                                    <label class="file-btn-wrap" for="f-brief">
+                                                        <input type="file" name="project_brief" id="f-brief" accept=".pdf,.doc,.docx">
+                                                        <i class="fas fa-cloud-upload-alt"></i>
+                                                        <span class="file-name" id="brief-name"><?php echo __('quote_file_none'); ?></span>
+                                                        <span class="file-badge">PDF / DOCX · <?php echo sprintf(__('quote_file_max_label'), QUOTE_BRIEF_MAX_MB); ?></span>
+                                                    </label>
+                                                </div>
+                                                <span class="field-err field-err-file"><?php echo sprintf(__('quote_validation_file_size'), QUOTE_BRIEF_MAX_MB); ?></span>
+                                                <span class="file-hint"><i class="fas fa-info-circle"></i> <?php echo __('quote_file_hint'); ?></span>
                                             </div>
                                         </div>
 
@@ -466,7 +469,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('quoteForm');
     const I18N = {
         fileNone: <?php echo json_encode(__('quote_file_none')); ?>,
+        fileTooLarge: <?php echo json_encode(sprintf(__('quote_validation_file_size'), QUOTE_BRIEF_MAX_MB)); ?>,
     };
+    const BRIEF_MAX_BYTES = <?php echo (int) QUOTE_BRIEF_MAX_BYTES; ?>;
     const steps = document.querySelectorAll('.step-item');
     const contents = document.querySelectorAll('.step-panel');
     const nextBtns = document.querySelectorAll('.next-step');
@@ -547,6 +552,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        if (step === 2) {
+            const briefInput = document.getElementById('f-brief');
+            const briefWrap = document.getElementById('fw-brief');
+            if (briefInput && briefInput.files.length && briefInput.files[0].size > BRIEF_MAX_BYTES) {
+                valid = false;
+                if (briefWrap) briefWrap.classList.add('invalid');
+            } else if (briefWrap) {
+                briefWrap.classList.remove('invalid');
+            }
+        }
+
         const requiredFields = panel.querySelectorAll('[required]');
         requiredFields.forEach(field => {
             const wrap = field.closest('.field-wrap');
@@ -622,11 +638,29 @@ document.addEventListener('DOMContentLoaded', function() {
         if (checkIcon) checkIcon.style.display = checkbox.checked ? 'block' : 'none';
     });
 
-    // File input label update
-    document.getElementById('f-brief').addEventListener('change', function() {
-        const name = this.files[0] ? this.files[0].name : I18N.fileNone;
-        document.getElementById('brief-name').textContent = name;
-    });
+    // File input label update + taille max
+    const briefInput = document.getElementById('f-brief');
+    const briefWrap = document.getElementById('fw-brief');
+    const briefName = document.getElementById('brief-name');
+
+    if (briefInput) {
+        briefInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) {
+                if (briefName) briefName.textContent = I18N.fileNone;
+                if (briefWrap) briefWrap.classList.remove('invalid');
+                return;
+            }
+            if (file.size > BRIEF_MAX_BYTES) {
+                this.value = '';
+                if (briefName) briefName.textContent = I18N.fileNone;
+                if (briefWrap) briefWrap.classList.add('invalid');
+                return;
+            }
+            if (briefWrap) briefWrap.classList.remove('invalid');
+            if (briefName) briefName.textContent = file.name;
+        });
+    }
 
     // Locations -> Map switcher
     const mapFrame = document.getElementById('locationsMap');

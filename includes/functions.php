@@ -75,22 +75,51 @@ function isActive($page_filename) {
 }
 
 /**
- * Génère les icônes sociales
+ * Normalise une URL de réseau social (ajoute https:// si absent).
+ */
+function socialUrl(string $url): string {
+    $url = trim($url);
+    if ($url === '') {
+        return '#';
+    }
+    if (!preg_match('#^https?://#i', $url)) {
+        $url = 'https://' . ltrim($url, '/');
+    }
+    return $url;
+}
+
+/**
+ * Génère les icônes sociales depuis $social_links (config.php).
  */
 function renderSocialIcons($class = '') {
     global $social_links;
-    $html = '<ul class="list-wrap ' . $class . '">';
+    $labels = [
+        'facebook'  => 'Facebook',
+        'tiktok'    => 'TikTok',
+        'youtube'   => 'YouTube',
+        'linkedin'  => 'LinkedIn',
+        'instagram' => 'Instagram',
+        'twitter'   => 'X',
+        'pinterest' => 'Pinterest',
+    ];
+    $html = '<ul class="list-wrap ' . htmlspecialchars(trim($class), ENT_QUOTES, 'UTF-8') . '">';
     foreach ($social_links as $network => $url) {
-        $icon = match($network) {
+        $icon = match ($network) {
             'facebook'  => 'fa-facebook-f',
-            'twitter'   => 'fa-twitter',
-            'instagram' => 'fa-instagram',
-            'linkedin'  => 'fa-linkedin-in',
+            'tiktok'    => 'fa-tiktok',
             'youtube'   => 'fa-youtube',
+            'linkedin'  => 'fa-linkedin-in',
+            'instagram' => 'fa-instagram',
+            'twitter', 'x' => 'fa-x-twitter',
             'pinterest' => 'fa-pinterest-p',
-            default     => 'fa-globe'
+            default     => 'fa-globe',
         };
-        $html .= '<li><a href="' . $url . '"><i class="fab ' . $icon . '"></i></a></li>';
+        $href = socialUrl((string) $url);
+        $label = $labels[$network] ?? ucfirst((string) $network);
+        $html .= '<li><a href="' . htmlspecialchars($href, ENT_QUOTES, 'UTF-8') . '"'
+            . ' target="_blank" rel="noopener noreferrer"'
+            . ' aria-label="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '">'
+            . '<i class="fab ' . $icon . '" aria-hidden="true"></i></a></li>';
     }
     return $html . '</ul>';
 }
@@ -154,5 +183,16 @@ function getLangUrl($page = '', $lang = null) {
     $query['lang'] = $targetLang;
 
     return $page . '?' . http_build_query($query);
+}
+
+/**
+ * URL d'image témoignage avec repli sur temoignage.png
+ */
+function testimonialImageUrl(string $filename): string {
+    $path = __DIR__ . '/../assets/img/images/' . $filename;
+    if (is_file($path)) {
+        return ASSETS_URL . 'img/images/' . $filename;
+    }
+    return ASSETS_URL . 'img/images/temoignage.png';
 }
 ?>

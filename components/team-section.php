@@ -24,7 +24,7 @@
             ['img' => 'team_img_stephane.png', 'name' => 'Stephane Kamga', 'role_key' => 'team_role_dev'],
             ['img' => 'team_img_fabien.png', 'name' => 'Fabien Meboue', 'role_key' => 'about_dg_douala'],
             ['img' => 'team_img_delphine.png', 'name' => 'Delphine Mengue', 'role_key' => 'team_role_video_designer'],
-            ['img' => 'team_img_roland.png', 'name' => 'Roland Nyemeck', 'role_key' => 'about_dg_baf'],
+            // ['img' => 'team_img_roland.png', 'name' => 'Roland Nyemeck', 'role_key' => 'about_dg_baf'],
             ['img' => 'team_img_lionel.png', 'name' => 'Lionel Dounia', 'role_key' => 'team_role_marketing_director'],
             ['img' => 'team_img_van.png', 'name' => 'Van Besong', 'role_key' => 'team_role_community_manager'],
             ['img' => 'team_img_ulrich.png', 'name' => 'Ulrich Fotso', 'role_key' => 'team_role_dev'],

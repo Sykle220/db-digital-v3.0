@@ -21,7 +21,7 @@
     <script src="<?php echo ASSETS_URL; ?>js/ajax-form.js"></script>
     <script src="<?php echo ASSETS_URL; ?>js/aos.js"></script>
     <script src="<?php echo ASSETS_URL; ?>js/wow.min.js"></script>
-    <script src="<?php echo ASSETS_URL; ?>js/main.js"></script>
+    <script src="<?php echo ASSETS_URL; ?>js/main.js?v=<?php echo @filemtime(__DIR__ . '/../assets/js/main.js') ?: time(); ?>"></script>
     <script>
         // Circle text animation
         const text = document.querySelector('.circle');

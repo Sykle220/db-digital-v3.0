@@ -452,6 +452,26 @@
     margin-top: 8px;
 }
 
+.file-field-wrap.invalid .file-btn-wrap {
+    border-color: var(--qw-accent, #0055FF);
+    background: rgba(0, 85, 255, 0.04);
+}
+
+.file-field-wrap.invalid + .field-err-file {
+    display: block;
+}
+
+.quote-wizard-wrap .file-hint {
+    display: block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--qw-sub, #6b7280);
+}
+
+.quote-wizard-wrap .file-hint i {
+    margin-right: 4px;
+}
+
 /* ============================================
    UI/UX: Tronquage des textes de cartes (2 lignes)
    ============================================ */
@@ -648,21 +668,25 @@
     right: 0;
     bottom: 0;
     z-index: 20;
-    padding: 0 20px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 clamp(10px, 2.5vw, 20px) clamp(10px, 2vw, 16px);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    align-items: stretch;
+    gap: 8px;
     pointer-events: none;
 }
 
 .locations-map-chips {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 999px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 6px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(0, 20, 60, 0.08);
     box-shadow: 0 12px 36px rgba(0, 20, 60, 0.14);
@@ -672,19 +696,22 @@
 }
 
 .locations-map-chip {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    padding: 10px 8px;
     border: none;
-    border-radius: 999px;
+    border-radius: 10px;
     background: transparent;
     color: rgba(28, 67, 128, 0.88);
     font-size: 14px;
     font-weight: 700;
     font-family: var(--tg-heading-font-family, inherit);
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .locations-map-chip:hover {
@@ -695,11 +722,17 @@
 .locations-map-chip.is-active {
     background: linear-gradient(135deg, var(--tg-primary-color) 0%, #003bb8 100%);
     color: #fff;
-    box-shadow: 0 8px 22px rgba(0, 85, 255, 0.35);
-    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 85, 255, 0.3);
+}
+
+.locations-map-chip-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .locations-map-chip-dot {
+    flex-shrink: 0;
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -714,22 +747,34 @@
 
 .locations-map-hint {
     margin: 0;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.75);
+    width: 100%;
+    max-width: 100%;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.82);
     font-size: 12px;
     font-weight: 600;
     color: rgba(28, 67, 128, 0.72);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 6px;
+    line-height: 1.4;
+    text-align: center;
     pointer-events: none;
     backdrop-filter: blur(8px);
+    box-sizing: border-box;
 }
 
 .locations-map-hint i {
+    flex-shrink: 0;
+    margin-top: 2px;
     color: var(--tg-primary-color);
     font-size: 13px;
+}
+
+.locations-map-hint-text {
+    min-width: 0;
 }
 
 /* Masquer l’overlay carte quand le menu mobile est ouvert */
@@ -1049,41 +1094,25 @@
     }
 
     .locations-map-chips {
-        border-radius: 16px;
-        width: 100%;
-        max-width: 100%;
-        margin: 0;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        overflow-x: auto;
-        overscroll-behavior-x: contain;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 8px;
-        padding: 8px 10px;
-    }
-
-    .locations-map-chips::-webkit-scrollbar {
-        display: none;
+        gap: 5px;
+        padding: 5px;
     }
 
     .locations-map-chip {
-        flex: 0 0 auto;
-        justify-content: center;
-        padding: 9px 14px;
-        font-size: 13px;
+        padding: 8px 4px;
+        font-size: 12px;
+        gap: 5px;
+        border-radius: 8px;
     }
 
     .locations-map-overlay {
-        padding: 0 12px 10px;
-        gap: 8px;
+        padding: 0 10px 10px;
+        gap: 6px;
     }
 
     .locations-map-hint {
-        max-width: 100%;
-        text-align: center;
-        justify-content: center;
-        line-height: 1.35;
+        font-size: 11px;
+        padding: 5px 10px;
     }
 
     .map-leaflet-popup .leaflet-popup-content {
@@ -1113,13 +1142,8 @@
         padding: 0 10px 8px;
     }
 
-    .locations-map-embed .locations-map-chips {
-        margin: 0 auto;
-    }
-
     .locations-map-embed .locations-map-hint {
-        margin-top: 6px;
-        padding: 5px 12px;
+        padding: 5px 10px;
     }
 
     /* Popup plus basse : évite le rognage en haut sur mobile */
@@ -1138,13 +1162,32 @@
 }
 
 @media (max-width: 575px) {
+    .locations-map-chips {
+        gap: 4px;
+        padding: 4px;
+        border-radius: 10px;
+    }
+
+    .locations-map-chip {
+        padding: 7px 2px;
+        font-size: 11px;
+        gap: 0;
+        border-radius: 8px;
+    }
+
+    .locations-map-chip-dot {
+        display: none;
+    }
+
     .locations-map-chip-label {
-        font-size: 12px;
+        font-size: 11px;
+        white-space: nowrap;
     }
 
     .locations-map-hint {
-        font-size: 11px;
-        text-align: center;
+        font-size: 10px;
+        padding: 4px 8px;
+        border-radius: 8px;
     }
 
     .map-leaflet-popup .leaflet-popup-content {
@@ -1406,15 +1449,22 @@
 }
 
 .locations-map-embed .locations-map-overlay {
-    padding: 0 12px 10px;
+    padding: 0 10px 10px;
+    align-items: stretch;
 }
 
 .locations-map-embed .locations-map-chips {
-    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+}
+
+.locations-map-embed .locations-map-chip {
+    padding: 8px 4px;
+    font-size: 12px;
 }
 
 .locations-map-embed .locations-map-hint {
-    margin-top: 8px;
+    font-size: 11px;
 }
 
 /* ============================================
@@ -1813,4 +1863,34 @@
     .locations-map-embed .locations-map-frame {
         min-height: 320px;
     }
+}
+
+/* ============================================
+   Témoignages accueil — carrousel images sync
+   ============================================ */
+
+.testimonial-img-active-four {
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-img-active-four .slick-list,
+.testimonial-img-active-four .slick-track {
+    display: block;
+}
+
+.testimonial-img-slide-four {
+    line-height: 0;
+}
+
+.testimonial-img-slide-four img {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.testimonial-img-four .testimonial-img-active-four + .icon {
+    z-index: 2;
 }

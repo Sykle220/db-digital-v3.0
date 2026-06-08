@@ -87,7 +87,9 @@ if (!empty($_FILES['project_brief']['name'])) {
     $allowed = ['pdf', 'doc', 'docx'];
     $ext = strtolower(pathinfo($_FILES['project_brief']['name'], PATHINFO_EXTENSION));
     if (!in_array($ext, $allowed)) $errors[] = ($current_lang == 'fr' ? 'Seuls PDF/DOCX' : 'Only PDF/DOCX');
-    if ($_FILES['project_brief']['size'] > 2 * 1024 * 1024) $errors[] = ($current_lang == 'fr' ? 'Fichier max 2Mo' : 'File max 2MB');
+    if ($_FILES['project_brief']['size'] > QUOTE_BRIEF_MAX_BYTES) {
+        $errors[] = sprintf(__('quote_validation_file_size'), QUOTE_BRIEF_MAX_MB);
+    }
     if (!empty($_FILES['project_brief']['tmp_name']) && is_uploaded_file($_FILES['project_brief']['tmp_name'])) {
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mime = $finfo->file($_FILES['project_brief']['tmp_name']);

@@ -508,49 +508,70 @@ $('.testimonial-active-three').slick({
 /*=============================================
 	=    		testimonial Active		      =
 =============================================*/
-$('.testimonial-active-four').slick({
-	dots: false,
-	infinite: true,
-	speed: 1000,
-	autoplay: true,
-	arrows: true,
-	prevArrow: '<button type="button" class="slick-prev"><i class="flaticon-right-arrow"></i></button>',
-	nextArrow: '<button type="button" class="slick-next"><i class="flaticon-right-arrow"></i></button>',
-	appendArrows: ".testimonial-nav-four",
-	slidesToShow: 1,
-	slidesToScroll: 1,
-	responsive: [
-		{
-			breakpoint: 1200,
-			settings: {
-				slidesToShow: 1,
-				slidesToScroll: 1,
-				infinite: true,
-			}
-		},
-		{
-			breakpoint: 992,
-			settings: {
-				slidesToShow: 1,
-				slidesToScroll: 1
-			}
-		},
-		{
-			breakpoint: 767,
-			settings: {
-				slidesToShow: 1,
-				slidesToScroll: 1,
-			}
-		},
-		{
-			breakpoint: 575,
-			settings: {
-				slidesToShow: 1,
-				slidesToScroll: 1,
-			}
-		},
-	]
-});
+if ($('.testimonial-img-active-four').length && $('.testimonial-active-four').length) {
+	var $testimonialImgFour = $('.testimonial-img-active-four');
+	var $testimonialTextFour = $('.testimonial-active-four');
+
+	$testimonialTextFour.slick({
+		dots: false,
+		infinite: true,
+		speed: 1000,
+		autoplay: true,
+		autoplaySpeed: 5000,
+		fade: true,
+		arrows: true,
+		prevArrow: '<button type="button" class="slick-prev"><i class="flaticon-right-arrow"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="flaticon-right-arrow"></i></button>',
+		appendArrows: ".testimonial-nav-four",
+		asNavFor: $testimonialImgFour,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					infinite: true,
+				}
+			},
+			{
+				breakpoint: 992,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 767,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+				}
+			},
+			{
+				breakpoint: 575,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+				}
+			},
+		]
+	});
+
+	$testimonialImgFour.slick({
+		dots: false,
+		infinite: true,
+		speed: 1000,
+		autoplay: true,
+		autoplaySpeed: 5000,
+		fade: true,
+		arrows: false,
+		asNavFor: $testimonialTextFour,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	});
+}
 
 
 
