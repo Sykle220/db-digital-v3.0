@@ -46,6 +46,7 @@ class SettingsSeeder extends Seeder
             ['setting_key' => 'tracking_enabled', 'setting_value' => '1', 'setting_group' => 'integrations'],
             ['setting_key' => 'cookie_banner_enabled', 'setting_value' => '1', 'setting_group' => 'integrations'],
             ['setting_key' => 'recaptcha_enabled', 'setting_value' => '0', 'setting_group' => 'integrations'],
+            ['setting_key' => 'recaptcha_secret_key', 'setting_value' => '', 'setting_group' => 'integrations'],
             ['setting_key' => 'form_rate_limit_max', 'setting_value' => '8', 'setting_group' => 'integrations'],
             ['setting_key' => 'form_rate_limit_minutes', 'setting_value' => '15', 'setting_group' => 'integrations'],
             ['setting_key' => 'defer_scripts', 'setting_value' => '1', 'setting_group' => 'integrations'],

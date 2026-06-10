@@ -27,7 +27,7 @@ class RecaptchaService
 
     public function secretKey(): string
     {
-        return trim((string) env('RECAPTCHA_SECRET_KEY', $this->settings->get('recaptcha_secret_key', '')));
+        return trim($this->settings->get('recaptcha_secret_key', (string) env('RECAPTCHA_SECRET_KEY', '')));
     }
 
     public function verify(?string $token, ?string $remoteIp = null): bool

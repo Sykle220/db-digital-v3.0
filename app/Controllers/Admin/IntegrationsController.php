@@ -14,7 +14,7 @@ class IntegrationsController extends BaseAdminController
         'cookie_banner_enabled', 'cookie_policy_text_fr', 'cookie_policy_text_en',
         'privacy_page_slug_fr', 'privacy_page_slug_en',
         'legal_page_slug_fr', 'legal_page_slug_en',
-        'recaptcha_enabled', 'recaptcha_site_key',
+        'recaptcha_enabled', 'recaptcha_site_key', 'recaptcha_secret_key',
         'tinymce_api_key',
         'form_rate_limit_max', 'form_rate_limit_minutes',
         'cdn_assets_url', 'defer_scripts', 'lazy_images', 'preload_fonts', 'assets_minified',
@@ -48,10 +48,14 @@ class IntegrationsController extends BaseAdminController
             }
         }
 
+        $settings = $this->loadSettings($this->keys, $defaults);
+
         return $this->render('admin/integrations/index', [
-            'settings'  => $this->loadSettings($this->keys, $defaults),
-            'action'    => site_url('admin/integrations'),
-            'buildInfo' => $buildInfo,
+            'settings'                 => $settings,
+            'recaptchaSecretConfigured'=> trim($settings['recaptcha_secret_key'] ?? '') !== ''
+                || trim((string) env('RECAPTCHA_SECRET_KEY', '')) !== '',
+            'action'                   => site_url('admin/integrations'),
+            'buildInfo'                => $buildInfo,
         ]);
     }
 
@@ -66,6 +70,8 @@ class IntegrationsController extends BaseAdminController
             'defer_scripts', 'lazy_images', 'preload_fonts', 'assets_minified',
         ];
 
+        $existingSecret = service('siteSettings')->get('recaptcha_secret_key', '');
+
         $data = [];
         foreach ($this->keys as $key) {
             if (in_array($key, $booleans, true)) {
@@ -73,6 +79,10 @@ class IntegrationsController extends BaseAdminController
             } else {
                 $data[$key] = trim((string) ($this->request->getPost($key) ?? ''));
             }
+        }
+
+        if ($data['recaptcha_secret_key'] === '' && $existingSecret !== '') {
+            $data['recaptcha_secret_key'] = $existingSecret;
         }
 
         $this->saveSettings($data, 'integrations');

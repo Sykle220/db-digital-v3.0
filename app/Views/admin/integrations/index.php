@@ -41,8 +41,36 @@
                 <label class="form-check-label" for="recaptcha_enabled">reCAPTCHA v3 sur les formulaires</label>
             </div>
             <div class="row g-3 mb-4">
-                <div class="col-md-6"><label class="form-label">reCAPTCHA Site Key</label><input type="text" name="recaptcha_site_key" class="form-control" value="<?= esc($settings['recaptcha_site_key'] ?? '') ?>"></div>
-                <div class="col-md-6"><label class="form-label text-muted">Secret Key</label><input type="text" class="form-control" value="RECAPTCHA_SECRET_KEY dans .env" disabled></div>
+                <div class="col-md-6">
+                    <label class="form-label" for="recaptcha_site_key">reCAPTCHA Site Key</label>
+                    <input
+                        type="text"
+                        name="recaptcha_site_key"
+                        id="recaptcha_site_key"
+                        class="form-control font-monospace"
+                        value="<?= esc($settings['recaptcha_site_key'] ?? '') ?>"
+                        autocomplete="off"
+                    >
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="recaptcha_secret_key">reCAPTCHA Secret Key</label>
+                    <input
+                        type="password"
+                        name="recaptcha_secret_key"
+                        id="recaptcha_secret_key"
+                        class="form-control font-monospace"
+                        value=""
+                        placeholder="<?= ! empty($recaptchaSecretConfigured) ? 'Clé enregistrée — laissez vide pour conserver' : '6Lc…' ?>"
+                        autocomplete="new-password"
+                    >
+                    <p class="form-text mb-0">
+                        Clé secrète du même couple reCAPTCHA v3 que la Site Key.
+                        <?php if (! empty($recaptchaSecretConfigured)): ?>
+                        <span class="text-success"><i class="bi bi-check-circle"></i> Une clé est configurée.</span>
+                        <?php endif; ?>
+                        Repli possible via <code>RECAPTCHA_SECRET_KEY</code> dans <code>.env</code>.
+                    </p>
+                </div>
                 <div class="col-md-4"><label class="form-label">Rate limit (soumissions)</label><input type="number" name="form_rate_limit_max" class="form-control" min="1" value="<?= esc($settings['form_rate_limit_max'] ?? '8') ?>"></div>
                 <div class="col-md-4"><label class="form-label">Fenêtre (minutes)</label><input type="number" name="form_rate_limit_minutes" class="form-control" min="1" value="<?= esc($settings['form_rate_limit_minutes'] ?? '15') ?>"></div>
             </div>

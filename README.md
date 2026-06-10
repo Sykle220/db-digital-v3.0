@@ -12,7 +12,7 @@ Ce document couvre l'installation locale et le **déploiement en production**.
 2. [Structure du projet](#structure-du-projet)
 3. [Installation locale](#installation-locale)
 4. [Déploiement en production](#déploiement-en-production)
-5. [Configuration `.env`](#configuration-env)
+5. [Configuration `.env](#configuration-env)`
 6. [Base de données](#base-de-données)
 7. [Assets et performance](#assets-et-performance)
 8. [URLs et zones applicatives](#urls-et-zones-applicatives)
@@ -25,13 +25,15 @@ Ce document couvre l'installation locale et le **déploiement en production**.
 
 ## Prérequis
 
-| Composant | Version |
-|-----------|---------|
-| PHP | **8.2+** (extensions : `intl`, `mbstring`, `json`, `mysqlnd`, `xml`, `curl`, `fileinfo`, `openssl`) |
-| MySQL / MariaDB | 5.7+ / 10.3+ |
-| Composer | 2.x |
-| Serveur web | Apache 2.4 (recommandé) ou Nginx |
-| Node.js | 18+ (uniquement pour minifier les assets en production) |
+
+| Composant       | Version                                                                                             |
+| --------------- | --------------------------------------------------------------------------------------------------- |
+| PHP             | **8.2+** (extensions : `intl`, `mbstring`, `json`, `mysqlnd`, `xml`, `curl`, `fileinfo`, `openssl`) |
+| MySQL / MariaDB | 5.7+ / 10.3+                                                                                        |
+| Composer        | 2.x                                                                                                 |
+| Serveur web     | Apache 2.4 (recommandé) ou Nginx                                                                    |
+| Node.js         | 18+ (uniquement pour minifier les assets en production)                                             |
+
 
 ---
 
@@ -174,7 +176,7 @@ composer install --no-dev --optimize-autoloader
 
 **Option B — SFTP**
 
-Transférez les fichiers **sauf** `.env`, `vendor/`, `writable/cache/*`, `writable/logs/*`, `node_modules/`, puis exécutez `composer install --no-dev` sur le serveur.
+Transférez les fichiers **sauf** `.env`, `vendor/`, `writable/cache/`*, `writable/logs/*`, `node_modules/`, puis exécutez `composer install --no-dev` sur le serveur.
 
 ### Étape 3 — Fichier `.env` de production
 
@@ -271,7 +273,7 @@ Deux configurations sont supportées. **La racine du projet** est recommandée :
 </VirtualHost>
 ```
 
-Le fichier [`scripts/apache-dbdigitalagency.conf`](scripts/apache-dbdigitalagency.conf) reprend cette logique. Installation rapide :
+Le fichier `[scripts/apache-dbdigitalagency.conf](scripts/apache-dbdigitalagency.conf)` reprend cette logique. Installation rapide :
 
 ```bash
 sudo ./scripts/setup-apache.sh
@@ -355,7 +357,7 @@ SMTP_FROM_NAME = 'DB Digital Agency'
 ADMIN_EMAIL = contact@dbdigitalagency.com
 ```
 
-Les clés **reCAPTCHA**, **Google Maps** et le **tracking** se configurent dans **Admin → Intégrations** (clé secrète reCAPTCHA dans `.env` : `RECAPTCHA_SECRET_KEY`).
+Les clés **reCAPTCHA** (site + secret), **Google Maps** et le **tracking** se configurent dans **Admin → Intégrations** (repli optionnel via `.env`).
 
 ### Étape 9 — Compte admin initial
 
@@ -371,35 +373,39 @@ Identifiants définis par `ADMIN_SEED_EMAIL` et `ADMIN_SEED_PASSWORD` dans `.env
 
 ## Configuration `.env`
 
-| Variable | Description |
-|----------|-------------|
-| `CI_ENVIRONMENT` | `development` ou `production` |
-| `app.baseURL` | URL de base CI4, avec slash final |
-| `app.indexPage` | Laisser vide (`''`) pour URLs propres |
-| `encryption.key` | Généré par `php spark key:generate` |
-| `database.default.*` | Connexion MySQL |
-| `APP_URL` | URL publique (sitemap, canonical, e-mails) |
-| `APP_DEBUG` | `false` en production |
-| `SMTP_*` / `email.*` | Envoi des e-mails transactionnels |
-| `ADMIN_EMAIL` | Destinataire des notifications formulaires |
-| `SEO_INDEX` | `true` = indexation Google ; `false` en préprod |
-| `RECAPTCHA_SECRET_KEY` | Clé secrète reCAPTCHA v3 |
-| `GOOGLE_MAPS_API_KEY` | Optionnel — Google Maps (sinon Leaflet/OSM) |
-| `ASSETS_MINIFIED` | `true` pour servir `assets/build/` |
-| `ADMIN_SEED_*` | Compte admin créé par le seeder |
 
-Modèle complet : [`.env.example`](.env.example).
+| Variable               | Description                                     |
+| ---------------------- | ----------------------------------------------- |
+| `CI_ENVIRONMENT`       | `development` ou `production`                   |
+| `app.baseURL`          | URL de base CI4, avec slash final               |
+| `app.indexPage`        | Laisser vide (`''`) pour URLs propres           |
+| `encryption.key`       | Généré par `php spark key:generate`             |
+| `database.default.`*   | Connexion MySQL                                 |
+| `APP_URL`              | URL publique (sitemap, canonical, e-mails)      |
+| `APP_DEBUG`            | `false` en production                           |
+| `SMTP_*` / `email.*`   | Envoi des e-mails transactionnels               |
+| `ADMIN_EMAIL`          | Destinataire des notifications formulaires      |
+| `SEO_INDEX`            | `true` = indexation Google ; `false` en préprod |
+| `RECAPTCHA_SECRET_KEY` | Repli clé secrète reCAPTCHA (sinon Admin → Intégrations) |
+| `GOOGLE_MAPS_API_KEY`  | Optionnel — Google Maps (sinon Leaflet/OSM)     |
+| `ASSETS_MINIFIED`      | `true` pour servir `assets/build/`              |
+| `ADMIN_SEED_*`         | Compte admin créé par le seeder                 |
+
+
+Modèle complet : `[.env.example](.env.example)`.
 
 ---
 
 ## Base de données
 
-| Commande | Usage |
-|----------|-------|
-| `php spark migrate --all` | Applique toutes les migrations |
-| `php spark migrate:rollback` | Annule la dernière migration |
-| `php spark db:seed` | Charge le contenu initial (pages, menus, SEO, admin…) |
-| `php spark db:seed AdminUserSeeder` | Recrée ou met à jour le compte admin |
+
+| Commande                            | Usage                                                 |
+| ----------------------------------- | ----------------------------------------------------- |
+| `php spark migrate --all`           | Applique toutes les migrations                        |
+| `php spark migrate:rollback`        | Annule la dernière migration                          |
+| `php spark db:seed`                 | Charge le contenu initial (pages, menus, SEO, admin…) |
+| `php spark db:seed AdminUserSeeder` | Recrée ou met à jour le compte admin                  |
+
 
 **Tables principales :** pages, services, projets, blog, équipe, témoignages, menus, traductions, médias, branding, settings, SEO (meta + redirections), quotes, contacts, newsletter, logs admin.
 
@@ -407,10 +413,12 @@ Modèle complet : [`.env.example`](.env.example).
 
 ## Assets et performance
 
-| Mode | Commande / réglage |
-|------|-------------------|
-| Développement | Assets sources dans `assets/css/`, `assets/js/` |
-| Production | `php spark assets:build` puis `ASSETS_MINIFIED=true` |
+
+| Mode          | Commande / réglage                                   |
+| ------------- | ---------------------------------------------------- |
+| Développement | Assets sources dans `assets/css/`, `assets/js/`      |
+| Production    | `php spark assets:build` puis `ASSETS_MINIFIED=true` |
+
 
 Le build génère `assets/build/manifest.json` (mapping + hash pour cache-busting).
 
@@ -422,17 +430,19 @@ Le build génère `assets/build/manifest.json` (mapping + hash pour cache-bustin
 
 Avec `app.baseURL = 'https://dbdigitalagency.com/'` :
 
-| Zone | URL |
-|------|-----|
-| Accueil FR | `/fr` |
-| Accueil EN | `/en` |
-| Contact FR | `/fr/contact` |
-| Devis FR | `/fr/devis` |
-| Sitemap | `/sitemap.xml` |
-| Login admin | `/login` |
-| Back-office CMS | `/admin` |
-| Espace prospect | `/prospect/access/{token}` |
-| Connexion prospect | `/user/login` |
+
+| Zone               | URL                        |
+| ------------------ | -------------------------- |
+| Accueil FR         | `/fr`                      |
+| Accueil EN         | `/en`                      |
+| Contact FR         | `/fr/contact`              |
+| Devis FR           | `/fr/devis`                |
+| Sitemap            | `/sitemap.xml`             |
+| Login admin        | `/login`                   |
+| Back-office CMS    | `/admin`                   |
+| Espace prospect    | `/prospect/access/{token}` |
+| Connexion prospect | `/user/login`              |
+
 
 **Redirections legacy :** les anciennes URLs (`about.php`, `contact.php`, `get-quote.php`, `sitemap.php`…) redirigent en 301 vers les routes CI4 (configurées dans `.htaccess`).
 
@@ -440,13 +450,15 @@ Avec `app.baseURL = 'https://dbdigitalagency.com/'` :
 
 ## Intégrations
 
-| Service | Configuration |
-|---------|---------------|
-| E-mails (contact, devis) | `.env` (`SMTP_*`) + Admin → Intégrations |
-| reCAPTCHA v3 | Clé site dans Admin ; clé secrète dans `.env` |
-| Google Maps | Clé API dans `.env` ou Admin (sinon Leaflet + OpenStreetMap) |
-| Tracking (GA, GTM, Meta…) | Admin → Intégrations |
-| TinyMCE (éditeur admin) | Clé API dans Admin → Intégrations |
+
+| Service                   | Configuration                                                |
+| ------------------------- | ------------------------------------------------------------ |
+| E-mails (contact, devis)  | `.env` (`SMTP_`*) + Admin → Intégrations                     |
+| reCAPTCHA v3              | Site Key + Secret Key dans Admin → Intégrations             |
+| Google Maps               | Clé API dans `.env` ou Admin (sinon Leaflet + OpenStreetMap) |
+| Tracking (GA, GTM, Meta…) | Admin → Intégrations                                         |
+| TinyMCE (éditeur admin)   | Clé API dans Admin → Intégrations                            |
+
 
 ---
 
@@ -461,28 +473,28 @@ Avec `app.baseURL = 'https://dbdigitalagency.com/'` :
 - Mot de passe d'application SMTP (pas le mot de passe du compte)
 - Changer `ADMIN_SEED_PASSWORD` après le premier déploiement
 
-**Fichiers sensibles exclus du dépôt** (voir [`.gitignore`](.gitignore)).
+**Fichiers sensibles exclus du dépôt** (voir `[.gitignore](.gitignore)`).
 
 ---
 
 ## Checklist post-déploiement
 
-- [ ] `composer install --no-dev` exécuté
-- [ ] `.env` configuré (`app.baseURL`, `APP_DEBUG=false`, base, SMTP, `encryption.key`)
-- [ ] `php spark migrate --all` exécuté
-- [ ] Seeders lancés (premier déploiement)
-- [ ] Mot de passe admin changé
-- [ ] Permissions `writable/` et `uploads/` OK
-- [ ] HTTPS actif, redirection HTTP → HTTPS
-- [ ] `php spark assets:build` + `ASSETS_MINIFIED=true`
-- [ ] Formulaire contact testé (e-mail + enregistrement en base)
-- [ ] Formulaire devis testé (avec et sans pièce jointe)
-- [ ] Newsletter testée
-- [ ] Navigation FR/EN fonctionnelle
-- [ ] `/sitemap.xml` accessible
-- [ ] Redirections legacy vérifiées (`contact.php` → `/fr/contact`, etc.)
-- [ ] `SEO_INDEX=true` uniquement quand le site est prêt
-- [ ] Sitemap soumis à [Google Search Console](https://search.google.com/search-console)
+- `composer install --no-dev` exécuté
+- `.env` configuré (`app.baseURL`, `APP_DEBUG=false`, base, SMTP, `encryption.key`)
+- `php spark migrate --all` exécuté
+- Seeders lancés (premier déploiement)
+- Mot de passe admin changé
+- Permissions `writable/` et `uploads/` OK
+- HTTPS actif, redirection HTTP → HTTPS
+- `php spark assets:build` + `ASSETS_MINIFIED=true`
+- Formulaire contact testé (e-mail + enregistrement en base)
+- Formulaire devis testé (avec et sans pièce jointe)
+- Newsletter testée
+- Navigation FR/EN fonctionnelle
+- `/sitemap.xml` accessible
+- Redirections legacy vérifiées (`contact.php` → `/fr/contact`, etc.)
+- `SEO_INDEX=true` uniquement quand le site est prêt
+- Sitemap soumis à [Google Search Console](https://search.google.com/search-console)
 
 ---
 
@@ -490,7 +502,7 @@ Avec `app.baseURL = 'https://dbdigitalagency.com/'` :
 
 ### Erreur de connexion à la base
 
-- Vérifier `database.default.*` dans `.env`
+- Vérifier `database.default.`* dans `.env`
 - Confirmer que la base existe et que l'utilisateur a les droits
 
 ### Erreur 404 sur toutes les pages (sauf accueil Apache)
