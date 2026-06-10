@@ -1,0 +1,44 @@
+# CodeIgniter 4 — DocumentRoot = racine du projet (production)
+# Local sans Alias : http://localhost/dbdigitalagency/fr/…
+# Avec Alias /public : voir public/.htaccess
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Fichiers statiques à la racine du dépôt
+    RewriteRule ^assets(?:/|$) - [L]
+    RewriteRule ^uploads(?:/|$) - [L]
+
+    # Anciennes URLs PHP → routes CI4 (cibles relatives)
+    RewriteRule ^index\.php$ fr [R=301,L,NC]
+    RewriteRule ^about\.php$ fr/a-propos [R=301,L,NC]
+    RewriteRule ^services\.php$ fr/services [R=301,L,NC]
+    RewriteRule ^projects\.php$ fr/projets [R=301,L,NC]
+    RewriteRule ^blog\.php$ fr/blog [R=301,L,NC]
+    RewriteRule ^contact\.php$ fr/contact [R=301,L,NC]
+    RewriteRule ^get-quote\.php$ fr/devis [R=301,L,NC]
+    RewriteRule ^sitemap\.php$ sitemap.xml [R=301,L,NC]
+
+    RewriteCond %{QUERY_STRING} (^|&)service=([^&]+)
+    RewriteRule ^services-details\.php$ fr/services/%2? [R=301,L,NC]
+    RewriteRule ^services-details\.php$ fr/services [R=301,L,NC]
+
+    # Accueil racine du projet
+    RewriteRule ^$ fr [R=301,L]
+
+    # Accès direct au dossier public/ (local : /dbdigitalagency/public/…)
+    RewriteCond %{REQUEST_URI} /public/ [NC]
+    RewriteRule ^public/(.*)$ public/index.php/$1 [L,QSA]
+
+    # Fichiers et dossiers réels
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Front controller CI4
+    RewriteRule ^(.*)$ public/index.php/$1 [L,QSA]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 public/index.php
+</IfModule>

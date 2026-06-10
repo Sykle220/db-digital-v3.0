@@ -1,0 +1,16 @@
+{
+  "name": "dbdigitalagency-assets",
+  "private": true,
+  "description": "Build pipeline CSS/JS pour la production",
+  "scripts": {
+    "build": "node scripts/build-assets.mjs",
+    "build:watch": "node scripts/build-assets.mjs && echo 'Relancez npm run build après modification des sources.'"
+  },
+  "devDependencies": {
+    "clean-css": "^5.3.3",
+    "terser": "^5.39.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

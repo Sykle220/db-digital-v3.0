@@ -1,0 +1,24 @@
+{
+  "css": [
+    "css/magnific-popup.css",
+    "css/flaticon.css",
+    "css/odometer.css",
+    "css/jarallax.css",
+    "css/slick.css",
+    "css/aos.css",
+    "css/default.css",
+    "css/style.css",
+    "css/responsive.css",
+    "css/custom.css",
+    "css/admin.css",
+    "css/prospect.css"
+  ],
+  "js": [
+    "js/ajax-form.js",
+    "js/recaptcha-forms.js",
+    "js/site-consent.js",
+    "js/site-tracking.js",
+    "js/main.js",
+    "js/locations-map.js"
+  ]
+}

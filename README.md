@@ -1,6 +1,8 @@
-# DB Digital Agency — Site vitrine
+# DB Digital Agency — CMS CodeIgniter 4
 
-Site vitrine bilingue (FR/EN) en **PHP natif**, sans framework. Ce document décrit comment installer le projet en local et le mettre en ligne en production.
+Site vitrine bilingue (FR/EN) avec back-office CMS, formulaires (contact, devis, newsletter), espace prospect et gestion SEO. Application **CodeIgniter 4** + **Shield** (authentification).
+
+Ce document couvre l'installation locale et le **déploiement en production**.
 
 ---
 
@@ -8,13 +10,13 @@ Site vitrine bilingue (FR/EN) en **PHP natif**, sans framework. Ce document déc
 
 1. [Prérequis](#prérequis)
 2. [Structure du projet](#structure-du-projet)
-3. [Installation en local](#installation-en-local)
-4. [Mise en ligne (production)](#mise-en-ligne-production)
+3. [Installation locale](#installation-locale)
+4. [Déploiement en production](#déploiement-en-production)
 5. [Configuration `.env`](#configuration-env)
 6. [Base de données](#base-de-données)
-7. [Formulaires et e-mails](#formulaires-et-e-mails)
-8. [Cartes interactives](#cartes-interactives)
-9. [SEO](#seo)
+7. [Assets et performance](#assets-et-performance)
+8. [URLs et zones applicatives](#urls-et-zones-applicatives)
+9. [Intégrations](#intégrations)
 10. [Sécurité et permissions](#sécurité-et-permissions)
 11. [Checklist post-déploiement](#checklist-post-déploiement)
 12. [Dépannage](#dépannage)
@@ -23,14 +25,13 @@ Site vitrine bilingue (FR/EN) en **PHP natif**, sans framework. Ce document déc
 
 ## Prérequis
 
-| Composant | Version recommandée |
-|-----------|---------------------|
-| PHP | 8.1+ (extensions : `pdo_mysql`, `mbstring`, `fileinfo`, `openssl`, `json`, `session`) |
+| Composant | Version |
+|-----------|---------|
+| PHP | **8.2+** (extensions : `intl`, `mbstring`, `json`, `mysqlnd`, `xml`, `curl`, `fileinfo`, `openssl`) |
 | MySQL / MariaDB | 5.7+ / 10.3+ |
 | Composer | 2.x |
-| Serveur web | Apache 2.4 ou Nginx |
-
-Extensions PHP utiles : `curl`, `zip` (pour Composer).
+| Serveur web | Apache 2.4 (recommandé) ou Nginx |
+| Node.js | 18+ (uniquement pour minifier les assets en production) |
 
 ---
 
@@ -38,107 +39,128 @@ Extensions PHP utiles : `curl`, `zip` (pour Composer).
 
 ```
 dbdigitalagency/
-├── assets/              # CSS, JS, images, polices
-├── components/          # Sections réutilisables (équipe, témoignages, cartes…)
-├── includes/            # Config, fonctions, traitements formulaires
-│   ├── config.php
-│   ├── functions.php
-│   ├── db.php
-│   ├── process-contact.php
-│   ├── process-quote.php
-│   └── process-newsletter.php
-├── uploads/quotes/      # Briefs PDF/DOCX (créé au déploiement, non versionné)
-├── vendor/              # Dépendances Composer (non versionné)
-├── .env                 # Variables d'environnement (non versionné)
-├── .env.example         # Modèle de configuration
-├── database.sql         # Schéma MySQL
-├── composer.json
-├── index.php            # Accueil
-├── contact.php
-├── get-quote.php
-└── sitemap.php
+├── app/                    # Application CI4 (Controllers, Models, Views, Services, Migrations)
+├── public/                 # Front controller web (index.php)
+├── assets/                 # CSS, JS, images, polices (sources)
+├── assets/build/           # CSS/JS minifiés (générés, non versionnés)
+├── uploads/                # Médias et briefs devis (non versionné)
+├── writable/               # Cache, logs, sessions (non versionné)
+├── scripts/                # Apache, permissions, build assets
+├── vendor/                 # Dépendances Composer (non versionné)
+├── .env                    # Configuration locale / prod (non versionné)
+├── .env.example            # Modèle de configuration
+├── .htaccess               # Routage si DocumentRoot = racine du projet
+├── spark                   # CLI CodeIgniter
+└── composer.json
 ```
 
-**Dépendances Composer :**
-- `vlucas/phpdotenv` — chargement du fichier `.env`
-- `phpmailer/phpmailer` — envoi des e-mails (contact, devis, newsletter)
+**Dépendances principales :** CodeIgniter 4, Shield (auth), PHPMailer, phpdotenv.
 
 ---
 
-## Installation en local
+## Installation locale
 
-### 1. Cloner le dépôt
+### 1. Cloner et installer
 
 ```bash
 git clone <url-du-repo> dbdigitalagency
 cd dbdigitalagency
-```
-
-### 2. Installer les dépendances PHP
-
-```bash
 composer install
 ```
 
-### 3. Créer le fichier d'environnement
+### 2. Environnement
 
 ```bash
 cp .env.example .env
+php spark key:generate
 ```
 
-Éditez `.env` pour le développement local :
+Éditez `.env` pour le développement :
 
 ```env
-APP_ENV=local
-APP_DEBUG=true
-APP_URL=http://localhost/dbdigitalagency
+CI_ENVIRONMENT = development
+app.baseURL = 'http://localhost/dbdigitalagency/public/'
+database.default.hostname = localhost
+database.default.database = dbdigitalagency
+database.default.username = root
+database.default.password =
 ```
 
-### 4. Créer la base de données
+### 3. Base de données
 
 ```bash
-mysql -u root -p < database.sql
+# Créer la base MySQL, puis :
+php spark migrate --all
+php spark db:seed
 ```
 
-Adaptez `DB_HOST`, `DB_NAME`, `DB_USER` et `DB_PASS` dans `.env` si nécessaire.
+Le compte admin initial est créé par `AdminUserSeeder` (voir [Compte admin](#compte-admin-initial)).
 
-### 5. Préparer le dossier d'uploads
+### 4. Permissions
 
 ```bash
-mkdir -p uploads/quotes
-chmod 755 uploads uploads/quotes
+./scripts/fix-writable-perms.sh
+# ou avec sudo si nécessaire :
+sudo WEB_USER=$(whoami) ./scripts/fix-writable-perms.sh
 ```
 
-### 6. Configurer le serveur web
+### 5. Serveur web local
 
-**Apache** — pointer le `DocumentRoot` vers la racine du projet (ou placer le projet dans `htdocs` / `www`).
-
-**PHP built-in server** (tests rapides uniquement) :
+**Apache (recommandé)**
 
 ```bash
-php -S localhost:8000
+sudo ./scripts/setup-apache.sh
 ```
 
-### 7. Vérifier
+Puis testez :
 
-Ouvrez `http://localhost/dbdigitalagency/` (ou l'URL configurée) et testez :
-- navigation FR/EN (`?lang=fr` / `?lang=en`)
-- formulaire de contact
-- formulaire de devis (`get-quote.php`)
-- newsletter (footer)
+- `http://localhost/dbdigitalagency/fr`
+- `http://localhost/dbdigitalagency/public/fr`
+- `http://localhost/dbdigitalagency/admin` (redirige vers login)
+
+**Sans Apache**
+
+```bash
+php spark serve
+# → http://localhost:8080/fr
+```
+
+Dans ce cas, adaptez `app.baseURL` : `http://localhost:8080/`
 
 ---
 
-## Mise en ligne (production)
+## Déploiement en production
 
-### Étape 1 — Hébergement
+Procédure complète, de l'hébergement à la mise en ligne.
 
-Choisissez un hébergement **mutualisé PHP + MySQL** ou un **VPS** (OVH, Hostinger, DigitalOcean, etc.) avec :
-- PHP 8.1+
-- MySQL
-- Certificat SSL (Let's Encrypt recommandé)
+### Vue d'ensemble
 
-### Étape 2 — Déployer les fichiers
+```
+┌─────────────┐    ┌──────────────┐    ┌─────────────────────────────┐
+│   Git pull  │ →  │ composer     │ →  │ .env + php spark key:generate│
+└─────────────┘    │ --no-dev     │    └─────────────────────────────┘
+                   └──────────────┘              ↓
+┌─────────────┐    ┌──────────────┐    ┌─────────────────────────────┐
+│ HTTPS +     │ ←  │ permissions  │ ←  │ php spark migrate --all     │
+│ vhost       │    │ writable/    │    │ php spark db:seed (1ère fois)│
+└─────────────┘    │ uploads/     │    └─────────────────────────────┘
+                   └──────────────┘              ↓
+                                        ┌─────────────────────────────┐
+                                        │ php spark assets:build       │
+                                        │ ASSETS_MINIFIED=true         │
+                                        └─────────────────────────────┘
+```
+
+### Étape 1 — Préparer l'hébergement
+
+Hébergement **PHP 8.2+ / MySQL** (mutualisé ou VPS) avec certificat **SSL** (Let's Encrypt).
+
+Créez :
+
+- une base MySQL dédiée ;
+- un utilisateur MySQL avec droits limités à cette base (évitez `root`).
+
+### Étape 2 — Déployer le code
 
 **Option A — Git (recommandé)**
 
@@ -150,54 +172,79 @@ cd dbdigitalagency
 composer install --no-dev --optimize-autoloader
 ```
 
-**Option B — FTP/SFTP**
+**Option B — SFTP**
 
-Transférez tous les fichiers **sauf** `.env` et `vendor/`, puis exécutez `composer install --no-dev` sur le serveur.
+Transférez les fichiers **sauf** `.env`, `vendor/`, `writable/cache/*`, `writable/logs/*`, `node_modules/`, puis exécutez `composer install --no-dev` sur le serveur.
 
 ### Étape 3 — Fichier `.env` de production
 
 ```bash
 cp .env.example .env
 nano .env
+php spark key:generate
 ```
 
 Paramètres essentiels :
 
 ```env
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://dbdigitalagency.com
+CI_ENVIRONMENT = production
 
-SEO_INDEX=true
+app.baseURL = 'https://dbdigitalagency.com/'
+app.indexPage = ''
+
+APP_ENV = production
+APP_DEBUG = false
+APP_URL = 'https://dbdigitalagency.com'
+
+database.default.hostname = localhost
+database.default.database = votre_base
+database.default.username = votre_user
+database.default.password = 'votre_mot_de_passe'
+
+SEO_INDEX = true
+ASSETS_MINIFIED = true
+
+ADMIN_SEED_EMAIL = admin@dbdigitalagency.com
+ADMIN_SEED_PASSWORD = 'MotDePasseFortEtUnique!'
 ```
 
-> **Important :** `APP_URL` doit être l'URL publique exacte (avec `https://`). Elle sert au sitemap, aux balises canonical et hreflang.
+> **Important :** `app.baseURL` et `APP_URL` doivent être l'URL publique exacte, **avec** `https://` et **sans** `/public/` en production.
 
 ### Étape 4 — Base de données
 
-1. Créez une base MySQL via le panneau d'hébergement (ex. `dbdigitalagency`).
-2. Créez un utilisateur MySQL dédié (évitez `root` en production).
-3. Importez le schéma :
+**Premier déploiement :**
 
 ```bash
-mysql -u VOTRE_USER -p VOTRE_BASE < database.sql
+php spark migrate --all
+php spark db:seed
 ```
 
-4. Renseignez les identifiants dans `.env`.
+**Mises à jour ultérieures :**
+
+```bash
+php spark migrate --all
+```
+
+> Le fichier `database.sql` à la racine est **legacy** (ancien site PHP). Le schéma CMS est géré exclusivement par les migrations CI4.
 
 ### Étape 5 — Permissions
 
 ```bash
-chown -R www-data:www-data /chemin/vers/dbdigitalagency
-chmod 755 uploads uploads/quotes
-chmod 640 .env
+sudo chown -R www-data:www-data /var/www/html/dbdigitalagency
+sudo ./scripts/fix-writable-perms.sh
+sudo chmod 640 .env
 ```
 
-Le serveur web (`www-data`, `apache` ou `nginx`) doit pouvoir **écrire** dans `uploads/quotes/`.
+Le serveur web (`www-data`, `apache` ou `nginx`) doit pouvoir **écrire** dans :
+
+- `writable/` (cache, logs, sessions)
+- `uploads/` (médias CMS, briefs devis)
 
 ### Étape 6 — Virtual host
 
-#### Apache
+Deux configurations sont supportées. **La racine du projet** est recommandée : les dossiers `assets/` et `uploads/` sont servis directement par le `.htaccess` racine.
+
+#### Apache — DocumentRoot = racine du projet (recommandé)
 
 ```apache
 <VirtualHost *:443>
@@ -206,25 +253,43 @@ Le serveur web (`www-data`, `apache` ou `nginx`) doit pouvoir **écrire** dans `
     DocumentRoot /var/www/html/dbdigitalagency
 
     <Directory /var/www/html/dbdigitalagency>
+        Options FollowSymLinks
         AllowOverride All
         Require all granted
+        FallbackResource public/index.php
     </Directory>
 
     SSLEngine on
     # Certificats SSL…
 </VirtualHost>
-```
 
-Redirection HTTP → HTTPS :
-
-```apache
+# Redirection HTTP → HTTPS
 <VirtualHost *:80>
     ServerName dbdigitalagency.com
+    ServerAlias www.dbdigitalagency.com
     Redirect permanent / https://dbdigitalagency.com/
 </VirtualHost>
 ```
 
-#### Nginx
+Le fichier [`scripts/apache-dbdigitalagency.conf`](scripts/apache-dbdigitalagency.conf) reprend cette logique. Installation rapide :
+
+```bash
+sudo ./scripts/setup-apache.sh
+```
+
+#### Apache — DocumentRoot = `public/`
+
+Si vous pointez le vhost vers `public/`, créez des liens symboliques :
+
+```bash
+cd /var/www/html/dbdigitalagency/public
+ln -sfn ../assets assets
+ln -sfn ../uploads uploads
+```
+
+Et configurez `app.baseURL` **sans** `/public/` : `https://dbdigitalagency.com/`
+
+#### Nginx — DocumentRoot = racine du projet
 
 ```nginx
 server {
@@ -233,42 +298,74 @@ server {
     root /var/www/html/dbdigitalagency;
     index index.php;
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
+    # Fichiers statiques
+    location ^~ /assets/ {
+        try_files $uri =404;
+        expires 30d;
+        access_log off;
     }
 
-    location ~ \.php$ {
+    location ^~ /uploads/ {
+        try_files $uri =404;
+        location ~ \.php$ { deny all; }
+    }
+
+    location / {
+        try_files $uri $uri/ /public/index.php/$uri$is_args$args;
+    }
+
+    location ~ ^/public/index\.php(/|$) {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
         include fastcgi_params;
-        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
     }
 
     location ~ /\.(env|git) {
         deny all;
     }
-
-    location ^~ /uploads/ {
-        location ~ \.php$ { deny all; }
-    }
 }
 ```
 
-### Étape 7 — SMTP
+### Étape 7 — Assets minifiés
 
-Configurez un compte e-mail transactionnel (Gmail avec mot de passe d'application, Brevo, Mailgun, SMTP de l'hébergeur…) :
-
-```env
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USERNAME=votre-compte@gmail.com
-SMTP_PASSWORD=mot-de-passe-application
-SMTP_ENCRYPTION=tls
-SMTP_FROM_EMAIL=noreply@dbdigitalagency.com
-SMTP_FROM_NAME="DB Digital Agency"
-ADMIN_EMAIL=contact@dbdigitalagency.com
+```bash
+# Nécessite Node.js 18+ sur le serveur (ou en CI avant déploiement)
+php spark assets:build
 ```
 
-Testez l'envoi via le formulaire de contact après déploiement.
+Activez ensuite les fichiers minifiés :
+
+- dans **Admin → Intégrations**, ou
+- via `ASSETS_MINIFIED=true` dans `.env`
+
+### Étape 8 — SMTP et intégrations
+
+Configurez l'envoi d'e-mails dans `.env` :
+
+```env
+SMTP_HOST = smtp.gmail.com
+SMTP_PORT = 587
+SMTP_USERNAME = votre-compte@gmail.com
+SMTP_PASSWORD = 'mot-de-passe-application'
+SMTP_ENCRYPTION = tls
+SMTP_FROM_EMAIL = noreply@dbdigitalagency.com
+SMTP_FROM_NAME = 'DB Digital Agency'
+ADMIN_EMAIL = contact@dbdigitalagency.com
+```
+
+Les clés **reCAPTCHA**, **Google Maps** et le **tracking** se configurent dans **Admin → Intégrations** (clé secrète reCAPTCHA dans `.env` : `RECAPTCHA_SECRET_KEY`).
+
+### Étape 9 — Compte admin initial
+
+```bash
+php spark db:seed AdminUserSeeder
+```
+
+Identifiants définis par `ADMIN_SEED_EMAIL` et `ADMIN_SEED_PASSWORD` dans `.env`.
+
+**Changez le mot de passe immédiatement** après la première connexion (`/login` → `/admin`).
 
 ---
 
@@ -276,151 +373,185 @@ Testez l'envoi via le formulaire de contact après déploiement.
 
 | Variable | Description |
 |----------|-------------|
-| `APP_ENV` | `production` ou `local` |
+| `CI_ENVIRONMENT` | `development` ou `production` |
+| `app.baseURL` | URL de base CI4, avec slash final |
+| `app.indexPage` | Laisser vide (`''`) pour URLs propres |
+| `encryption.key` | Généré par `php spark key:generate` |
+| `database.default.*` | Connexion MySQL |
+| `APP_URL` | URL publique (sitemap, canonical, e-mails) |
 | `APP_DEBUG` | `false` en production |
-| `APP_URL` | URL publique complète (`https://…`) |
-| `CONTACT_*` | Adresse, téléphones, e-mail affichés sur le site |
-| `WHATSAPP_NUMBER` | Numéro sans `+` ni espaces (ex. `237691323249`) |
-| `DB_*` | Connexion MySQL |
-| `SMTP_*` | Envoi des e-mails |
+| `SMTP_*` / `email.*` | Envoi des e-mails transactionnels |
 | `ADMIN_EMAIL` | Destinataire des notifications formulaires |
-| `SEO_INDEX` | `true` = indexation Google, `false` = `noindex` (préprod) |
-| `GOOGLE_MAPS_API_KEY` | Optionnel — active Google Maps au lieu de Leaflet |
+| `SEO_INDEX` | `true` = indexation Google ; `false` en préprod |
+| `RECAPTCHA_SECRET_KEY` | Clé secrète reCAPTCHA v3 |
+| `GOOGLE_MAPS_API_KEY` | Optionnel — Google Maps (sinon Leaflet/OSM) |
+| `ASSETS_MINIFIED` | `true` pour servir `assets/build/` |
+| `ADMIN_SEED_*` | Compte admin créé par le seeder |
 
-Le modèle complet est dans [`.env.example`](.env.example).
+Modèle complet : [`.env.example`](.env.example).
 
 ---
 
 ## Base de données
 
-Le fichier [`database.sql`](database.sql) crée les tables suivantes :
+| Commande | Usage |
+|----------|-------|
+| `php spark migrate --all` | Applique toutes les migrations |
+| `php spark migrate:rollback` | Annule la dernière migration |
+| `php spark db:seed` | Charge le contenu initial (pages, menus, SEO, admin…) |
+| `php spark db:seed AdminUserSeeder` | Recrée ou met à jour le compte admin |
 
-| Table | Usage |
-|-------|-------|
-| `quotes` | Demandes de devis |
-| `quote_services` | Services sélectionnés (normalisation) |
-| `quote_logs` | Journal envoi mail / WhatsApp |
-| `contact_messages` | Messages du formulaire contact |
-| `newsletter_subscribers` | Abonnés newsletter |
-| `settings` | Paramètres optionnels (SMTP en base) |
-
-Les formulaires **contact**, **devis** et **newsletter** nécessitent une base fonctionnelle. Le reste du site (pages vitrine) fonctionne sans base, mais les envois échoueront.
+**Tables principales :** pages, services, projets, blog, équipe, témoignages, menus, traductions, médias, branding, settings, SEO (meta + redirections), quotes, contacts, newsletter, logs admin.
 
 ---
 
-## Formulaires et e-mails
+## Assets et performance
 
-| Formulaire | Fichier de traitement | Stockage DB | E-mail |
-|------------|----------------------|-------------|--------|
-| Contact | `includes/process-contact.php` | `contact_messages` | Oui (PHPMailer) |
-| Devis | `includes/process-quote.php` | `quotes` | Oui + pièce jointe brief |
-| Newsletter | `includes/process-newsletter.php` | `newsletter_subscribers` | Non |
+| Mode | Commande / réglage |
+|------|-------------------|
+| Développement | Assets sources dans `assets/css/`, `assets/js/` |
+| Production | `php spark assets:build` puis `ASSETS_MINIFIED=true` |
 
-**Devis — upload de brief :**
-- Formats acceptés : PDF, DOC, DOCX
-- Taille max : 2 Mo
-- Dossier : `uploads/quotes/` (créé automatiquement si permissions OK)
+Le build génère `assets/build/manifest.json` (mapping + hash pour cache-busting).
 
-**Sécurité intégrée :**
-- Token CSRF (session PHP)
-- Champ honeypot anti-spam
-- Validation et filtrage des entrées
+**CDN optionnel :** URL configurable dans Admin → Intégrations (`CDN_ASSETS_URL`).
 
 ---
 
-## Cartes interactives
+## URLs et zones applicatives
 
-Les pages **Contact** et **Devis** affichent une carte des bureaux (Douala, Yaoundé, Bafoussam).
+Avec `app.baseURL = 'https://dbdigitalagency.com/'` :
 
-| Mode | Condition | Fournisseur |
-|------|-----------|-------------|
-| Par défaut | `GOOGLE_MAPS_API_KEY` vide | **Leaflet** + OpenStreetMap (aucune clé requise) |
-| Optionnel | Clé renseignée dans `.env` | **Google Maps JavaScript API** |
+| Zone | URL |
+|------|-----|
+| Accueil FR | `/fr` |
+| Accueil EN | `/en` |
+| Contact FR | `/fr/contact` |
+| Devis FR | `/fr/devis` |
+| Sitemap | `/sitemap.xml` |
+| Login admin | `/login` |
+| Back-office CMS | `/admin` |
+| Espace prospect | `/prospect/access/{token}` |
+| Connexion prospect | `/user/login` |
 
-Pour Google Maps en production :
-1. Créer un projet sur [Google Cloud Console](https://console.cloud.google.com/)
-2. Activer **Maps JavaScript API**
-3. Restreindre la clé au domaine de production
-4. Ajouter `GOOGLE_MAPS_API_KEY=…` dans `.env`
+**Redirections legacy :** les anciennes URLs (`about.php`, `contact.php`, `get-quote.php`, `sitemap.php`…) redirigent en 301 vers les routes CI4 (configurées dans `.htaccess`).
 
 ---
 
-## SEO
+## Intégrations
 
-- **Sitemap :** `https://votredomaine.com/sitemap.php`
-- **Robots :** [`robots.txt`](robots.txt) pointe vers le sitemap
-- **Canonical / hreflang :** générés dans `includes/head.php` à partir de `APP_URL`
-- **Préproduction :** mettre `SEO_INDEX=false` pour éviter l'indexation
-
-Après mise en ligne, soumettre le sitemap dans [Google Search Console](https://search.google.com/search-console).
+| Service | Configuration |
+|---------|---------------|
+| E-mails (contact, devis) | `.env` (`SMTP_*`) + Admin → Intégrations |
+| reCAPTCHA v3 | Clé site dans Admin ; clé secrète dans `.env` |
+| Google Maps | Clé API dans `.env` ou Admin (sinon Leaflet + OpenStreetMap) |
+| Tracking (GA, GTM, Meta…) | Admin → Intégrations |
+| TinyMCE (éditeur admin) | Clé API dans Admin → Intégrations |
 
 ---
 
 ## Sécurité et permissions
 
-- Ne **jamais** committer `.env` ni `vendor/` (déjà dans `.gitignore`)
-- `APP_DEBUG=false` en production
+- Ne **jamais** committer `.env`, `vendor/`, `writable/`, `uploads/`, `node_modules/`
+- `CI_ENVIRONMENT=production` et `APP_DEBUG=false` en production
+- `encryption.key` unique par environnement (`php spark key:generate`)
 - Protéger `.env` au niveau serveur (refus d'accès HTTP)
-- Interdire l'exécution de PHP dans `uploads/` (voir exemple Nginx ci-dessus)
-- Utiliser **HTTPS** obligatoirement
-- Préférer un **mot de passe d'application** SMTP plutôt que le mot de passe du compte
+- Interdire l'exécution de PHP dans `uploads/`
+- HTTPS obligatoire
+- Mot de passe d'application SMTP (pas le mot de passe du compte)
+- Changer `ADMIN_SEED_PASSWORD` après le premier déploiement
 
-**Réseaux sociaux** — URLs configurées dans `includes/config.php` (`$social_links`).
-
-**Contenus éditables sans base :**
-- Textes i18n : `includes/lang/fr.php`, `includes/lang/en.php`
-- Équipe : `components/team-section.php`
-- Témoignages : `components/testimonial-section.php`
-- Coordonnées des bureaux : `includes/config.php`
+**Fichiers sensibles exclus du dépôt** (voir [`.gitignore`](.gitignore)).
 
 ---
 
 ## Checklist post-déploiement
 
-- [ ] `composer install --no-dev` exécuté sur le serveur
-- [ ] `.env` configuré (`APP_URL`, `APP_DEBUG=false`, base, SMTP)
-- [ ] Base importée (`database.sql`)
-- [ ] Dossier `uploads/quotes/` créé et accessible en écriture
-- [ ] HTTPS actif et redirection HTTP → HTTPS
-- [ ] Formulaire contact testé (message reçu par e-mail + ligne en base)
+- [ ] `composer install --no-dev` exécuté
+- [ ] `.env` configuré (`app.baseURL`, `APP_DEBUG=false`, base, SMTP, `encryption.key`)
+- [ ] `php spark migrate --all` exécuté
+- [ ] Seeders lancés (premier déploiement)
+- [ ] Mot de passe admin changé
+- [ ] Permissions `writable/` et `uploads/` OK
+- [ ] HTTPS actif, redirection HTTP → HTTPS
+- [ ] `php spark assets:build` + `ASSETS_MINIFIED=true`
+- [ ] Formulaire contact testé (e-mail + enregistrement en base)
 - [ ] Formulaire devis testé (avec et sans pièce jointe)
 - [ ] Newsletter testée
-- [ ] Carte des 3 villes vérifiée (popups, pastilles)
-- [ ] Switch FR/EN fonctionnel
-- [ ] `sitemap.php` accessible
-- [ ] Sitemap soumis à Google Search Console
+- [ ] Navigation FR/EN fonctionnelle
+- [ ] `/sitemap.xml` accessible
+- [ ] Redirections legacy vérifiées (`contact.php` → `/fr/contact`, etc.)
 - [ ] `SEO_INDEX=true` uniquement quand le site est prêt
+- [ ] Sitemap soumis à [Google Search Console](https://search.google.com/search-console)
 
 ---
 
 ## Dépannage
 
-### « Database connection error »
-- Vérifier `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` dans `.env`
+### Erreur de connexion à la base
+
+- Vérifier `database.default.*` dans `.env`
 - Confirmer que la base existe et que l'utilisateur a les droits
 
+### Erreur 404 sur toutes les pages (sauf accueil Apache)
+
+- Activer `mod_rewrite` et `AllowOverride All`
+- Vérifier `FallbackResource` (Apache) ou la règle `try_files` (Nginx)
+- En local : `sudo ./scripts/setup-apache.sh`
+
+### Erreur 500
+
+- Vérifier `vendor/` (`composer install`)
+- Vérifier les extensions PHP (`intl`, `mbstring`, `mysqlnd`)
+- Consulter `writable/logs/log-*.log`
+- En préprod uniquement : `CI_ENVIRONMENT=development` pour afficher les erreurs
+
 ### Les e-mails ne partent pas
+
 - Vérifier `SMTP_*` dans `.env`
 - Tester avec un mot de passe d'application (Gmail) ou le SMTP de l'hébergeur
-- Consulter les logs PHP du serveur (`error_log`)
+- Vérifier les logs dans `writable/logs/`
 
-### Erreur 500 après déploiement
-- Vérifier que `vendor/` est installé (`composer install`)
-- Vérifier les extensions PHP (`pdo_mysql`, `fileinfo`)
-- Mettre temporairement `APP_DEBUG=true` **uniquement en préprod** pour diagnostiquer
+### Assets CSS/JS introuvables (404)
+
+- Vérifier que `assets/` est accessible (DocumentRoot = racine, ou symlinks dans `public/`)
+- Vérifier `app.baseURL` (pas de `/public/` en prod avec DocumentRoot racine)
 
 ### Upload de brief échoue
-- Vérifier les permissions de `uploads/quotes/`
-- Vérifier `upload_max_filesize` et `post_max_size` dans `php.ini` (≥ 2 Mo)
 
-### Sitemap ou canonical incorrects
-- `APP_URL` doit correspondre exactement à l'URL publique (`https://domaine.com`, sans slash final)
+- Permissions d'écriture sur `uploads/`
+- `upload_max_filesize` et `post_max_size` dans `php.ini` (≥ `QUOTE_BRIEF_MAX_MB`, défaut 2 Mo)
 
-### Cache navigateur (CSS/JS)
-- Les fichiers `custom.css` et `main.js` utilisent un cache-busting par `filemtime()` — un simple rechargement suffit après mise à jour
+### Canonical ou sitemap incorrects
+
+- `app.baseURL` et `APP_URL` doivent correspondre exactement à l'URL publique (`https://domaine.com/`, slash final)
+
+### Permission denied sur `writable/`
+
+```bash
+sudo ./scripts/fix-writable-perms.sh
+```
 
 ---
 
-## Support technique
+## Commandes utiles
 
-Pour toute évolution (nouvelle page, contenu, intégration), référez-vous aux composants dans `components/` et à la configuration centralisée dans `includes/config.php` et `includes/lang/`.
+```bash
+php spark migrate --all          # Migrations
+php spark db:seed                # Contenu initial
+php spark assets:build           # Minification CSS/JS
+php spark key:generate           # Clé de chiffrement
+php spark routes                 # Liste des routes
+php spark serve                  # Serveur de dev intégré
+```
+
+---
+
+## Support
+
+- **Contenu et SEO :** back-office `/admin`
+- **Traductions :** Admin → Traductions
+- **Branding (logo, favicon, couleurs) :** Admin → Branding
+- **Redirections SEO :** Admin → SEO
+
+Pour toute évolution technique, se référer au code dans `app/` et aux migrations dans `app/Database/Migrations/`.

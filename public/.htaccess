@@ -1,0 +1,48 @@
+# CodeIgniter 4 — DocumentRoot = public/ (recommandé prod + local /dbdigitalagency/public/)
+# Pas de RewriteBase : chemins relatifs au dossier courant (local + prod).
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+
+    # Redirections legacy (cibles relatives)
+    RewriteRule ^index\.php$ fr [L,R=301,NC]
+    RewriteRule ^about\.php$ fr/a-propos [L,R=301,NC]
+    RewriteRule ^services\.php$ fr/services [L,R=301,NC]
+    RewriteRule ^services-details\.php$ fr/services [L,R=301,QSA]
+    RewriteRule ^projects\.php$ fr/projets [L,R=301,NC]
+    RewriteRule ^blog\.php$ fr/blog [L,R=301,NC]
+    RewriteRule ^contact\.php$ fr/contact [L,R=301,NC]
+    RewriteRule ^get-quote\.php$ fr/devis [L,R=301,NC]
+    RewriteRule ^sitemap\.php$ sitemap.xml [L,R=301,NC]
+
+    # Slash final
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # www → sans www
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+
+    # Fichiers statiques existants
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Tout le reste → front controller (404 applicative incluse)
+    RewriteRule ^([\s\S]*)$ index.php/$1 [L,NC,QSA]
+
+    # En-tête Authorization
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 index.php
+</IfModule>
+
+ServerSignature Off

@@ -1,0 +1,609 @@
+/**
+ * DB Digital Agency — Espace prospect (portail devis)
+ * Charte : Urbanist / Plus Jakarta Sans, #0055FF, #1c4380
+ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Urbanist:ital,wght@0,600;0,700;0,800&display=swap');
+
+:root {
+    --prospect-primary: #0055FF;
+    --prospect-primary-dark: #003BB8;
+    --prospect-secondary: #1c4380;
+    --prospect-accent: #41ad3d;
+    --prospect-whatsapp: #25d366;
+    --prospect-bg: #f4f8ff;
+    --prospect-surface: #ffffff;
+    --prospect-border: rgba(28, 67, 128, 0.1);
+    --prospect-muted: rgba(28, 67, 128, 0.62);
+    --prospect-radius: 14px;
+    --prospect-radius-sm: 10px;
+    --prospect-shadow: 0 8px 32px rgba(0, 20, 60, 0.08);
+    --prospect-font: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --prospect-heading: 'Urbanist', system-ui, sans-serif;
+}
+
+/* ── Auth login (compléments admin.css) ── */
+.auth-brand__logo--wide {
+    width: auto;
+    max-width: 180px;
+    height: 48px;
+    object-fit: contain;
+    padding: 8px 12px;
+}
+
+.prospect-auth-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1rem;
+    border-radius: var(--prospect-radius-sm);
+    background: rgba(0, 85, 255, 0.1);
+    color: var(--prospect-primary);
+    font-size: 1.35rem;
+}
+
+.prospect-auth-icon--warning {
+    background: rgba(245, 158, 11, 0.12);
+    color: #b45309;
+}
+
+.prospect-auth-hint {
+    margin: 1rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--prospect-border);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--prospect-muted);
+    text-align: center;
+}
+
+/* ── Portail ── */
+body.prospect-portal {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--prospect-font);
+    font-size: 0.9375rem;
+    color: var(--prospect-secondary);
+    background: var(--prospect-bg);
+    --bs-primary: #0055FF;
+    --bs-primary-rgb: 0, 85, 255;
+    --bs-link-color: #0055FF;
+    --bs-link-hover-color: #003BB8;
+}
+
+.prospect-portal__header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--prospect-border);
+    box-shadow: 0 1px 0 rgba(0, 20, 60, 0.04);
+}
+
+.prospect-portal__header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+}
+
+.prospect-portal__logo img {
+    display: block;
+    max-height: 40px;
+    width: auto;
+}
+
+.prospect-portal__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.prospect-portal__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(0, 85, 255, 0.08);
+    color: var(--prospect-primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.prospect-portal__logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--prospect-radius-sm);
+    color: var(--prospect-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.prospect-portal__logout:hover {
+    color: var(--prospect-secondary);
+    background: rgba(28, 67, 128, 0.06);
+    border-color: var(--prospect-border);
+}
+
+.prospect-portal__main {
+    flex: 1;
+    padding: 1.75rem 0 2.5rem;
+}
+
+.prospect-portal__footer {
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--prospect-border);
+    background: var(--prospect-surface);
+}
+
+.prospect-portal__footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--prospect-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.prospect-portal__footer a:hover {
+    color: var(--prospect-primary);
+}
+
+/* ── Alertes ── */
+.prospect-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+    border-radius: var(--prospect-radius-sm);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+.prospect-alert--success {
+    background: rgba(65, 173, 61, 0.1);
+    border: 1px solid rgba(65, 173, 61, 0.25);
+    color: #1a5c18;
+}
+
+.prospect-alert--error {
+    background: rgba(255, 60, 60, 0.08);
+    border: 1px solid rgba(255, 60, 60, 0.2);
+    color: #8b1a1a;
+}
+
+/* ── En-tête dashboard ── */
+.prospect-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem 1.75rem;
+    background: linear-gradient(135deg, #111f38 0%, #1c4380 55%, #0d3a8c 100%);
+    border-radius: var(--prospect-radius);
+    box-shadow: var(--prospect-shadow);
+    color: #fff;
+}
+
+.prospect-hero__eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.prospect-hero__title {
+    margin: 0 0 0.4rem;
+    font-family: var(--prospect-heading);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+}
+
+.prospect-hero__lead {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.prospect-hero__sep {
+    margin: 0 0.35rem;
+    opacity: 0.5;
+}
+
+/* ── Cartes ── */
+.prospect-card {
+    background: var(--prospect-surface);
+    border: 1px solid var(--prospect-border);
+    border-radius: var(--prospect-radius);
+    box-shadow: var(--prospect-shadow);
+    padding: 1.5rem 1.75rem;
+}
+
+.prospect-card--spaced {
+    margin-bottom: 0;
+}
+
+.prospect-card__title {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0 0 1.25rem;
+    font-family: var(--prospect-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--prospect-secondary);
+}
+
+.prospect-card__title-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(0, 85, 255, 0.1);
+    color: var(--prospect-primary);
+    font-size: 1rem;
+}
+
+.prospect-muted {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--prospect-muted);
+}
+
+/* ── Statuts ── */
+.prospect-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.prospect-status--new {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.prospect-status--contacted {
+    background: rgba(56, 189, 248, 0.18);
+    color: #7dd3fc;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.prospect-status--in_progress {
+    background: rgba(0, 85, 255, 0.22);
+    color: #93c5fd;
+    border: 1px solid rgba(0, 85, 255, 0.4);
+}
+
+.prospect-status--completed {
+    background: rgba(65, 173, 61, 0.22);
+    color: #86efac;
+    border: 1px solid rgba(65, 173, 61, 0.4);
+}
+
+.prospect-status--cancelled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ── Grille métadonnées ── */
+.prospect-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.prospect-meta__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--prospect-radius-sm);
+    background: var(--prospect-bg);
+    border: 1px solid var(--prospect-border);
+}
+
+.prospect-meta__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(0, 85, 255, 0.1);
+    color: var(--prospect-primary);
+    font-size: 1rem;
+}
+
+.prospect-meta__label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--prospect-muted);
+    margin-bottom: 0.15rem;
+}
+
+.prospect-meta__value {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--prospect-secondary);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+/* ── Timeline ── */
+.prospect-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+}
+
+.prospect-timeline__item {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--prospect-border);
+}
+
+.prospect-timeline__item:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.prospect-timeline__item:first-child {
+    padding-top: 0;
+}
+
+.prospect-timeline__dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(0, 85, 255, 0.1);
+    color: var(--prospect-primary);
+    font-size: 0.85rem;
+}
+
+.prospect-timeline__label {
+    margin: 0 0 0.15rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--prospect-secondary);
+}
+
+.prospect-timeline__detail {
+    margin: 0 0 0.25rem;
+    font-size: 0.85rem;
+    color: var(--prospect-muted);
+}
+
+.prospect-timeline__time {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--prospect-muted);
+}
+
+/* ── État vide ── */
+.prospect-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    border-radius: var(--prospect-radius-sm);
+    background: var(--prospect-bg);
+    border: 1px dashed var(--prospect-border);
+}
+
+.prospect-empty i {
+    font-size: 1.75rem;
+    color: rgba(28, 67, 128, 0.25);
+}
+
+.prospect-empty p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--prospect-muted);
+}
+
+/* ── Fichiers ── */
+.prospect-files {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.prospect-files__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--prospect-radius-sm);
+    background: var(--prospect-bg);
+    border: 1px solid var(--prospect-border);
+    font-size: 0.85rem;
+    color: var(--prospect-secondary);
+}
+
+.prospect-files__item i {
+    color: var(--prospect-primary);
+    flex-shrink: 0;
+}
+
+.prospect-files__item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Upload ── */
+.prospect-upload {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--prospect-border);
+}
+
+.prospect-upload__label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--prospect-secondary);
+}
+
+.prospect-upload__label i {
+    color: var(--prospect-primary);
+}
+
+.prospect-upload__input {
+    margin-bottom: 0.75rem;
+    border-radius: var(--prospect-radius-sm);
+    border-color: var(--prospect-border);
+    font-size: 0.85rem;
+}
+
+.prospect-upload__input:focus {
+    border-color: rgba(0, 85, 255, 0.45);
+    box-shadow: 0 0 0 3px rgba(0, 85, 255, 0.12);
+}
+
+/* ── Boutons ── */
+.prospect-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.6rem 1rem;
+    border-radius: var(--prospect-radius-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+.prospect-btn--block {
+    width: 100%;
+}
+
+.prospect-btn--primary {
+    background: var(--prospect-primary);
+    border-color: var(--prospect-primary);
+    color: #fff;
+}
+
+.prospect-btn--primary:hover {
+    background: var(--prospect-primary-dark);
+    border-color: var(--prospect-primary-dark);
+    color: #fff;
+}
+
+.prospect-btn--outline {
+    background: transparent;
+    border-color: var(--prospect-border);
+    color: var(--prospect-secondary);
+}
+
+.prospect-btn--outline:hover {
+    background: var(--prospect-bg);
+    border-color: rgba(0, 85, 255, 0.3);
+    color: var(--prospect-primary);
+}
+
+.prospect-btn--whatsapp {
+    background: var(--prospect-whatsapp);
+    border-color: var(--prospect-whatsapp);
+    color: #fff;
+}
+
+.prospect-btn--whatsapp:hover {
+    background: #1ebe57;
+    border-color: #1ebe57;
+    color: #fff;
+}
+
+.prospect-contact {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.prospect-contact__lead {
+    margin-bottom: 1rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 767.98px) {
+    .prospect-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .prospect-hero {
+        padding: 1.25rem;
+    }
+
+    .prospect-status {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .prospect-portal__main {
+        padding: 1.25rem 0 2rem;
+    }
+
+    .prospect-card {
+        padding: 1.25rem;
+    }
+
+    .prospect-portal__badge {
+        display: none;
+    }
+}

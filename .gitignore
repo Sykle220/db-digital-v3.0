@@ -1,3 +1,12 @@
 .env
+/node_modules/
+/assets/build/*
+!/assets/build/.gitkeep
 /vendor/
 /uploads/
+/writable/cache/*
+/writable/logs/*
+/writable/session/*
+/writable/debugbar/*
+/writable/settings/*
+!writable/**/index.html
