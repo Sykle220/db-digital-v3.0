@@ -3,7 +3,8 @@
 /assets/build/*
 !/assets/build/.gitkeep
 /vendor/
-/uploads/
+/uploads/*
+!/uploads/.htaccess
 /writable/cache/*
 /writable/logs/*
 /writable/session/*

@@ -33,7 +33,11 @@ class MediaService
             return null;
         }
 
-        if (! in_array($file->getMimeType(), $this->allowedMimes, true)) {
+        $mimeType     = $file->getMimeType();
+        $size         = $file->getSize();
+        $originalName = $file->getClientName();
+
+        if (! in_array($mimeType, $this->allowedMimes, true)) {
             return null;
         }
 
@@ -48,22 +52,23 @@ class MediaService
         }
 
         $relativePath = trim($folder, '/') . '/' . $newName;
+        $savedPath    = $targetDir . '/' . $newName;
         $width        = null;
         $height       = null;
 
-        if (str_starts_with((string) $file->getMimeType(), 'image/') && $file->getMimeType() !== 'image/svg+xml') {
-            $size = @getimagesize($targetDir . '/' . $newName);
-            if (is_array($size)) {
-                $width  = $size[0];
-                $height = $size[1];
+        if (str_starts_with($mimeType, 'image/') && $mimeType !== 'image/svg+xml') {
+            $imageSize = @getimagesize($savedPath);
+            if (is_array($imageSize)) {
+                $width  = $imageSize[0];
+                $height = $imageSize[1];
             }
         }
 
         $id = $this->mediaModel->insert([
             'filename'      => $relativePath,
-            'original_name' => $file->getClientName(),
-            'mime_type'     => $file->getMimeType(),
-            'size'          => $file->getSize(),
+            'original_name' => $originalName,
+            'mime_type'     => $mimeType,
+            'size'          => $size,
             'disk'          => 'local',
             'folder'        => $folder,
             'width'         => $width,

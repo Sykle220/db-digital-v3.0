@@ -142,6 +142,7 @@ class CreateContentTables extends Migration
             'title'       => ['type' => 'VARCHAR', 'constraint' => 255],
             'category'    => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
             'description' => ['type' => 'TEXT', 'null' => true],
+            'client'      => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey(['project_id', 'locale']);
@@ -164,6 +165,7 @@ class CreateContentTables extends Migration
             'locale'         => ['type' => 'CHAR', 'constraint' => 2],
             'name'           => ['type' => 'VARCHAR', 'constraint' => 255],
             'role'           => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+            'bio'            => ['type' => 'TEXT', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey(['team_member_id', 'locale']);

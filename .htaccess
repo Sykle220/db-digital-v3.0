@@ -5,6 +5,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Fichiers et dossiers sensibles (hébergement mutualisé : racine = web)
+    RewriteRule ^(?:\.env|composer\.(?:json|lock)|spark)$ - [F,L,NC]
+    RewriteRule ^(?:app|vendor|writable|node_modules)(?:/|$) - [F,L,NC]
+
     # Fichiers statiques à la racine du dépôt
     RewriteRule ^assets(?:/|$) - [L]
     RewriteRule ^uploads(?:/|$) - [L]
